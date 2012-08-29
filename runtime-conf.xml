@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+  <propel>
+    <datasources default="CRMSGP">
+      <datasource id="CRMSGP">
+        <adapter>mysql</adapter> <!-- sqlite, mysql, mssql, oracle, or pgsql -->
+        <connection>
+		  <classname>DebugPDO</classname>
+          <dsn>mysql:host=localhost;dbname=CRMSGP</dsn>
+          <user>root</user>
+		  <!-- do not require password 
+          <password>my_db_password</password>
+		  -->
+        </connection>
+      </datasource>
+    </datasources>
+  </propel>
+</config>
+

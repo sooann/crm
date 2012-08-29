@@ -1,0 +1,14 @@
+form input[type=text] {
+	width:200px;
+}
+
+form td {
+	padding-top:3px;
+	padding-bottom:3px;
+	vertical-align:middle;
+}
+
+form textarea {
+	width:450px;
+	height:100px;
+}

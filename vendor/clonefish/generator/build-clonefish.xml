@@ -1,0 +1,127 @@
+<project name="clonefish" default="main">
+
+  <!--
+    Note - You should not have to edit this file.
+
+    Instead, if calling build-clonefish.xml directly, edit the build.properties
+    that is in the same directory. If calling build-clonefish.xml via another
+    build file, you can also use the build.properties in the same directory,
+    or set the property clonefish.contextProperties to the file
+    to use in place of build.properties (e.g. project.properties).
+  -->
+
+  <property name="build.properties" value="build.properties"/>
+  <property name="clonefish.contextProperties" value="./${build.properties}"/>
+  <property name="clonefish.home" value="."/>
+
+  <available file="${clonefish.home}/build.properties" property="globalBuildPopertiesExists"/>
+
+  <if>
+  	<and>
+  		<isset property="globalBuildPopertiesExists"/>
+  	</and>
+  	<then>
+	    <property file="${clonefish.home}/build.properties"/>
+    </then>
+  </if>
+
+  <!--
+    The default.properties file will map old properties to the new ones along
+    with setting the corret defaults.
+  -->
+  <property file="${clonefish.home}/default.properties"/>
+
+  <!--
+    Do forward declarations of all of our tasks to
+    centralize them and clean up the targets.
+  -->
+
+  <path id="clonefishclasses">
+    <pathelement dir="${clonefish.home}/lib/"/>
+    <pathelement dir="${clonefish.project.dir}/"/>
+  </path>
+
+  <taskdef
+    name="clonefish-build-validation"
+    classname="task.BuildValidationTask" classpathRef="clonefishclasses"/>
+  <taskdef
+    name="clonefish-build-element"
+    classname="task.BuildElementTask" classpathRef="clonefishclasses"/>
+<!--
+  <taskdef
+    name="clonefish-clean-validation"
+    classname="task.CleanValidationTask" classpathRef="clonefishclasses"/>
+  <taskdef
+    name="clonefish-clean-element"
+    classname="task.CleanElementTask" classpathRef="clonefishclasses"/>
+-->
+
+  <!-- ================================================================ -->
+  <!-- M A I N  T A R G E T                                             -->
+  <!-- ================================================================ -->
+  <!-- This default target will run all the targets that generate       -->
+  <!-- source. You will probably only run this target once then         -->
+  <!-- call individual targets as necessary to update your sources      -->
+  <!-- when you change your XML schema.                                 -->
+  <!-- ================================================================ -->
+
+  <target
+    name="main"
+  	depends="mysqli-check"
+    description="==> generates clonefish validation + element pages">
+<!--
+	<phingcall target="clean-validation"/>
+	<phingcall target="clean-element"/>
+-->
+	
+	<phingcall target="build-validation"/>	
+	<phingcall target="build-element"/>
+	
+  </target>
+
+  <!--	temporary target to check whether mysqli is being used
+		If so, a warning is issued, since this is deprecated  -->
+  <target name="mysqli-check">
+  	<if>
+  		<and>
+			<equals arg1="${clonefish.database}" arg2="mysqli"/>
+		</and>
+		<then>
+			<warn>ATTENTION: It appears you are using the mysqli driver.</warn>
+			<warn></warn>
+			<warn>This driver is no longer supported by clonefish because clonefish now uses PDO for database connections.</warn>
+			<warn>Please use mysqli driver instead.</warn>
+			<fail>Use 'mysql' instead of 'mysqli' for your clonefish.database property.</fail>
+		</then>
+	</if>
+  </target>
+
+  <target name="build-validation">
+	<clonefish-build-validation
+        outputDirectory="${clonefish.validation.dir}"
+        targetDatabase="${clonefish.database}"
+        url="${clonefish.database.url}"
+        userId="${clonefish.database.user}"
+        password="${clonefish.database.password}" />
+  </target>
+  
+  <target name="build-element">
+	<clonefish-build-element
+        outputDirectory="${clonefish.element.dir}"
+        targetDatabase="${clonefish.database}"
+        url="${clonefish.database.url}"
+        userId="${clonefish.database.user}"
+        password="${clonefish.database.password}" />
+  </target>
+  
+  <target name="clean-validation">
+	<clonefish-clean-validation
+        targetDirectory="${clonefish.validation.dir}" />
+  </target>
+  
+  <target name="clean-element">
+	<clonefish-clean-element
+        targetDirectory="${clonefish.element.dir}" />
+  </target>
+  
+</project>
