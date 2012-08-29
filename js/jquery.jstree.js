@@ -1635,19 +1635,31 @@
 					}
 				} else {
 					//setup display 
-                                    var ty="";
-                                    var cnode = this._get_children(this._get_parent(obj));
-                                    for (var i=0; i>cnode.length; i++){
-                                        if (this._get_text(cnode[i]).indexOf('"type"')!==-1) {
-                                            ty = this.get_text(cnode[i]);
-                                            ty = ty.replace('"type"=>"');
-                                            ty = ty.substring(0,ty.lastIndexOf('"')-1);
-                                        }
-                                    }
-                                    alert (ty);
+                                   for (var j=0; j<c.length; j++) {
+                                       if (this.get_text(c[j]).indexOf('"type"')!==-1) {
+                                           ty = this.get_text(c[j]).substring(9,this.get_text(c[j]).lastIndexOf('"'));
+                                       }
+                                   }
+                                   if (ty!="") { 
+                                       // find parameters in clonefish pattern
+                                       for (var i=0; i<this._get_settings().clonefishcrrm.pattern.length; i++){
+                                           if ( this._get_settings().clonefishcrrm.pattern[i].name == ty) {
+                                               //load parameters
+                                               for (var j=0; j<this._get_settings().clonefishcrrm.pattern[i].parameters.length; j++) {
+                                                   h2.append(
+                                                        $("<option />", {
+                                                            "value" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
+                                                            "html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j]
+                                                        })
+                                                    );
+                                               }
+                                           }
+                                       }
+                                       nt=false; 
+                                   } else { nt=true; }
 				}
 				
-				// finalise positions
+		 		// finalise positions
 				//h2.width(Math.min(h1.text("pW" + h2[0].value).width(),w))[0].select();
 				h3.css("left",(parseInt(h2.css("left").substring(0,(h2.css("left").length)-2))+h2.width()+4)+"px");
 				if (nt) {
