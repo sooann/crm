@@ -1476,28 +1476,58 @@
 								"top" : "0px",
 								"height" : (this.data.core.li_height - 2) + "px",
 								"lineHeight" : (this.data.core.li_height - 2) + "px" 
-							}
-							/*
+							},
 							"change" : $.proxy(function () {
-								var c = this.get_children(this._get_parent(obj));
-								var ty="";
-								for (var i=0; i<c.length; i++) {
-									//find element type
-									if (this.get_text(c[j]).indexOf('"type"')!==-1) {
-										ty = this.get_text(c[i]).substring(9,this.get_text(c[1]).lastIndexOf('"'));
-									}
-								}
-								var i = obj.children(".jstree-rename-input"),
-									v = i.val();
-								if(v === "") { v = t; }
-								h1.remove();
-								i.remove(); // rollback purposes
-								this.set_text(obj,t); // rollback purposes
-								this.rename_node(obj, v);
-								callback.call(this, obj, v, t);
-								obj.css("position","");
+								var i = obj.children(".jstree-rename-key");
+                                //check if selected key is an array option
+                                var c = this._get_children(this._get_parent(obj));
+                                var ty="";
+                                for (var j=0; j<c.length; j++) {
+                                    if (this.get_text(c[j]).indexOf('"type"')!==-1) {
+                                        ty=this.get_text(c[j]).substring(9,this.get_text(c[j]).lastIndexOf('"'));
+                                    }
+                                }
+                                //check if selected option is a parameter array
+                                if (ty!="") {
+                                    var ap = "";
+                                    for (var j=0; j<this._get_settings().clonefishcrrm.pattern.length; j++ ) {
+                                        if ( this._get_settings().clonefishcrrm.pattern[j].name == ty) {
+                                           if (this._get_settings().clonefishcrrm.pattern[j].paramarray!=undefined){
+                                             for (var k=0; k<this._get_settings().clonefishcrrm.pattern[j].paramarray.length; k++) {
+                                                 if (this._get_settings().clonefishcrrm.pattern[j].paramarray[k]==i.val()) {
+                                                     ap=i.val();
+                                                 }
+                                             }  
+                                           } 
+                                        }
+                                    }
+
+                                    if (ap!="") {
+                                        // option is paramter array
+                                        // hide all input and select option
+                                        obj.children(".jstree-rename-inputvalue").css("display", "none");
+                                        
+                                        // add more text to div
+                                        obj.children(".jstree-rename-div").html(":&nbsp;&nbsp;{array}");
+                                        
+                                        
+                                    } else {
+                                        // option is not parameter array
+                                        // hide all input and select option
+                                        obj.children(".jstree-rename-inputvalue").css("display", "");
+                                        
+                                        // add more text to div
+                                        obj.children(".jstree-rename-div").html(":");
+                                    }
+                                } else {
+                                    // option is not parameter array
+                                    // hide all input and select option
+                                    obj.children(".jstree-rename-inputvalue").css("display", "");
+
+                                    // add more text to div
+                                    obj.children(".jstree-rename-div").html(":");
+                                }
 							}, this)
-							*/
 						})
 					).children(".jstree-rename-key"),
 					h3 = obj.css("position","relative").append(
@@ -1546,7 +1576,7 @@
 								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
 								"top" : "0px",
 								"height" : (this.data.core.li_height - 2) + "px",
-								"lineHeight" : (this.data.core.li_height - 2) + "px",
+								"lineHeight" : (this.data.core.li_height - 2) + "px"
 							}
 						})
 					).children(".jstree-rename-selectvalue"),
@@ -1574,7 +1604,39 @@
 									i2 = obj.children(".jstree-rename-inputvalue"),
 									i3 = obj.children(".jstree-rename-selectvalue"),
 									v = "";
-								if (i.val()!="") { v = '"'+i.val()+'"'+"=>"+'"'+(i2.css("display")!="none" ? i2.val() : i3.val())+'"'; }
+								if (i.val()!="") { 
+                                    //get form element type
+                                    var c = this._get_children(this._get_parent(obj));
+                                    var ty="";
+                                    for (var j=0; j<c.length; j++) {
+                                        if (this.get_text(c[j]).indexOf('"type"')!==-1) {
+                                            ty=this.get_text(c[j]).substring(9,this.get_text(c[j]).lastIndexOf('"'));
+                                        }
+                                    }
+                                    //check if selected option is a parameter array
+                                    if (ty!="") {
+                                        var ap = "";
+                                        for (var j=0; j<this._get_settings().clonefishcrrm.pattern.length; j++ ) {
+                                            if ( this._get_settings().clonefishcrrm.pattern[j].name == ty) {
+                                               if (this._get_settings().clonefishcrrm.pattern[j].paramarray!=undefined){
+                                                 for (var k=0; k<this._get_settings().clonefishcrrm.pattern[j].paramarray.length; k++) {
+                                                     if (this._get_settings().clonefishcrrm.pattern[j].paramarray[k]==i.val()) {
+                                                         ap=i.val();
+                                                     }
+                                                 }  
+                                               } 
+                                            }
+                                        }
+                                        
+                                        if (ap!="") {
+                                            v = '"'+i.val()+'"'+"=>{array}";
+                                        } else {
+                                            v = '"'+i.val()+'"'+"=>"+(i2.css("display")!="none" ? i2.val() : '"'+i3.val()+'"' );
+                                        }
+                                    } else {
+                                        v = '"'+i.val()+'"'+"=>"+(i2.css("display")!="none" ? i2.val() : '"'+i3.val()+'"' ); 
+                                    }
+                                }
 								if(v === "") { v = text; }
 								h1.remove();
 								i.remove(); // rollback purposes
@@ -1656,6 +1718,7 @@
 					}
 				} else {
 					//setup display 
+                   ty="";
 				   for (var j=0; j<c.length; j++) {
 					   if (this.get_text(c[j]).indexOf('"type"')!==-1) {
 						   ty = this.get_text(c[j]).substring(9,this.get_text(c[j]).lastIndexOf('"'));
@@ -1667,11 +1730,12 @@
 						   if ( this._get_settings().clonefishcrrm.pattern[i].name == ty) {
 								//load parameters
 								for (var j=0; j<this._get_settings().clonefishcrrm.pattern[i].parameters.length; j++) {
-								   //append parameter inputs
+								   //append parameter inputs 
+                                   if (this._get_settings().clonefishcrrm.pattern[i].parameters[j])
 								   h2.append(
 										$("<option />", {
 											"value" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
-											"html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j]
+											"html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
 										})
 									);
 								}
@@ -1698,13 +1762,36 @@
 				if (nt || (!nt && text.indexOf('"type"')!==-1)) {
 					h7.css("left",(parseInt(h3.css("left").substring(0,(h3.css("left").length)-2))+h3.width()+4)+"px");
 					h4.css("display","none");
-					h5.css("left",(parseInt(h4.css("left").substring(0,(h4.css("left").length)-2))+h4.width()+8)+"px");
+					h5.css("left",(parseInt(h7.css("left").substring(0,(h7.css("left").length)-2))+h7.width()+8)+"px");
 				} else {
 					h4.css("left",(parseInt(h3.css("left").substring(0,(h3.css("left").length)-2))+h3.width()+4)+"px");
 					h7.css("display","none");
-					h5.css("left",(parseInt(h4.css("left").substring(0,(h4.css("left").length)-2))+h4.width()+4)+"px");
+					h5.css("left",(parseInt(h4.css("left").substring(0,(h4.css("left").length)-2))+h4.width()+8)+"px");
 				}
 				h6.css("left",(parseInt(h5.css("left").substring(0,(h5.css("left").length)-2))+h5.width()+10)+"px");
+                
+                // set select item for key variable
+                $('.jstree-rename-key option[value="' + key + '"]').attr('selected', 'selected');
+                
+                // set display settings for parameter array
+                var ap = "";
+                for (var j=0; j<this._get_settings().clonefishcrrm.pattern.length; j++ ) {
+                    if ( this._get_settings().clonefishcrrm.pattern[j].name == ty) {
+                       if (this._get_settings().clonefishcrrm.pattern[j].paramarray!=undefined){
+                         for (var k=0; k<this._get_settings().clonefishcrrm.pattern[j].paramarray.length; k++) {
+                             if (this._get_settings().clonefishcrrm.pattern[j].paramarray[k]==key) {
+                                 ap=key;
+                             }
+                         }  
+                       } 
+                    }
+                }
+                
+                if (ap!="") {
+                    h4.css("display", "none");
+                    h3.html(":&nbsp;&nbsp;{array}");
+                }
+                
 			},
 			_show_input : function (obj, callback) {
 				obj = this._get_node(obj);
@@ -4236,49 +4323,55 @@
 					y = o.top + this.data.core.li_height;
 				}
 				if (this.data.clonefishcrrm!=undefined) {
-                                   var checktype=false;
-                                   var tobj = this._get_parent(obj);
-					if (this.get_text(tobj)=="Form Elements") {
-                                    // if node is defining form element
-                                    // check for whether type has been defined 
-                                        for (var i=0; i<this._get_children(obj).length; i++){
-                                            if (this.get_text(this._get_children(obj)[i]).indexOf('"type"')!==-1) {
-                                                checktype=true;
-                                            }
-                                        }
-                                        if (!checktype && this._get_children(obj).length>0) {
-                                            // type not defined, do not allow creation of additional properties
-                                            checktype=false;
-                                        } else {
-                                            checktype=true;
-                                        }
-                                   } else {
-                                       var tt = this.get_text(this._get_parent(this._get_parent(obj)));
-                                       if (tt=="Form Elements") {
-                                           // check siblings if any has type defined
-                                           for (var i=0; i<this._get_children(this._get_parent(obj)).length; i++){
-                                                if (this.get_text(this._get_children(this._get_parent(obj))[i]).indexOf('"type"')!==-1) {
-                                                    checktype=true;
-                                                }
-                                            }
-                                            if (!checktype && this._get_children(this._get_parent(obj)).length>0) {
-                                                // type not defined, do not allow creation of additional properties
-                                                checktype=false;
-                                            } else {
-                                                checktype=true;
-                                            }
-                                       }  else {
-                                           //inormal menu item
-                                           checktype=true;
-                                       }
-                                   }
-                                   if (!checktype) {
-                                        var k = this.get_settings().contextmenu.items; 
-                                        delete k.create;
-                                        i = obj.data("jstree") && obj.data("jstree").contextmenu ? obj.data("jstree").contextmenu : k;
-                                    } else {
-                                        i = obj.data("jstree") && obj.data("jstree").contextmenu ? obj.data("jstree").contextmenu : s.items;
-                                    }			
+                   var checktype=false;
+                   var tobj = this._get_parent(obj);
+                   if (this.get_text(tobj)=="Form Elements") {
+                    // if node is defining form element
+                    // check for whether type has been defined 
+                        for (var i=0; i<this._get_children(obj).length; i++){
+                            if (this.get_text(this._get_children(obj)[i]).indexOf('"type"')!==-1) {
+                                checktype=true;
+                            }
+                        }
+                        if (!checktype && this._get_children(obj).length>0) {
+                            // type not defined, do not allow creation of additional properties
+                            checktype=false;
+                        } else {
+                            checktype=true;
+                        }
+                   } else {
+                       var tt = this.get_text(this._get_parent(this._get_parent(obj)));
+                       if (tt=="Form Elements") {
+                           // check siblings if any has type defined
+                           for (var i=0; i<this._get_children(this._get_parent(obj)).length; i++){
+                                if (this.get_text(this._get_children(this._get_parent(obj))[i]).indexOf('"type"')!==-1) {
+                                    checktype=true;
+                                }
+                            }
+                            if (!checktype && this._get_children(this._get_parent(obj)).length>0) {
+                                // type not defined, do not allow creation of additional properties
+                                checktype=false;
+                            } else {
+                                alert (this.get_text(obj));
+                                if (this.get_text(obj).indexOf("{array}")===-1) {
+                                    checktype=false;
+                                } else {
+                                    // allow contenxt menu create if element is a parameter array
+                                    checktype=true;
+                                }
+                            }
+                       } else {
+                           //normal menu item
+                           checktype=true;
+                       }
+                   }
+                   if (!checktype) {
+                        var k = this.get_settings().contextmenu.items; 
+                        delete k.create;
+                        i = obj.data("jstree") && obj.data("jstree").contextmenu ? obj.data("jstree").contextmenu : k;
+                    } else {
+                        i = obj.data("jstree") && obj.data("jstree").contextmenu ? obj.data("jstree").contextmenu : s.items;
+                    }			
 				} else {
 					i = obj.data("jstree") && obj.data("jstree").contextmenu ? obj.data("jstree").contextmenu : s.items;
 				}
