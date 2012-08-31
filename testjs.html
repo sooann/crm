@@ -62,7 +62,13 @@ $(function () {
 					{
 						"name": "textarea",
 						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"]
+					},
+					{
+						"name": "select",
+						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"],
+						"paramarray" : ["values"]
 					}
+					
 				]
 			}
 			// it makes sense to configure a plugin only if overriding the defaults

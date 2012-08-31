@@ -1453,7 +1453,7 @@
 				//check if the sibilings have type. if not force type dropdown
 				var c = this._get_children(this._get_parent(obj));
 				var nt=true;
-                            var ty = "";
+				var ty = "";
 				for (var i=0; i<c.length; i++) {
 					if (this.get_text(c[i]).indexOf('"type"')!==-1) {nt=false;} 
 				}
@@ -1475,8 +1475,29 @@
 								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
 								"top" : "0px",
 								"height" : (this.data.core.li_height - 2) + "px",
-								"lineHeight" : (this.data.core.li_height - 2) + "px"
+								"lineHeight" : (this.data.core.li_height - 2) + "px" 
 							}
+							/*
+							"change" : $.proxy(function () {
+								var c = this.get_children(this._get_parent(obj));
+								var ty="";
+								for (var i=0; i<c.length; i++) {
+									//find element type
+									if (this.get_text(c[j]).indexOf('"type"')!==-1) {
+										ty = this.get_text(c[i]).substring(9,this.get_text(c[1]).lastIndexOf('"'));
+									}
+								}
+								var i = obj.children(".jstree-rename-input"),
+									v = i.val();
+								if(v === "") { v = t; }
+								h1.remove();
+								i.remove(); // rollback purposes
+								this.set_text(obj,t); // rollback purposes
+								this.rename_node(obj, v);
+								callback.call(this, obj, v, t);
+								obj.css("position","");
+							}, this)
+							*/
 						})
 					).children(".jstree-rename-key"),
 					h3 = obj.css("position","relative").append(
@@ -1550,10 +1571,10 @@
 							},
 							"click" : $.proxy(function () {
 								var i = obj.children(".jstree-rename-key"),
-									i2 = obj.children(".jstree-rename-value"),
+									i2 = obj.children(".jstree-rename-inputvalue"),
 									i3 = obj.children(".jstree-rename-selectvalue"),
 									v = "";
-								if (i.val()!="") { v = '"'+i.val()+'"'+"=>"+'"'+(i2.val() ? i2.val() : i3.val())+'"'; }
+								if (i.val()!="") { v = '"'+i.val()+'"'+"=>"+'"'+(i2.css("display")!="none" ? i2.val() : i3.val())+'"'; }
 								if(v === "") { v = text; }
 								h1.remove();
 								i.remove(); // rollback purposes
@@ -1617,7 +1638,7 @@
 				});
 				
 				// add key selectbox options
-				if (nt) {
+				if ( nt || (!nt && text.indexOf('"type"')!==-1) ) {
 					//display type option
 					h2.append(
 						$("<option />", {
@@ -1635,34 +1656,46 @@
 					}
 				} else {
 					//setup display 
-                                   for (var j=0; j<c.length; j++) {
-                                       if (this.get_text(c[j]).indexOf('"type"')!==-1) {
-                                           ty = this.get_text(c[j]).substring(9,this.get_text(c[j]).lastIndexOf('"'));
-                                       }
-                                   }
-                                   if (ty!="") { 
-                                       // find parameters in clonefish pattern
-                                       for (var i=0; i<this._get_settings().clonefishcrrm.pattern.length; i++){
-                                           if ( this._get_settings().clonefishcrrm.pattern[i].name == ty) {
-                                               //load parameters
-                                               for (var j=0; j<this._get_settings().clonefishcrrm.pattern[i].parameters.length; j++) {
-                                                   h2.append(
-                                                        $("<option />", {
-                                                            "value" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
-                                                            "html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j]
-                                                        })
-                                                    );
-                                               }
-                                           }
-                                       }
-                                       nt=false; 
-                                   } else { nt=true; }
+				   for (var j=0; j<c.length; j++) {
+					   if (this.get_text(c[j]).indexOf('"type"')!==-1) {
+						   ty = this.get_text(c[j]).substring(9,this.get_text(c[j]).lastIndexOf('"'));
+					   }
+				   }
+				   if (ty!="") { 
+					   // find parameters in clonefish pattern
+						for (var i=0; i<this._get_settings().clonefishcrrm.pattern.length; i++){
+						   if ( this._get_settings().clonefishcrrm.pattern[i].name == ty) {
+								//load parameters
+								for (var j=0; j<this._get_settings().clonefishcrrm.pattern[i].parameters.length; j++) {
+								   //append parameter inputs
+								   h2.append(
+										$("<option />", {
+											"value" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
+											"html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j]
+										})
+									);
+								}
+								//append parameter arrays
+								if (this._get_settings().clonefishcrrm.pattern[i].paramarray!=undefined) {
+									for (var j=0; j<this._get_settings().clonefishcrrm.pattern[i].paramarray.length; j++) {
+										h2.append(
+											$("<option />", {
+												"value" : this._get_settings().clonefishcrrm.pattern[i].paramarray[j],
+												"html" : this._get_settings().clonefishcrrm.pattern[i].paramarray[j]
+											})
+										);
+									}
+								}
+						   }
+						}
+						nt=false; 
+				   } else { nt=true; }
 				}
 				
 		 		// finalise positions
 				//h2.width(Math.min(h1.text("pW" + h2[0].value).width(),w))[0].select();
 				h3.css("left",(parseInt(h2.css("left").substring(0,(h2.css("left").length)-2))+h2.width()+4)+"px");
-				if (nt) {
+				if (nt || (!nt && text.indexOf('"type"')!==-1)) {
 					h7.css("left",(parseInt(h3.css("left").substring(0,(h3.css("left").length)-2))+h3.width()+4)+"px");
 					h4.css("display","none");
 					h5.css("left",(parseInt(h4.css("left").substring(0,(h4.css("left").length)-2))+h4.width()+8)+"px");
