@@ -14,7 +14,7 @@ set_include_path("build/classes" . PATH_SEPARATOR . get_include_path());
 //include "vendor/clonefish/runtime/messages_en.php";
 
 //slim microframework init
-require "vendor/slim/Slim.php"
+require "vendor/slim/Slim.php";
 
 //CMS final autoloaders
 require 'build/autoloader/autoloader.php';
