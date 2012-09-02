@@ -1641,6 +1641,7 @@
 								h1.remove();
 								i.remove(); // rollback purposes
 								i2.remove();
+								h3.remove();
 								h4.remove();
 								h5.remove();
 								h6.remove();
@@ -1735,7 +1736,7 @@
 								   h2.append(
 										$("<option />", {
 											"value" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
-											"html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
+											"html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j]
 										})
 									);
 								}
@@ -1792,6 +1793,164 @@
                     h3.html(":&nbsp;&nbsp;{array}");
                 }
                 
+			},
+			_show_clonefish_parameter_array : function (obj, callback) {
+				obj = this._get_node(obj);
+				var text = this.get_text(obj);
+				if (text==this._get_string("new_node")) { text='"key"=>"value"'; this.set_text(obj,text); }
+				var key = text.split("=>")[0];
+				key = key.substring(key.indexOf('"')+1,key.lastIndexOf('"'));
+				var value = text.substring(text.indexOf("=>")+2,text.length);
+				var options;
+				var rtl = this._get_settings().core.rtl,
+					w = this._get_settings().clonefishcrrm.input_width_limit,
+					w1 = obj.children("ins").width(),
+					w2 = obj.find("> a:visible > ins").width() * obj.find("> a:visible > ins").length,
+					t = this.get_text(obj),
+					h1 = $("<div />", { css : { "position" : "absolute", "top" : "-200px", "left" : (rtl ? "0px" : "-1000px"), "visibility" : "hidden" } }).appendTo("body"),
+					h2 = obj.css("position","relative").append(
+						$("<input />", { 
+							"value" : key,
+							"class" : "jstree-rename-key",
+							// "size" : t.length,
+							"css" : {
+								"padding" : "0",
+								"border" : "1px solid silver",
+								"position" : "absolute",
+								"left"  : (rtl ? "auto" : (w1 + w2 + 4) + "px"),
+								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
+								"top" : "0px",
+								"height" : (this.data.core.li_height - 2) + "px",
+								"lineHeight" : (this.data.core.li_height - 2) + "px",
+								"width" : "150px" // will be set a bit further down
+							}
+						})
+					).children(".jstree-rename-key"),
+					h3 = obj.css("position","relative").append(
+						$("<div />", {
+							"class" : "jstree-rename-div",
+							// "size" : t.length,
+							"css" : {
+								"padding" : "0",
+								"position" : "absolute",
+								"left"  : (rtl ? "auto" : (w1 + w2 + 4) + "px"),
+								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
+								"top" : "0px",
+								"height" : (this.data.core.li_height - 2) + "px",
+								"lineHeight" : (this.data.core.li_height - 2) + "px",
+								"width" : "5px" // will be set a bit further down
+							},
+							"html" : ":"
+						})
+					).children(".jstree-rename-div"),
+					h4 = obj.css("position","relative").append(
+						$("<input />", {
+							"value" : value,
+							"class" : "jstree-rename-inputvalue",
+							// "size" : t.length,
+							"css" : {
+								"padding" : "0",
+								"border" : "1px solid silver",
+								"position" : "absolute",
+								"left"  : (rtl ? "auto" : (w1 + w2 + 4) + "px"),
+								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
+								"top" : "0px",
+								"height" : (this.data.core.li_height - 2) + "px",
+								"lineHeight" : (this.data.core.li_height - 2) + "px",
+								"width" : "150px" // will be set a bit further down
+							}
+						})	
+					).children(".jstree-rename-inputvalue"),
+					h5 = obj.css("position","relative").append(
+						$("<input />", {
+							"type" : "button",
+							"value" : "OK",
+							"class" : "jstree-rename-ok",
+							// "size" : t.length,
+							"css" : {
+								"padding" : "0",
+								"border" : "1px solid silver",
+								"margin-top" : "1px",
+								"padding-left" : "3px",
+								"padding-right" : "3px",								
+								"position" : "absolute",
+								"left"  : (rtl ? "auto" : (w1 + w2 + 4) + "px"),
+								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
+								"top" : "0px",
+								"height" : (this.data.core.li_height - 2) + "px",
+								"lineHeight" : (this.data.core.li_height - 2) + "px"
+							},
+							"click" : $.proxy(function () {
+								var i = obj.children(".jstree-rename-key"),
+									i2 = obj.children(".jstree-rename-inputvalue"),
+									v = "";
+								if (i.val()!="") { v = '"'+i.val()+'"'+"=>"+i2.val(); }
+								if(v === "") { v = text; }
+								h1.remove();
+								i.remove(); // rollback purposes
+								i2.remove();
+								h3.remove();
+								h4.remove();
+								h5.remove();
+								h6.remove();
+								this.set_text(obj,text); // rollback purposes
+								this.rename_node(obj, v);
+								callback.call(this, obj, v, text);
+								obj.css("position","");
+							}, this)
+						})	
+					).children(".jstree-rename-ok"),
+					h6 = obj.css("position","relative").append(
+						$("<input />", {
+							"type" : "button",
+							"value" : "Cancel",
+							"class" : "jstree-rename-cancel",
+							// "size" : t.length,
+							"css" : {
+								"padding" : "0",
+								"border" : "1px solid silver",
+								"margin-top" : "1px",
+								"padding-left" : "3px",
+								"padding-right" : "3px",								
+								"position" : "absolute",
+								"left"  : (rtl ? "auto" : (w1 + w2 + 4) + "px"),
+								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
+								"top" : "0px",
+								"height" : (this.data.core.li_height - 2) + "px",
+								"lineHeight" : (this.data.core.li_height - 2) + "px"
+							},
+							"click" : $.proxy(function () {
+								var v = text;
+								h1.remove();
+								h2.remove(); // rollback purposes
+								h3.remove();
+								h4.remove();
+								h5.remove();
+								h6.remove();
+								this.set_text(obj,text); // rollback purposes
+								this.rename_node(obj, v);
+								callback.call(this, obj, v, text);
+								obj.css("position","");
+							}, this)
+						})	
+					).children(".jstree-rename-cancel");
+				this.set_text(obj, "");
+				h1.css({
+						fontFamily		: h2.css('fontFamily')		|| '',
+						fontSize		: h2.css('fontSize')		|| '',
+						fontWeight		: h2.css('fontWeight')		|| '',
+						fontStyle		: h2.css('fontStyle')		|| '',
+						fontStretch		: h2.css('fontStretch')		|| '',
+						fontVariant		: h2.css('fontVariant')		|| '',
+						letterSpacing	: h2.css('letterSpacing')	|| '',
+						wordSpacing		: h2.css('wordSpacing')		|| ''
+				});
+				
+				h2.width(Math.min(h1.text("pW" + h2[0].value).width(),w))[0].select();
+				h3.css("left",(parseInt(h2.css("left").substring(0,(h2.css("left").length)-2))+h2.width()+4)+"px");
+				h4.css("left",(parseInt(h3.css("left").substring(0,(h3.css("left").length)-2))+h3.width()+4)+"px");
+				h5.css("left",(parseInt(h4.css("left").substring(0,(h4.css("left").length)-2))+h4.width()+8)+"px");
+				h6.css("left",(parseInt(h5.css("left").substring(0,(h5.css("left").length)-2))+h5.width()+10)+"px");
 			},
 			_show_input : function (obj, callback) {
 				obj = this._get_node(obj);
@@ -1859,7 +2018,21 @@
 				obj = this._get_node(obj);
 				this.__rollback();
 				var f = this.__callback;
-				if (this._get_settings().core.useClonefish && this.get_text(obj).indexOf("=>")!==-1) {
+				if (this._get_parent(obj)!=-1) {
+					if (this.get_text(obj).indexOf("{array}")!==-1 || this.get_text(this._get_parent(obj)).indexOf("{array}")!==-1) {
+						this._show_clonefish_parameter_array(obj, function (obj, new_name, old_name) { 
+							f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
+						});
+					} else if (this.get_text(obj).indexOf("=>")!==-1) {
+						this._show_clonefish_option(obj, function (obj, new_name, old_name) { 
+							f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
+						});
+					} else {
+						this._show_input(obj, function (obj, new_name, old_name) { 
+							f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
+						});
+					}
+				} else if (this.get_text(obj).indexOf("=>")!==-1) {
 					this._show_clonefish_option(obj, function (obj, new_name, old_name) { 
 						f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
 					});
@@ -1880,15 +2053,22 @@
 					if(callback) { callback.call(this, t); }
 					if(p.length && p.hasClass("jstree-closed")) { this.open_node(p, false, true); }
 					if(!skip_rename) { 
-						//check if parent is "form element"
-						if (this._get_parent(obj)==-1 || !this._get_settings().core.useClonefish) {
+						if (this._get_parent(obj)==-1 ) {
+							//check if parent is "form element"
 							this._show_input(t, function (obj, new_name, old_name) { 
 								_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
 							});
 						} else {
-							this._show_clonefish_option(t, function (obj, new_name, old_name) { 
-								_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
-							});
+							if (this.get_text(obj).indexOf("{array}")!==-1) {
+								//check if parrent type is an array
+								this._show_clonefish_parameter_array(t, function (obj, new_name, old_name) { 
+									_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
+								});
+							} else {
+								this._show_clonefish_option(t, function (obj, new_name, old_name) { 
+									_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
+								});
+							}
 						}
 						
 					}
@@ -4325,7 +4505,7 @@
 				if (this.data.clonefishcrrm!=undefined) {
                    var checktype=false;
                    var tobj = this._get_parent(obj);
-                   if (this.get_text(tobj)=="Form Elements") {
+                   if (this.get_text(tobj)=="Form Elements" || this.get_text(obj)=="Form Elements" ) {
                     // if node is defining form element
                     // check for whether type has been defined 
                         for (var i=0; i<this._get_children(obj).length; i++){
@@ -4352,7 +4532,6 @@
                                 // type not defined, do not allow creation of additional properties
                                 checktype=false;
                             } else {
-                                alert (this.get_text(obj));
                                 if (this.get_text(obj).indexOf("{array}")===-1) {
                                     checktype=false;
                                 } else {
@@ -4361,8 +4540,13 @@
                                 }
                             }
                        } else {
-                           //normal menu item
-                           checktype=true;
+                           if (this.get_text(this._get_parent(obj)).indexOf("{array}")!==-1) {
+							   // disable create element if it is part of an parameter array
+							   checktype=false;
+						   } else {
+								//normal menu item
+								checktype=true;
+						   }
                        }
                    }
                    if (!checktype) {
