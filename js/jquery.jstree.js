@@ -4505,7 +4505,10 @@
 				if (this.data.clonefishcrrm!=undefined) {
                    var checktype=false;
                    var tobj = this._get_parent(obj);
-                   if (this.get_text(tobj)=="Form Elements" || this.get_text(obj)=="Form Elements" ) {
+				   if (this.get_text(obj)=="Form Elements") {
+					   //if adding elements from parent form elements
+					   checktype=true;
+				   } else if (this.get_text(tobj)=="Form Elements" ) {
                     // if node is defining form element
                     // check for whether type has been defined 
                         for (var i=0; i<this._get_children(obj).length; i++){
