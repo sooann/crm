@@ -13,6 +13,7 @@
 class formelement extends element {
 	
 	var $json="";
+	var $pattern = "";
 
 	public function setValue($value, $magic_quotes_gpc) {
 		
@@ -103,6 +104,57 @@ class formelement extends element {
 		return true;
 	}
 	
+	private function getFormElementParameters () {
+		
+		$text = "";
+		$defaultparm = '"displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"';
+		
+		/*
+		$formelements = SysFrmelementQuery::create()
+			->filterByActive(1)
+			->find();
+		*/
+		
+		$con = Propel::getConnection();
+		$stmt = $con->query("select * from sys_FrmElement where blnActive=1");
+		while ($row = $stmt->fetch()) {
+			$text .= "{ ";
+			$text .= '"name": "'.$row["strClassName"].'",';
+			
+			$arrtext="";
+			if ($row["strParameters"]!="") {
+				$arr = explode(",", $row["strParameters"]);
+				foreach ($arr as $v) {
+					$arrtext .= '"'.$v.'",';
+				}
+			}
+			
+			$text .= '"parameters": ['.$arrtext.$defaultparm.']';
+			
+			$arrtext="";
+			if ($row["strParamArray"]!="") {
+				$arr = explode(",", $row["strParamArray"]);
+				foreach ($arr as $v) {
+					$arrtext .= '"'.$v.'",';
+				}
+			}
+			
+			if ($arrtext!="") {
+				if (substr($arrtext, strlen($arrtext)-1, 1)==",") {
+					$arrtext = substr($arrtext, 0, -1);
+				}
+				$text .= ', "paramarray": ['.$arrtext.']';
+			}
+			$text .= "},";
+		}
+
+		if (substr($text, strlen($text)-1, 1)==",") {
+			$text = substr($text, 0, -1);
+		}
+		
+		return $text;
+	}
+	
 	public function getHTML() {
 			
 		return '
@@ -133,30 +185,7 @@ class formelement extends element {
 				"useClonefish" : true
 			},
 			"clonefishcrrm" : {
-				"pattern" : [ 
-					{
-						"name" : "inputText",
-						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"]
-					},
-					{
-						"name" : "inputPassword",
-						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"]
-					},
-					{
-						"name": "inputHidden",
-						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"]
-					},
-					{
-						"name": "textarea",
-						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"]
-					},
-					{
-						"name": "select",
-						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"],
-						"paramarray" : ["values"]
-					}
-					
-				]
+				"pattern" : [ '.$this->getFormElementParameters().' ]
 			}
 			// it makes sense to configure a plugin only if overriding the defaults
 		})
