@@ -12,23 +12,98 @@
 		
 class formelement extends element {
 	
-	
-	public function getHTML() {
-	
-		$json = '{"data" : [ { "data": "Form Elements", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [';
+	var $json="";
+
+	public function setValue($value, $magic_quotes_gpc) {
 		
-		eval ("\$array = array(" . $this->value .");");
+		$value = $this->_prepareInput( $value, $magic_quotes_gpc );
+		
+		if (count($_POST)==0) {
+			$this->getJSON($value);
+		} else {
+			$this->getPHPArray($value);
+		}
+		
+		return true;
+	}
+	
+	protected function getPHPArray ($value) {
+		
+		$this->value=array();
+		if (json_decode($value)!==NULL) {
+			$prop = json_decode($value);
+			//echo str_replace("\n","<br />",var_export($prop[0]->children,TRUE));
+			$arrtext="";
+			foreach ($prop[0]->children as $e) {
+				$arrtext .= '"'.$e->data.'"=> array(';
+				foreach ($e->children as $ep) {
+					$exp = explode("=>", $ep->data);
+					if ($exp[1]=="{array}") {
+						$arrtext .= $exp[0] . "=>array(" ;
+						if (property_exists($ep, "children")) {
+							foreach ($ep->children as $epa) {
+								$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+							}
+						}
+						if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+							$arrtext = substr($arrtext, 0, -1);
+						}
+						$arrtext .= ")," ;
+					} else {
+						$arrtext .= str_replace("[]","array()",$ep->data) . ",";
+					}
+					
+				}
+				if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+					$arrtext = substr($arrtext, 0, -1);
+				}
+				$arrtext .= "),";
+			}
+			if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+				$arrtext = substr($arrtext, 0, -1);
+			}
+			$this->value = $arrtext;
+			return true;
+		} else {
+			$this->value="";
+			return NULL;
+		}
+		
+	}
+	
+	protected function getJSON ($value) {
+		
+		$this->json = '{"data" : [ { "data": "Form Elements", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [';
+		
+		eval ("\$array = array(" . $value .");");
 
 		foreach ($array as $elekey => $elementarray) {
-			$json .= '{ "data": "'.$elekey.'", "children": [';
+			$this->json .= '{ "data": "'.$elekey.'", "children": [';
 			foreach ($elementarray as $key => $value) {
-				$json .= '{ "data": "\"'.$key.'\"=>'.addcslashes(json_encode($value),'"').'" },';
+				if (is_array($value)) {
+					$this->json .= '{ "data": "\"'.$key.'\"=>{array}", "children": [';
+					foreach ($value as $arrkey => $arrval) {
+						$this->json .= '{ "data": "\"'.$arrkey.'\"=>'.addcslashes(json_encode($arrval),'"').'" }';
+					}
+					$this->json .= '] },';
+				} else {
+					$this->json .= '{ "data": "\"'.$key.'\"=>'.addcslashes(json_encode($value),'"').'" },';
+				}
 			}
-			$json = substr($json,0,-1);
-			$json .= "]},";
+			if (substr($this->json,strlen($this->json)-1,-1)==",") {
+				$this->json = substr($this->json,0,-1);
+			}
+			$this->json .= "]},";
 		}
-		$json = substr($json,0,-1);
-		$json .= '] } ] }';
+		if (substr($this->json,strlen($this->json)-1,-1)==",") {
+			$this->json = substr($this->json,0,-1);
+		}
+		$this->json .= '] } ] }';
+		
+		return true;
+	}
+	
+	public function getHTML() {
 			
 		return '
 <script type="text/javascript" src="/crm/js/jquery.js"></script>
@@ -37,8 +112,9 @@ class formelement extends element {
 <script type="text/javascript" src="/crm/js/jquery.jstree.js"></script>
 <link type="text/css" rel="stylesheet" href="/crm/css/!style.css"/>
 <div id="demo1" class="demo" style="height:200px;width:500px"></div>
+<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
 <script type="text/javascript">
-	var treedata = '.$json.';
+	var treedata = '.$this->json.';
 	$(function () {
 	// TO CREATE AN INSTANCE
 	// select the tree container using jQuery
@@ -59,7 +135,7 @@ class formelement extends element {
 			"clonefishcrrm" : {
 				"pattern" : [ 
 					{
-						"name" : "inputType",
+						"name" : "inputText",
 						"parameters" : ["displayname","value","html","help","rowlayout","prefix","postfix","readonly","display","htmlid"]
 					},
 					{
@@ -84,6 +160,21 @@ class formelement extends element {
 			}
 			// it makes sense to configure a plugin only if overriding the defaults
 		})
+		.bind("loaded.jstree", function (event, data) {
+			displayJSON(this);
+		})
+		.bind("create.jstree", function (event, data) {
+			displayJSON(this);
+		})
+		.bind("rename.jstree", function (event, data) {
+			displayJSON(this);
+		})
+		.bind("move_node.jstree", function (event, data) {
+			displayJSON(this);
+		})
+		.bind("remove.jstree", function (event, data) {
+			displayJSON(this);
+		})
 		// EVENTS
 		// each instance triggers its own events - to process those listen on the container
 		// all events are in the `.jstree` namespace
@@ -96,21 +187,12 @@ class formelement extends element {
 });
 
 function displayJSON (obj) {
-	$("#display").html(JSON.stringify(jQuery.jstree._reference(obj).get_json(-1), null, 4));
+	$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(obj).get_json(-1), null, 4));
 }
 </script>
 		';
 		
 	}
-	
-	public function setValue($value, $magic_quotes_gpc) {
-	
-		$value = $this->_prepareInput( $value, $magic_quotes_gpc );
-		
-		
-		
-	}
-
 }
 
 ?>
