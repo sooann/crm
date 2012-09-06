@@ -52,6 +52,8 @@ class SysFrmelementTableMap extends TableMap
         $this->addColumn('STRSETVALUE', 'Setvalue', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STRGETSCRIPTS', 'Getscripts', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STROTHERCODE', 'Othercode', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('STRPARAMETERS', 'Parameters', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('STRPARAMARRAY', 'Paramarray', 'LONGVARCHAR', false, null, null);
         $this->addColumn('DBVERSIONID', 'Dbversionid', 'BIGINT', false, null, null);
         $this->addColumn('BLNACTIVE', 'Active', 'INTEGER', false, null, null);
         $this->addColumn('INTCREATEDBY', 'Createdby', 'BIGINT', false, null, null);

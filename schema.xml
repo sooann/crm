@@ -51,6 +51,8 @@
     <column name="strSetValue" phpName="Setvalue" type="LONGVARCHAR" required="false"/>
     <column name="strGetScripts" phpName="Getscripts" type="LONGVARCHAR" required="false"/>
     <column name="strOtherCode" phpName="Othercode" type="LONGVARCHAR" required="false"/>
+    <column name="strParameters" phpName="Parameters" type="LONGVARCHAR" required="false"/>
+    <column name="strParamArray" phpName="Paramarray" type="LONGVARCHAR" required="false"/>
     <column name="DBVersionID" phpName="Dbversionid" type="BIGINT" required="false"/>
     <column name="blnActive" phpName="Active" type="INTEGER" required="false"/>
     <column name="intCreatedBy" phpName="Createdby" type="BIGINT" required="false"/>

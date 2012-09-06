@@ -24,13 +24,13 @@ abstract class BaseSysFrmelementPeer
     const TM_CLASS = 'SysFrmelementTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 20;
+    const NUM_COLUMNS = 22;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 20;
+    const NUM_HYDRATE_COLUMNS = 22;
 
     /** the column name for the FRMELEMENT_ID field */
     const FRMELEMENT_ID = 'SYS_FrmElement.FRMELEMENT_ID';
@@ -74,6 +74,12 @@ abstract class BaseSysFrmelementPeer
     /** the column name for the STROTHERCODE field */
     const STROTHERCODE = 'SYS_FrmElement.STROTHERCODE';
 
+    /** the column name for the STRPARAMETERS field */
+    const STRPARAMETERS = 'SYS_FrmElement.STRPARAMETERS';
+
+    /** the column name for the STRPARAMARRAY field */
+    const STRPARAMARRAY = 'SYS_FrmElement.STRPARAMARRAY';
+
     /** the column name for the DBVERSIONID field */
     const DBVERSIONID = 'SYS_FrmElement.DBVERSIONID';
 
@@ -111,12 +117,12 @@ abstract class BaseSysFrmelementPeer
      * e.g. SysFrmelementPeer::$fieldNames[SysFrmelementPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('FrmelementId', 'Name', 'Classname', 'Extends', 'Includes', 'Variables', 'Constructor', 'Constructorargs', 'Gethtml', 'Gethtmlrow', 'Getvalue', 'Setvalue', 'Getscripts', 'Othercode', 'Dbversionid', 'Active', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('frmelementId', 'name', 'classname', 'extends', 'includes', 'variables', 'constructor', 'constructorargs', 'gethtml', 'gethtmlrow', 'getvalue', 'setvalue', 'getscripts', 'othercode', 'dbversionid', 'active', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
-        BasePeer::TYPE_COLNAME => array (SysFrmelementPeer::FRMELEMENT_ID, SysFrmelementPeer::STRNAME, SysFrmelementPeer::STRCLASSNAME, SysFrmelementPeer::STREXTENDS, SysFrmelementPeer::STRINCLUDES, SysFrmelementPeer::STRVARIABLES, SysFrmelementPeer::STRCONSTRUCTOR, SysFrmelementPeer::STRCONSTRUCTORARGS, SysFrmelementPeer::STRGETHTML, SysFrmelementPeer::STRGETHTMLROW, SysFrmelementPeer::STRGETVALUE, SysFrmelementPeer::STRSETVALUE, SysFrmelementPeer::STRGETSCRIPTS, SysFrmelementPeer::STROTHERCODE, SysFrmelementPeer::DBVERSIONID, SysFrmelementPeer::BLNACTIVE, SysFrmelementPeer::INTCREATEDBY, SysFrmelementPeer::INTMODIFIEDBY, SysFrmelementPeer::DTCREATEDDATE, SysFrmelementPeer::DTMODIFIEDDATE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('FRMELEMENT_ID', 'STRNAME', 'STRCLASSNAME', 'STREXTENDS', 'STRINCLUDES', 'STRVARIABLES', 'STRCONSTRUCTOR', 'STRCONSTRUCTORARGS', 'STRGETHTML', 'STRGETHTMLROW', 'STRGETVALUE', 'STRSETVALUE', 'STRGETSCRIPTS', 'STROTHERCODE', 'DBVERSIONID', 'BLNACTIVE', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
-        BasePeer::TYPE_FIELDNAME => array ('frmelement_id', 'strName', 'strClassName', 'strExtends', 'strIncludes', 'strVariables', 'strConstructor', 'strConstructorArgs', 'strGetHTML', 'strGetHTMLRow', 'strGetValue', 'strSetValue', 'strGetScripts', 'strOtherCode', 'DBVersionID', 'blnActive', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, )
+        BasePeer::TYPE_PHPNAME => array ('FrmelementId', 'Name', 'Classname', 'Extends', 'Includes', 'Variables', 'Constructor', 'Constructorargs', 'Gethtml', 'Gethtmlrow', 'Getvalue', 'Setvalue', 'Getscripts', 'Othercode', 'Parameters', 'Paramarray', 'Dbversionid', 'Active', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('frmelementId', 'name', 'classname', 'extends', 'includes', 'variables', 'constructor', 'constructorargs', 'gethtml', 'gethtmlrow', 'getvalue', 'setvalue', 'getscripts', 'othercode', 'parameters', 'paramarray', 'dbversionid', 'active', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
+        BasePeer::TYPE_COLNAME => array (SysFrmelementPeer::FRMELEMENT_ID, SysFrmelementPeer::STRNAME, SysFrmelementPeer::STRCLASSNAME, SysFrmelementPeer::STREXTENDS, SysFrmelementPeer::STRINCLUDES, SysFrmelementPeer::STRVARIABLES, SysFrmelementPeer::STRCONSTRUCTOR, SysFrmelementPeer::STRCONSTRUCTORARGS, SysFrmelementPeer::STRGETHTML, SysFrmelementPeer::STRGETHTMLROW, SysFrmelementPeer::STRGETVALUE, SysFrmelementPeer::STRSETVALUE, SysFrmelementPeer::STRGETSCRIPTS, SysFrmelementPeer::STROTHERCODE, SysFrmelementPeer::STRPARAMETERS, SysFrmelementPeer::STRPARAMARRAY, SysFrmelementPeer::DBVERSIONID, SysFrmelementPeer::BLNACTIVE, SysFrmelementPeer::INTCREATEDBY, SysFrmelementPeer::INTMODIFIEDBY, SysFrmelementPeer::DTCREATEDDATE, SysFrmelementPeer::DTMODIFIEDDATE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('FRMELEMENT_ID', 'STRNAME', 'STRCLASSNAME', 'STREXTENDS', 'STRINCLUDES', 'STRVARIABLES', 'STRCONSTRUCTOR', 'STRCONSTRUCTORARGS', 'STRGETHTML', 'STRGETHTMLROW', 'STRGETVALUE', 'STRSETVALUE', 'STRGETSCRIPTS', 'STROTHERCODE', 'STRPARAMETERS', 'STRPARAMARRAY', 'DBVERSIONID', 'BLNACTIVE', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
+        BasePeer::TYPE_FIELDNAME => array ('frmelement_id', 'strName', 'strClassName', 'strExtends', 'strIncludes', 'strVariables', 'strConstructor', 'strConstructorArgs', 'strGetHTML', 'strGetHTMLRow', 'strGetValue', 'strSetValue', 'strGetScripts', 'strOtherCode', 'strParameters', 'strParamArray', 'DBVersionID', 'blnActive', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
     );
 
     /**
@@ -126,12 +132,12 @@ abstract class BaseSysFrmelementPeer
      * e.g. SysFrmelementPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('FrmelementId' => 0, 'Name' => 1, 'Classname' => 2, 'Extends' => 3, 'Includes' => 4, 'Variables' => 5, 'Constructor' => 6, 'Constructorargs' => 7, 'Gethtml' => 8, 'Gethtmlrow' => 9, 'Getvalue' => 10, 'Setvalue' => 11, 'Getscripts' => 12, 'Othercode' => 13, 'Dbversionid' => 14, 'Active' => 15, 'Createdby' => 16, 'Modifiedby' => 17, 'Createddate' => 18, 'Modifieddate' => 19, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('frmelementId' => 0, 'name' => 1, 'classname' => 2, 'extends' => 3, 'includes' => 4, 'variables' => 5, 'constructor' => 6, 'constructorargs' => 7, 'gethtml' => 8, 'gethtmlrow' => 9, 'getvalue' => 10, 'setvalue' => 11, 'getscripts' => 12, 'othercode' => 13, 'dbversionid' => 14, 'active' => 15, 'createdby' => 16, 'modifiedby' => 17, 'createddate' => 18, 'modifieddate' => 19, ),
-        BasePeer::TYPE_COLNAME => array (SysFrmelementPeer::FRMELEMENT_ID => 0, SysFrmelementPeer::STRNAME => 1, SysFrmelementPeer::STRCLASSNAME => 2, SysFrmelementPeer::STREXTENDS => 3, SysFrmelementPeer::STRINCLUDES => 4, SysFrmelementPeer::STRVARIABLES => 5, SysFrmelementPeer::STRCONSTRUCTOR => 6, SysFrmelementPeer::STRCONSTRUCTORARGS => 7, SysFrmelementPeer::STRGETHTML => 8, SysFrmelementPeer::STRGETHTMLROW => 9, SysFrmelementPeer::STRGETVALUE => 10, SysFrmelementPeer::STRSETVALUE => 11, SysFrmelementPeer::STRGETSCRIPTS => 12, SysFrmelementPeer::STROTHERCODE => 13, SysFrmelementPeer::DBVERSIONID => 14, SysFrmelementPeer::BLNACTIVE => 15, SysFrmelementPeer::INTCREATEDBY => 16, SysFrmelementPeer::INTMODIFIEDBY => 17, SysFrmelementPeer::DTCREATEDDATE => 18, SysFrmelementPeer::DTMODIFIEDDATE => 19, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('FRMELEMENT_ID' => 0, 'STRNAME' => 1, 'STRCLASSNAME' => 2, 'STREXTENDS' => 3, 'STRINCLUDES' => 4, 'STRVARIABLES' => 5, 'STRCONSTRUCTOR' => 6, 'STRCONSTRUCTORARGS' => 7, 'STRGETHTML' => 8, 'STRGETHTMLROW' => 9, 'STRGETVALUE' => 10, 'STRSETVALUE' => 11, 'STRGETSCRIPTS' => 12, 'STROTHERCODE' => 13, 'DBVERSIONID' => 14, 'BLNACTIVE' => 15, 'INTCREATEDBY' => 16, 'INTMODIFIEDBY' => 17, 'DTCREATEDDATE' => 18, 'DTMODIFIEDDATE' => 19, ),
-        BasePeer::TYPE_FIELDNAME => array ('frmelement_id' => 0, 'strName' => 1, 'strClassName' => 2, 'strExtends' => 3, 'strIncludes' => 4, 'strVariables' => 5, 'strConstructor' => 6, 'strConstructorArgs' => 7, 'strGetHTML' => 8, 'strGetHTMLRow' => 9, 'strGetValue' => 10, 'strSetValue' => 11, 'strGetScripts' => 12, 'strOtherCode' => 13, 'DBVersionID' => 14, 'blnActive' => 15, 'intCreatedBy' => 16, 'intModifiedBy' => 17, 'dtCreatedDate' => 18, 'dtModifiedDate' => 19, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, )
+        BasePeer::TYPE_PHPNAME => array ('FrmelementId' => 0, 'Name' => 1, 'Classname' => 2, 'Extends' => 3, 'Includes' => 4, 'Variables' => 5, 'Constructor' => 6, 'Constructorargs' => 7, 'Gethtml' => 8, 'Gethtmlrow' => 9, 'Getvalue' => 10, 'Setvalue' => 11, 'Getscripts' => 12, 'Othercode' => 13, 'Parameters' => 14, 'Paramarray' => 15, 'Dbversionid' => 16, 'Active' => 17, 'Createdby' => 18, 'Modifiedby' => 19, 'Createddate' => 20, 'Modifieddate' => 21, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('frmelementId' => 0, 'name' => 1, 'classname' => 2, 'extends' => 3, 'includes' => 4, 'variables' => 5, 'constructor' => 6, 'constructorargs' => 7, 'gethtml' => 8, 'gethtmlrow' => 9, 'getvalue' => 10, 'setvalue' => 11, 'getscripts' => 12, 'othercode' => 13, 'parameters' => 14, 'paramarray' => 15, 'dbversionid' => 16, 'active' => 17, 'createdby' => 18, 'modifiedby' => 19, 'createddate' => 20, 'modifieddate' => 21, ),
+        BasePeer::TYPE_COLNAME => array (SysFrmelementPeer::FRMELEMENT_ID => 0, SysFrmelementPeer::STRNAME => 1, SysFrmelementPeer::STRCLASSNAME => 2, SysFrmelementPeer::STREXTENDS => 3, SysFrmelementPeer::STRINCLUDES => 4, SysFrmelementPeer::STRVARIABLES => 5, SysFrmelementPeer::STRCONSTRUCTOR => 6, SysFrmelementPeer::STRCONSTRUCTORARGS => 7, SysFrmelementPeer::STRGETHTML => 8, SysFrmelementPeer::STRGETHTMLROW => 9, SysFrmelementPeer::STRGETVALUE => 10, SysFrmelementPeer::STRSETVALUE => 11, SysFrmelementPeer::STRGETSCRIPTS => 12, SysFrmelementPeer::STROTHERCODE => 13, SysFrmelementPeer::STRPARAMETERS => 14, SysFrmelementPeer::STRPARAMARRAY => 15, SysFrmelementPeer::DBVERSIONID => 16, SysFrmelementPeer::BLNACTIVE => 17, SysFrmelementPeer::INTCREATEDBY => 18, SysFrmelementPeer::INTMODIFIEDBY => 19, SysFrmelementPeer::DTCREATEDDATE => 20, SysFrmelementPeer::DTMODIFIEDDATE => 21, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('FRMELEMENT_ID' => 0, 'STRNAME' => 1, 'STRCLASSNAME' => 2, 'STREXTENDS' => 3, 'STRINCLUDES' => 4, 'STRVARIABLES' => 5, 'STRCONSTRUCTOR' => 6, 'STRCONSTRUCTORARGS' => 7, 'STRGETHTML' => 8, 'STRGETHTMLROW' => 9, 'STRGETVALUE' => 10, 'STRSETVALUE' => 11, 'STRGETSCRIPTS' => 12, 'STROTHERCODE' => 13, 'STRPARAMETERS' => 14, 'STRPARAMARRAY' => 15, 'DBVERSIONID' => 16, 'BLNACTIVE' => 17, 'INTCREATEDBY' => 18, 'INTMODIFIEDBY' => 19, 'DTCREATEDDATE' => 20, 'DTMODIFIEDDATE' => 21, ),
+        BasePeer::TYPE_FIELDNAME => array ('frmelement_id' => 0, 'strName' => 1, 'strClassName' => 2, 'strExtends' => 3, 'strIncludes' => 4, 'strVariables' => 5, 'strConstructor' => 6, 'strConstructorArgs' => 7, 'strGetHTML' => 8, 'strGetHTMLRow' => 9, 'strGetValue' => 10, 'strSetValue' => 11, 'strGetScripts' => 12, 'strOtherCode' => 13, 'strParameters' => 14, 'strParamArray' => 15, 'DBVersionID' => 16, 'blnActive' => 17, 'intCreatedBy' => 18, 'intModifiedBy' => 19, 'dtCreatedDate' => 20, 'dtModifiedDate' => 21, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, )
     );
 
     /**
@@ -219,6 +225,8 @@ abstract class BaseSysFrmelementPeer
             $criteria->addSelectColumn(SysFrmelementPeer::STRSETVALUE);
             $criteria->addSelectColumn(SysFrmelementPeer::STRGETSCRIPTS);
             $criteria->addSelectColumn(SysFrmelementPeer::STROTHERCODE);
+            $criteria->addSelectColumn(SysFrmelementPeer::STRPARAMETERS);
+            $criteria->addSelectColumn(SysFrmelementPeer::STRPARAMARRAY);
             $criteria->addSelectColumn(SysFrmelementPeer::DBVERSIONID);
             $criteria->addSelectColumn(SysFrmelementPeer::BLNACTIVE);
             $criteria->addSelectColumn(SysFrmelementPeer::INTCREATEDBY);
@@ -240,6 +248,8 @@ abstract class BaseSysFrmelementPeer
             $criteria->addSelectColumn($alias . '.STRSETVALUE');
             $criteria->addSelectColumn($alias . '.STRGETSCRIPTS');
             $criteria->addSelectColumn($alias . '.STROTHERCODE');
+            $criteria->addSelectColumn($alias . '.STRPARAMETERS');
+            $criteria->addSelectColumn($alias . '.STRPARAMARRAY');
             $criteria->addSelectColumn($alias . '.DBVERSIONID');
             $criteria->addSelectColumn($alias . '.BLNACTIVE');
             $criteria->addSelectColumn($alias . '.INTCREATEDBY');

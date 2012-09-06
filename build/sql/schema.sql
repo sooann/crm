@@ -68,6 +68,8 @@ CREATE TABLE `SYS_FrmElement`
     `strSetValue` TEXT,
     `strGetScripts` TEXT,
     `strOtherCode` TEXT,
+    `strParameters` TEXT,
+    `strParamArray` TEXT,
     `DBVersionID` BIGINT,
     `blnActive` INTEGER,
     `intCreatedBy` BIGINT,

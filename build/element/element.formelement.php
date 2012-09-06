@@ -91,12 +91,12 @@ class formelement extends element {
 					$this->json .= '{ "data": "\"'.$key.'\"=>'.addcslashes(json_encode($value),'"').'" },';
 				}
 			}
-			if (substr($this->json,strlen($this->json)-1,-1)==",") {
+			if (substr($this->json,strlen($this->json)-1,1)==",") {
 				$this->json = substr($this->json,0,-1);
 			}
 			$this->json .= "]},";
 		}
-		if (substr($this->json,strlen($this->json)-1,-1)==",") {
+		if (substr($this->json,strlen($this->json)-1,1)==",") {
 			$this->json = substr($this->json,0,-1);
 		}
 		$this->json .= '] } ] }';
@@ -121,15 +121,13 @@ class formelement extends element {
 			$text .= "{ ";
 			$text .= '"name": "'.$row["strClassName"].'",';
 			
-			$arrtext="";
+			$paramtext="";
 			if ($row["strParameters"]!="") {
 				$arr = explode(",", $row["strParameters"]);
 				foreach ($arr as $v) {
-					$arrtext .= '"'.$v.'",';
+					$paramtext .= '"'.$v.'",';
 				}
 			}
-			
-			$text .= '"parameters": ['.$arrtext.$defaultparm.']';
 			
 			$arrtext="";
 			if ($row["strParamArray"]!="") {
@@ -139,11 +137,37 @@ class formelement extends element {
 				}
 			}
 			
+			//include parameters for extend
+			$extends = $row["strExtends"];
+			while ($extends!="") {
+				$stmt2 = $con->query("select * from sys_FrmElement where strClassName like '".$extends."' and blnActive=1");
+				$extends="";
+				while ($row2 = $stmt2->fetch()) {
+					if ($row2["strParameters"]!="") {
+						$arr = explode(",", $row2["strParameters"]);
+						foreach ($arr as $v) {
+							$paramtext .= '"'.$v.'",';
+						}
+					}
+
+					if ($row2["strParamArray"]!="") {
+						$arr = explode(",", $row2["strParamArray"]);
+						foreach ($arr as $v) {
+							$arrtext .= '"'.$v.'",';
+						}
+					}
+					$extends = $row2["strExtends"];
+				}
+				
+			}
+			
+			$text .= '"parameters": ['.implode(",",array_unique(explode(",",$paramtext.$defaultparm))).']';
+			
 			if ($arrtext!="") {
 				if (substr($arrtext, strlen($arrtext)-1, 1)==",") {
 					$arrtext = substr($arrtext, 0, -1);
 				}
-				$text .= ', "paramarray": ['.$arrtext.']';
+				$text .= ', "paramarray": ['.implode(",",array_unique(explode(",",$arrtext))).']';
 			}
 			$text .= "},";
 		}

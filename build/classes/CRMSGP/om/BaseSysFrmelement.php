@@ -114,6 +114,18 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
     protected $strothercode;
 
     /**
+     * The value for the strparameters field.
+     * @var        string
+     */
+    protected $strparameters;
+
+    /**
+     * The value for the strparamarray field.
+     * @var        string
+     */
+    protected $strparamarray;
+
+    /**
      * The value for the dbversionid field.
      * @var        string
      */
@@ -301,6 +313,26 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
     public function getOthercode()
     {
         return $this->strothercode;
+    }
+
+    /**
+     * Get the [strparameters] column value.
+     *
+     * @return string
+     */
+    public function getParameters()
+    {
+        return $this->strparameters;
+    }
+
+    /**
+     * Get the [strparamarray] column value.
+     *
+     * @return string
+     */
+    public function getParamarray()
+    {
+        return $this->strparamarray;
     }
 
     /**
@@ -712,6 +744,48 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
     } // setOthercode()
 
     /**
+     * Set the value of [strparameters] column.
+     *
+     * @param string $v new value
+     * @return SysFrmelement The current object (for fluent API support)
+     */
+    public function setParameters($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strparameters !== $v) {
+            $this->strparameters = $v;
+            $this->modifiedColumns[] = SysFrmelementPeer::STRPARAMETERS;
+        }
+
+
+        return $this;
+    } // setParameters()
+
+    /**
+     * Set the value of [strparamarray] column.
+     *
+     * @param string $v new value
+     * @return SysFrmelement The current object (for fluent API support)
+     */
+    public function setParamarray($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strparamarray !== $v) {
+            $this->strparamarray = $v;
+            $this->modifiedColumns[] = SysFrmelementPeer::STRPARAMARRAY;
+        }
+
+
+        return $this;
+    } // setParamarray()
+
+    /**
      * Set the value of [dbversionid] column.
      *
      * @param string $v new value
@@ -887,12 +961,14 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
             $this->strsetvalue = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
             $this->strgetscripts = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
             $this->strothercode = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
-            $this->dbversionid = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
-            $this->blnactive = ($row[$startcol + 15] !== null) ? (int) $row[$startcol + 15] : null;
-            $this->intcreatedby = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
-            $this->intmodifiedby = ($row[$startcol + 17] !== null) ? (string) $row[$startcol + 17] : null;
-            $this->dtcreateddate = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
-            $this->dtmodifieddate = ($row[$startcol + 19] !== null) ? (string) $row[$startcol + 19] : null;
+            $this->strparameters = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
+            $this->strparamarray = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
+            $this->dbversionid = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
+            $this->blnactive = ($row[$startcol + 17] !== null) ? (int) $row[$startcol + 17] : null;
+            $this->intcreatedby = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
+            $this->intmodifiedby = ($row[$startcol + 19] !== null) ? (string) $row[$startcol + 19] : null;
+            $this->dtcreateddate = ($row[$startcol + 20] !== null) ? (string) $row[$startcol + 20] : null;
+            $this->dtmodifieddate = ($row[$startcol + 21] !== null) ? (string) $row[$startcol + 21] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -901,7 +977,7 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 20; // 20 = SysFrmelementPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 22; // 22 = SysFrmelementPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating SysFrmelement object", $e);
@@ -1198,6 +1274,12 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
         if ($this->isColumnModified(SysFrmelementPeer::STROTHERCODE)) {
             $modifiedColumns[':p' . $index++]  = '`STROTHERCODE`';
         }
+        if ($this->isColumnModified(SysFrmelementPeer::STRPARAMETERS)) {
+            $modifiedColumns[':p' . $index++]  = '`STRPARAMETERS`';
+        }
+        if ($this->isColumnModified(SysFrmelementPeer::STRPARAMARRAY)) {
+            $modifiedColumns[':p' . $index++]  = '`STRPARAMARRAY`';
+        }
         if ($this->isColumnModified(SysFrmelementPeer::DBVERSIONID)) {
             $modifiedColumns[':p' . $index++]  = '`DBVERSIONID`';
         }
@@ -1268,6 +1350,12 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
                         break;
                     case '`STROTHERCODE`':
                         $stmt->bindValue($identifier, $this->strothercode, PDO::PARAM_STR);
+                        break;
+                    case '`STRPARAMETERS`':
+                        $stmt->bindValue($identifier, $this->strparameters, PDO::PARAM_STR);
+                        break;
+                    case '`STRPARAMARRAY`':
+                        $stmt->bindValue($identifier, $this->strparamarray, PDO::PARAM_STR);
                         break;
                     case '`DBVERSIONID`':
                         $stmt->bindValue($identifier, $this->dbversionid, PDO::PARAM_INT);
@@ -1464,21 +1552,27 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
                 return $this->getOthercode();
                 break;
             case 14:
-                return $this->getDbversionid();
+                return $this->getParameters();
                 break;
             case 15:
-                return $this->getActive();
+                return $this->getParamarray();
                 break;
             case 16:
-                return $this->getCreatedby();
+                return $this->getDbversionid();
                 break;
             case 17:
-                return $this->getModifiedby();
+                return $this->getActive();
                 break;
             case 18:
-                return $this->getCreateddate();
+                return $this->getCreatedby();
                 break;
             case 19:
+                return $this->getModifiedby();
+                break;
+            case 20:
+                return $this->getCreateddate();
+                break;
+            case 21:
                 return $this->getModifieddate();
                 break;
             default:
@@ -1523,12 +1617,14 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
             $keys[11] => $this->getSetvalue(),
             $keys[12] => $this->getGetscripts(),
             $keys[13] => $this->getOthercode(),
-            $keys[14] => $this->getDbversionid(),
-            $keys[15] => $this->getActive(),
-            $keys[16] => $this->getCreatedby(),
-            $keys[17] => $this->getModifiedby(),
-            $keys[18] => $this->getCreateddate(),
-            $keys[19] => $this->getModifieddate(),
+            $keys[14] => $this->getParameters(),
+            $keys[15] => $this->getParamarray(),
+            $keys[16] => $this->getDbversionid(),
+            $keys[17] => $this->getActive(),
+            $keys[18] => $this->getCreatedby(),
+            $keys[19] => $this->getModifiedby(),
+            $keys[20] => $this->getCreateddate(),
+            $keys[21] => $this->getModifieddate(),
         );
 
         return $result;
@@ -1606,21 +1702,27 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
                 $this->setOthercode($value);
                 break;
             case 14:
-                $this->setDbversionid($value);
+                $this->setParameters($value);
                 break;
             case 15:
-                $this->setActive($value);
+                $this->setParamarray($value);
                 break;
             case 16:
-                $this->setCreatedby($value);
+                $this->setDbversionid($value);
                 break;
             case 17:
-                $this->setModifiedby($value);
+                $this->setActive($value);
                 break;
             case 18:
-                $this->setCreateddate($value);
+                $this->setCreatedby($value);
                 break;
             case 19:
+                $this->setModifiedby($value);
+                break;
+            case 20:
+                $this->setCreateddate($value);
+                break;
+            case 21:
                 $this->setModifieddate($value);
                 break;
         } // switch()
@@ -1661,12 +1763,14 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
         if (array_key_exists($keys[11], $arr)) $this->setSetvalue($arr[$keys[11]]);
         if (array_key_exists($keys[12], $arr)) $this->setGetscripts($arr[$keys[12]]);
         if (array_key_exists($keys[13], $arr)) $this->setOthercode($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setDbversionid($arr[$keys[14]]);
-        if (array_key_exists($keys[15], $arr)) $this->setActive($arr[$keys[15]]);
-        if (array_key_exists($keys[16], $arr)) $this->setCreatedby($arr[$keys[16]]);
-        if (array_key_exists($keys[17], $arr)) $this->setModifiedby($arr[$keys[17]]);
-        if (array_key_exists($keys[18], $arr)) $this->setCreateddate($arr[$keys[18]]);
-        if (array_key_exists($keys[19], $arr)) $this->setModifieddate($arr[$keys[19]]);
+        if (array_key_exists($keys[14], $arr)) $this->setParameters($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setParamarray($arr[$keys[15]]);
+        if (array_key_exists($keys[16], $arr)) $this->setDbversionid($arr[$keys[16]]);
+        if (array_key_exists($keys[17], $arr)) $this->setActive($arr[$keys[17]]);
+        if (array_key_exists($keys[18], $arr)) $this->setCreatedby($arr[$keys[18]]);
+        if (array_key_exists($keys[19], $arr)) $this->setModifiedby($arr[$keys[19]]);
+        if (array_key_exists($keys[20], $arr)) $this->setCreateddate($arr[$keys[20]]);
+        if (array_key_exists($keys[21], $arr)) $this->setModifieddate($arr[$keys[21]]);
     }
 
     /**
@@ -1692,6 +1796,8 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
         if ($this->isColumnModified(SysFrmelementPeer::STRSETVALUE)) $criteria->add(SysFrmelementPeer::STRSETVALUE, $this->strsetvalue);
         if ($this->isColumnModified(SysFrmelementPeer::STRGETSCRIPTS)) $criteria->add(SysFrmelementPeer::STRGETSCRIPTS, $this->strgetscripts);
         if ($this->isColumnModified(SysFrmelementPeer::STROTHERCODE)) $criteria->add(SysFrmelementPeer::STROTHERCODE, $this->strothercode);
+        if ($this->isColumnModified(SysFrmelementPeer::STRPARAMETERS)) $criteria->add(SysFrmelementPeer::STRPARAMETERS, $this->strparameters);
+        if ($this->isColumnModified(SysFrmelementPeer::STRPARAMARRAY)) $criteria->add(SysFrmelementPeer::STRPARAMARRAY, $this->strparamarray);
         if ($this->isColumnModified(SysFrmelementPeer::DBVERSIONID)) $criteria->add(SysFrmelementPeer::DBVERSIONID, $this->dbversionid);
         if ($this->isColumnModified(SysFrmelementPeer::BLNACTIVE)) $criteria->add(SysFrmelementPeer::BLNACTIVE, $this->blnactive);
         if ($this->isColumnModified(SysFrmelementPeer::INTCREATEDBY)) $criteria->add(SysFrmelementPeer::INTCREATEDBY, $this->intcreatedby);
@@ -1774,6 +1880,8 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
         $copyObj->setSetvalue($this->getSetvalue());
         $copyObj->setGetscripts($this->getGetscripts());
         $copyObj->setOthercode($this->getOthercode());
+        $copyObj->setParameters($this->getParameters());
+        $copyObj->setParamarray($this->getParamarray());
         $copyObj->setDbversionid($this->getDbversionid());
         $copyObj->setActive($this->getActive());
         $copyObj->setCreatedby($this->getCreatedby());
@@ -1845,6 +1953,8 @@ abstract class BaseSysFrmelement extends BaseObject implements Persistent
         $this->strsetvalue = null;
         $this->strgetscripts = null;
         $this->strothercode = null;
+        $this->strparameters = null;
+        $this->strparamarray = null;
         $this->dbversionid = null;
         $this->blnactive = null;
         $this->intcreatedby = null;

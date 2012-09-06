@@ -20,6 +20,8 @@
  * @method SysFrmelementQuery orderBySetvalue($order = Criteria::ASC) Order by the strSetValue column
  * @method SysFrmelementQuery orderByGetscripts($order = Criteria::ASC) Order by the strGetScripts column
  * @method SysFrmelementQuery orderByOthercode($order = Criteria::ASC) Order by the strOtherCode column
+ * @method SysFrmelementQuery orderByParameters($order = Criteria::ASC) Order by the strParameters column
+ * @method SysFrmelementQuery orderByParamarray($order = Criteria::ASC) Order by the strParamArray column
  * @method SysFrmelementQuery orderByDbversionid($order = Criteria::ASC) Order by the DBVersionID column
  * @method SysFrmelementQuery orderByActive($order = Criteria::ASC) Order by the blnActive column
  * @method SysFrmelementQuery orderByCreatedby($order = Criteria::ASC) Order by the intCreatedBy column
@@ -41,6 +43,8 @@
  * @method SysFrmelementQuery groupBySetvalue() Group by the strSetValue column
  * @method SysFrmelementQuery groupByGetscripts() Group by the strGetScripts column
  * @method SysFrmelementQuery groupByOthercode() Group by the strOtherCode column
+ * @method SysFrmelementQuery groupByParameters() Group by the strParameters column
+ * @method SysFrmelementQuery groupByParamarray() Group by the strParamArray column
  * @method SysFrmelementQuery groupByDbversionid() Group by the DBVersionID column
  * @method SysFrmelementQuery groupByActive() Group by the blnActive column
  * @method SysFrmelementQuery groupByCreatedby() Group by the intCreatedBy column
@@ -69,6 +73,8 @@
  * @method SysFrmelement findOneBySetvalue(string $strSetValue) Return the first SysFrmelement filtered by the strSetValue column
  * @method SysFrmelement findOneByGetscripts(string $strGetScripts) Return the first SysFrmelement filtered by the strGetScripts column
  * @method SysFrmelement findOneByOthercode(string $strOtherCode) Return the first SysFrmelement filtered by the strOtherCode column
+ * @method SysFrmelement findOneByParameters(string $strParameters) Return the first SysFrmelement filtered by the strParameters column
+ * @method SysFrmelement findOneByParamarray(string $strParamArray) Return the first SysFrmelement filtered by the strParamArray column
  * @method SysFrmelement findOneByDbversionid(string $DBVersionID) Return the first SysFrmelement filtered by the DBVersionID column
  * @method SysFrmelement findOneByActive(int $blnActive) Return the first SysFrmelement filtered by the blnActive column
  * @method SysFrmelement findOneByCreatedby(string $intCreatedBy) Return the first SysFrmelement filtered by the intCreatedBy column
@@ -90,6 +96,8 @@
  * @method array findBySetvalue(string $strSetValue) Return SysFrmelement objects filtered by the strSetValue column
  * @method array findByGetscripts(string $strGetScripts) Return SysFrmelement objects filtered by the strGetScripts column
  * @method array findByOthercode(string $strOtherCode) Return SysFrmelement objects filtered by the strOtherCode column
+ * @method array findByParameters(string $strParameters) Return SysFrmelement objects filtered by the strParameters column
+ * @method array findByParamarray(string $strParamArray) Return SysFrmelement objects filtered by the strParamArray column
  * @method array findByDbversionid(string $DBVersionID) Return SysFrmelement objects filtered by the DBVersionID column
  * @method array findByActive(int $blnActive) Return SysFrmelement objects filtered by the blnActive column
  * @method array findByCreatedby(string $intCreatedBy) Return SysFrmelement objects filtered by the intCreatedBy column
@@ -185,7 +193,7 @@ abstract class BaseSysFrmelementQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `FRMELEMENT_ID`, `STRNAME`, `STRCLASSNAME`, `STREXTENDS`, `STRINCLUDES`, `STRVARIABLES`, `STRCONSTRUCTOR`, `STRCONSTRUCTORARGS`, `STRGETHTML`, `STRGETHTMLROW`, `STRGETVALUE`, `STRSETVALUE`, `STRGETSCRIPTS`, `STROTHERCODE`, `DBVERSIONID`, `BLNACTIVE`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_FrmElement` WHERE `FRMELEMENT_ID` = :p0';
+        $sql = 'SELECT `FRMELEMENT_ID`, `STRNAME`, `STRCLASSNAME`, `STREXTENDS`, `STRINCLUDES`, `STRVARIABLES`, `STRCONSTRUCTOR`, `STRCONSTRUCTORARGS`, `STRGETHTML`, `STRGETHTMLROW`, `STRGETVALUE`, `STRSETVALUE`, `STRGETSCRIPTS`, `STROTHERCODE`, `STRPARAMETERS`, `STRPARAMARRAY`, `DBVERSIONID`, `BLNACTIVE`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_FrmElement` WHERE `FRMELEMENT_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -676,6 +684,64 @@ abstract class BaseSysFrmelementQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysFrmelementPeer::STROTHERCODE, $othercode, $comparison);
+    }
+
+    /**
+     * Filter the query on the strParameters column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByParameters('fooValue');   // WHERE strParameters = 'fooValue'
+     * $query->filterByParameters('%fooValue%'); // WHERE strParameters LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $parameters The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysFrmelementQuery The current query, for fluid interface
+     */
+    public function filterByParameters($parameters = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($parameters)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $parameters)) {
+                $parameters = str_replace('*', '%', $parameters);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysFrmelementPeer::STRPARAMETERS, $parameters, $comparison);
+    }
+
+    /**
+     * Filter the query on the strParamArray column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByParamarray('fooValue');   // WHERE strParamArray = 'fooValue'
+     * $query->filterByParamarray('%fooValue%'); // WHERE strParamArray LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $paramarray The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysFrmelementQuery The current query, for fluid interface
+     */
+    public function filterByParamarray($paramarray = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($paramarray)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $paramarray)) {
+                $paramarray = str_replace('*', '%', $paramarray);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysFrmelementPeer::STRPARAMARRAY, $paramarray, $comparison);
     }
 
     /**
