@@ -89,6 +89,46 @@
       <parameter name="disable_updated_at" value="false"/>
     </behavior>
   </table>
+  <table name="SYS_SQLQuery" phpName="SysSqlquery" idMethod="native">
+    <column name="sqlquery_id" phpName="SqlqueryId" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="strStatement" phpName="Statement" type="LONGVARCHAR" required="false"/>
+    <column name="strName" phpName="Name" type="LONGVARCHAR" required="false"/>
+    <column name="strDescription" phpName="Description" type="LONGVARCHAR" required="false"/>
+    <column name="DBVersionID" phpName="Dbversionid" type="BIGINT" required="false"/>
+    <column name="blnActive" phpName="Active" type="INTEGER" required="false"/>
+    <column name="intCreatedBy" phpName="Createdby" type="BIGINT" required="false"/>
+    <column name="intModifiedBy" phpName="Modifiedby" type="BIGINT" required="false"/>
+    <column name="dtCreatedDate" phpName="Createddate" type="TIMESTAMP" required="false"/>
+    <column name="dtModifiedDate" phpName="Modifieddate" type="TIMESTAMP" required="false"/>
+    <behavior name="timestampable">
+      <parameter name="create_column" value="dtCreatedDate"/>
+      <parameter name="create_by" value="intCreatedBy"/>
+      <parameter name="update_column" value="dtModifiedDate"/>
+      <parameter name="update_by" value="intModifiedBy"/>
+      <parameter name="disable_updated_at" value="false"/>
+    </behavior>
+  </table>
+  <table name="SYS_SQLQueryDetail" phpName="SysSqlquerydetail" idMethod="native">
+    <column name="sqlquerydetail_id" phpName="SqlquerydetailId" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="sqlquery_id" phpName="SqlqueryId" type="BIGINT" required="true"/>
+    <column name="strParameter" phpName="Parameter" type="VARCHAR" size="255" required="false"/>
+    <column name="strName" phpName="Name" type="VARCHAR" size="255" required="false"/>
+    <column name="intType" phpName="Type" type="INTEGER" required="false"/>
+    <column name="strTypeName" phpName="Typename" type="VARCHAR" size="255" required="false"/>
+    <column name="intCreatedBy" phpName="Createdby" type="BIGINT" required="false"/>
+    <column name="dtCreatedDate" phpName="Createddate" type="TIMESTAMP" required="false"/>
+    <foreign-key foreignTable="SYS_SQLQuery" name="sys_sqlquerydetail_ibfk_1">
+      <reference local="sqlquery_id" foreign="sqlquery_id"/>
+    </foreign-key>
+    <index name="sqlquery_id">
+      <index-column name="sqlquery_id"/>
+    </index>
+    <behavior name="timestampable">
+      <parameter name="create_column" value="dtCreatedDate"/>
+      <parameter name="create_by" value="intCreatedBy"/>
+      <parameter name="disable_updated_at" value="true"/>
+    </behavior>
+  </table>
   <table name="SYS_URLRouter" phpName="SysUrlrouter" idMethod="native">
     <column name="urlrouter_id" phpName="UrlrouterId" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="strName" phpName="Name" type="VARCHAR" size="255" required="false"/>
