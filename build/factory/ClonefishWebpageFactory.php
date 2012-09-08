@@ -75,7 +75,7 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 				}
 				
 			}
-			parent::run($id,$controller,$clonefish->gethtml());
+			parent::run($id,$controller,$clonefish->gethtml().$webpage->getHtml());
 			return true;
 			
 		} else {
