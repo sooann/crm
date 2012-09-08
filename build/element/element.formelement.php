@@ -187,14 +187,14 @@ class formelement extends element {
 <script type="text/javascript" src="/crm/js/jquery.hotkeys.js"></script>
 <script type="text/javascript" src="/crm/js/jquery.jstree.js"></script>
 <link type="text/css" rel="stylesheet" href="/crm/css/!style.css"/>
-<div id="demo1" class="demo" style="height:200px;width:500px"></div>
+<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
 <input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
 <script type="text/javascript">
 	var treedata = '.$this->json.';
 	$(function () {
 	// TO CREATE AN INSTANCE
 	// select the tree container using jQuery
-	$("#demo1")
+	$("#'.$this->name.'_tree")
 		// call `.jstree` with the options object
 		.jstree({
 			// the `plugins` array allows you to configure the active plugins on this instance
