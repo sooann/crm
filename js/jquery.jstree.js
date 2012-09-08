@@ -1717,6 +1717,7 @@
 							})
 						);
 					}
+					
 				} else {
 					//setup display 
                    ty="";
@@ -1773,6 +1774,11 @@
                 
                 // set select item for key variable
                 $('.jstree-rename-key option[value="' + key + '"]').attr('selected', 'selected');
+				
+				// set select item for type variable
+				if (h7.css("display")!="none") {
+					$('.jstree-rename-selectvalue option[value="' + value.replace('"',"").replace('"',"") + '"]').attr('selected', 'selected');
+				}
                 
                 // set display settings for parameter array
                 var ap = "";
