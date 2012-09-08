@@ -58,6 +58,7 @@ class SysWebtemplateTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('SysWebpage', 'SysWebpage', RelationMap::ONE_TO_MANY, array('webtemplate_id' => 'webtemplate_id', ), null, null, 'SysWebpages');
     } // buildRelations()
 
     /**

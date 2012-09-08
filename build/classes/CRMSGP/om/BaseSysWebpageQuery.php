@@ -50,6 +50,10 @@
  * @method SysWebpageQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method SysWebpageQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
+ * @method SysWebpageQuery leftJoinSysWebtemplate($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysWebtemplate relation
+ * @method SysWebpageQuery rightJoinSysWebtemplate($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysWebtemplate relation
+ * @method SysWebpageQuery innerJoinSysWebtemplate($relationAlias = null) Adds a INNER JOIN clause to the query using the SysWebtemplate relation
+ *
  * @method SysWebpage findOne(PropelPDO $con = null) Return the first SysWebpage matching the query
  * @method SysWebpage findOneOrCreate(PropelPDO $con = null) Return the first SysWebpage matching the query, or a new SysWebpage object populated from the query conditions when no match is found
  *
@@ -306,6 +310,8 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
      * $query->filterByWebtemplateId(array(12, 34)); // WHERE webtemplate_id IN (12, 34)
      * $query->filterByWebtemplateId(array('min' => 12)); // WHERE webtemplate_id > 12
      * </code>
+     *
+     * @see       filterBySysWebtemplate()
      *
      * @param     mixed $webtemplateId The value to use as filter.
      *              Use scalar values for equality.
@@ -917,6 +923,82 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysWebpagePeer::DTMODIFIEDDATE, $modifieddate, $comparison);
+    }
+
+    /**
+     * Filter the query by a related SysWebtemplate object
+     *
+     * @param   SysWebtemplate|PropelObjectCollection $sysWebtemplate The related object(s) to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return   SysWebpageQuery The current query, for fluid interface
+     * @throws   PropelException - if the provided filter is invalid.
+     */
+    public function filterBySysWebtemplate($sysWebtemplate, $comparison = null)
+    {
+        if ($sysWebtemplate instanceof SysWebtemplate) {
+            return $this
+                ->addUsingAlias(SysWebpagePeer::WEBTEMPLATE_ID, $sysWebtemplate->getWebtemplateId(), $comparison);
+        } elseif ($sysWebtemplate instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(SysWebpagePeer::WEBTEMPLATE_ID, $sysWebtemplate->toKeyValue('PrimaryKey', 'WebtemplateId'), $comparison);
+        } else {
+            throw new PropelException('filterBySysWebtemplate() only accepts arguments of type SysWebtemplate or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the SysWebtemplate relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function joinSysWebtemplate($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('SysWebtemplate');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'SysWebtemplate');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the SysWebtemplate relation SysWebtemplate object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   SysWebtemplateQuery A secondary query class using the current class as primary query
+     */
+    public function useSysWebtemplateQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinSysWebtemplate($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'SysWebtemplate', 'SysWebtemplateQuery');
     }
 
     /**

@@ -199,7 +199,11 @@ CREATE TABLE `SYS_Webpage`
     `intModifiedBy` BIGINT,
     `dtCreatedDate` DATETIME,
     `dtModifiedDate` DATETIME,
-    PRIMARY KEY (`webpage_id`)
+    PRIMARY KEY (`webpage_id`),
+    INDEX `webtemplate_id` (`webtemplate_id`),
+    CONSTRAINT `sys_webpage_ibfk_1`
+        FOREIGN KEY (`webtemplate_id`)
+        REFERENCES `SYS_Webtemplate` (`webtemplate_id`)
 ) ENGINE=MyISAM;
 
 -- ---------------------------------------------------------------------

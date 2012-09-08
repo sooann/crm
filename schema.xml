@@ -172,6 +172,12 @@
     <column name="intModifiedBy" phpName="Modifiedby" type="BIGINT" required="false"/>
     <column name="dtCreatedDate" phpName="Createddate" type="TIMESTAMP" required="false"/>
     <column name="dtModifiedDate" phpName="Modifieddate" type="TIMESTAMP" required="false"/>
+    <foreign-key foreignTable="SYS_Webtemplate" name="sys_webpage_ibfk_1">
+      <reference local="webtemplate_id" foreign="webtemplate_id"/>
+    </foreign-key>
+    <index name="webtemplate_id">
+      <index-column name="webtemplate_id"/>
+    </index>
     <behavior name="timestampable">
       <parameter name="create_column" value="dtCreatedDate"/>
       <parameter name="create_by" value="intCreatedBy"/>

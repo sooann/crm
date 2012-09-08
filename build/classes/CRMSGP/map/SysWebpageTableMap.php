@@ -39,7 +39,7 @@ class SysWebpageTableMap extends TableMap
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('WEBPAGE_ID', 'WebpageId', 'BIGINT', true, null, null);
-        $this->addColumn('WEBTEMPLATE_ID', 'WebtemplateId', 'BIGINT', false, null, null);
+        $this->addForeignKey('WEBTEMPLATE_ID', 'WebtemplateId', 'BIGINT', 'SYS_Webtemplate', 'WEBTEMPLATE_ID', false, null, null);
         $this->addColumn('STRLOCATION', 'Location', 'VARCHAR', false, 255, null);
         $this->addColumn('STRNAME', 'Name', 'VARCHAR', false, 255, null);
         $this->addColumn('STRDESCRIPTION', 'Description', 'LONGVARCHAR', false, null, null);
@@ -65,6 +65,7 @@ class SysWebpageTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('SysWebtemplate', 'SysWebtemplate', RelationMap::MANY_TO_ONE, array('webtemplate_id' => 'webtemplate_id', ), null, null);
     } // buildRelations()
 
     /**
