@@ -15,6 +15,7 @@ var $json="";
 var $pattern = "";
 
 	public function getHTML() {
+		
 		return '
 		<script type="text/javascript" src="/crm/js/jquery.js"></script>
 		<script type="text/javascript" src="/crm/js/jquery.cookie.js"></script>
@@ -103,20 +104,22 @@ protected function getPHPArray ($value) {
 			foreach ($prop[0]->children as $e) {
 				$arrtext .= '"'.$e->data.'"=> array(';
 				foreach ($e->children as $ep) {
-					$exp = explode("=>", $ep->data);
-					if ($exp[1]=="{array}") {
-						$arrtext .= $exp[0] . "=>array(" ;
-						if (property_exists($ep, "children")) {
-							foreach ($ep->children as $epa) {
-								$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+					if ($ep->data!="") {
+						$exp = explode("=>", $ep->data);
+						if ($exp[1]=="{array}") {
+							$arrtext .= $exp[0] . "=>array(" ;
+							if (property_exists($ep, "children")) {
+								foreach ($ep->children as $epa) {
+									$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+								}
 							}
+							if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+								$arrtext = substr($arrtext, 0, -1);
+							}
+							$arrtext .= ")," ;
+						} else {
+							$arrtext .= str_replace("[]","array()",$ep->data) . ",";
 						}
-						if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-							$arrtext = substr($arrtext, 0, -1);
-						}
-						$arrtext .= ")," ;
-					} else {
-						$arrtext .= str_replace("[]","array()",$ep->data) . ",";
 					}
 					
 				}
