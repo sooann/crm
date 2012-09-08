@@ -1,34 +1,99 @@
 
 <?php
-
+	
 /**
  *
  * 
  *
- * @name	selectWebpageFactory
+ * @name	formelement
  * @type	CLASS
  *
 */
 		
 class formelement extends element {
-	
-	var $json="";
-	var $pattern = "";
+var $json="";
+var $pattern = "";
+
+	public function getHTML() {
+		return '
+		<script type="text/javascript" src="/crm/js/jquery.js"></script>
+		<script type="text/javascript" src="/crm/js/jquery.cookie.js"></script>
+		<script type="text/javascript" src="/crm/js/jquery.hotkeys.js"></script>
+		<script type="text/javascript" src="/crm/js/jquery.jstree.js"></script>
+		<link type="text/css" rel="stylesheet" href="/crm/css/!style.css"/>
+		<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
+		<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
+		<script type="text/javascript">
+			var treedata = '.$this->json.';
+			$(function () {
+			// TO CREATE AN INSTANCE
+			// select the tree container using jQuery
+			$("#'.$this->name.'_tree")
+				// call `.jstree` with the options object
+				.jstree({
+					// the `plugins` array allows you to configure the active plugins on this instance
+					"json_data" : treedata,
+					"themes" : {
+						"theme" : "default",
+						"dots" : true,
+						"icons" : false
+					},
+					"plugins" : ["themes","json_data","ui","clonefishcrrm","cookies","dnd","search","types","hotkeys","contextmenu"],
+					"core" : {
+						"useClonefish" : true
+					},
+					"clonefishcrrm" : {
+						"pattern" : [ '.$this->getFormElementParameters().' ]
+					}
+					// it makes sense to configure a plugin only if overriding the defaults
+				})
+				.bind("loaded.jstree", function (event, data) {
+					displayJSON(this);
+				})
+				.bind("create.jstree", function (event, data) {
+					displayJSON(this);
+				})
+				.bind("rename.jstree", function (event, data) {
+					displayJSON(this);
+				})
+				.bind("move_node.jstree", function (event, data) {
+					displayJSON(this);
+				})
+				.bind("remove.jstree", function (event, data) {
+					displayJSON(this);
+				})
+				// EVENTS
+				// each instance triggers its own events - to process those listen on the container
+				// all events are in the `.jstree` namespace
+				// so listen for `function_name`.`jstree` - you can function names from the docs
+			// INSTANCES
+			// 1) you can call most functions just by selecting the container and calling `.jstree("func",`
+			setTimeout(function () { $("#demo1").jstree("set_focus"); }, 500);
+			// with the methods below you can call even private functions (prefixed with `_`)
+			// 2) you can get the focused instance using `$.jstree._focused()`. 
+		});
+		
+		function displayJSON (obj) {
+			$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(obj).get_json(-1), null, 4));
+		}
+		</script>
+				';
+	}
 
 	public function setValue($value, $magic_quotes_gpc) {
 		
-		$value = $this->_prepareInput( $value, $magic_quotes_gpc );
-		
-		if (count($_POST)==0) {
-			$this->getJSON($value);
-		} else {
-			$this->getPHPArray($value);
-		}
-		
-		return true;
+				$value = $this->_prepareInput( $value, $magic_quotes_gpc );
+				
+				if (count($_POST)==0) {
+					$this->getJSON($value);
+				} else {
+					$this->getPHPArray($value);
+				}
+				
+				return true;
 	}
-	
-	protected function getPHPArray ($value) {
+
+protected function getPHPArray ($value) {
 		
 		$this->value=array();
 		if (json_decode($value)!==NULL) {
@@ -177,76 +242,7 @@ class formelement extends element {
 		}
 		
 		return $text;
-	}
-	
-	public function getHTML() {
-			
-		return '
-<script type="text/javascript" src="/crm/js/jquery.js"></script>
-<script type="text/javascript" src="/crm/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="/crm/js/jquery.hotkeys.js"></script>
-<script type="text/javascript" src="/crm/js/jquery.jstree.js"></script>
-<link type="text/css" rel="stylesheet" href="/crm/css/!style.css"/>
-<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
-<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
-<script type="text/javascript">
-	var treedata = '.$this->json.';
-	$(function () {
-	// TO CREATE AN INSTANCE
-	// select the tree container using jQuery
-	$("#'.$this->name.'_tree")
-		// call `.jstree` with the options object
-		.jstree({
-			// the `plugins` array allows you to configure the active plugins on this instance
-			"json_data" : treedata,
-			"themes" : {
-				"theme" : "default",
-				"dots" : true,
-				"icons" : false
-			},
-			"plugins" : ["themes","json_data","ui","clonefishcrrm","cookies","dnd","search","types","hotkeys","contextmenu"],
-			"core" : {
-				"useClonefish" : true
-			},
-			"clonefishcrrm" : {
-				"pattern" : [ '.$this->getFormElementParameters().' ]
-			}
-			// it makes sense to configure a plugin only if overriding the defaults
-		})
-		.bind("loaded.jstree", function (event, data) {
-			displayJSON(this);
-		})
-		.bind("create.jstree", function (event, data) {
-			displayJSON(this);
-		})
-		.bind("rename.jstree", function (event, data) {
-			displayJSON(this);
-		})
-		.bind("move_node.jstree", function (event, data) {
-			displayJSON(this);
-		})
-		.bind("remove.jstree", function (event, data) {
-			displayJSON(this);
-		})
-		// EVENTS
-		// each instance triggers its own events - to process those listen on the container
-		// all events are in the `.jstree` namespace
-		// so listen for `function_name`.`jstree` - you can function names from the docs
-	// INSTANCES
-	// 1) you can call most functions just by selecting the container and calling `.jstree("func",`
-	setTimeout(function () { $("#demo1").jstree("set_focus"); }, 500);
-	// with the methods below you can call even private functions (prefixed with `_`)
-	// 2) you can get the focused instance using `$.jstree._focused()`. 
-});
-
-function displayJSON (obj) {
-	$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(obj).get_json(-1), null, 4));
-}
-</script>
-		';
-		
-	}
-}
+	}}
 
 ?>
 		
