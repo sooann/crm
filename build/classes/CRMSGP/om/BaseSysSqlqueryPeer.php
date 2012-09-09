@@ -24,13 +24,13 @@ abstract class BaseSysSqlqueryPeer
     const TM_CLASS = 'SysSqlqueryTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 10;
+    const NUM_COLUMNS = 11;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 10;
+    const NUM_HYDRATE_COLUMNS = 11;
 
     /** the column name for the SQLQUERY_ID field */
     const SQLQUERY_ID = 'SYS_SQLQuery.SQLQUERY_ID';
@@ -43,6 +43,9 @@ abstract class BaseSysSqlqueryPeer
 
     /** the column name for the STRDESCRIPTION field */
     const STRDESCRIPTION = 'SYS_SQLQuery.STRDESCRIPTION';
+
+    /** the column name for the STRPRIMARYFIELD field */
+    const STRPRIMARYFIELD = 'SYS_SQLQuery.STRPRIMARYFIELD';
 
     /** the column name for the DBVERSIONID field */
     const DBVERSIONID = 'SYS_SQLQuery.DBVERSIONID';
@@ -81,12 +84,12 @@ abstract class BaseSysSqlqueryPeer
      * e.g. SysSqlqueryPeer::$fieldNames[SysSqlqueryPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('SqlqueryId', 'Statement', 'Name', 'Description', 'Dbversionid', 'Active', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('sqlqueryId', 'statement', 'name', 'description', 'dbversionid', 'active', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
-        BasePeer::TYPE_COLNAME => array (SysSqlqueryPeer::SQLQUERY_ID, SysSqlqueryPeer::STRSTATEMENT, SysSqlqueryPeer::STRNAME, SysSqlqueryPeer::STRDESCRIPTION, SysSqlqueryPeer::DBVERSIONID, SysSqlqueryPeer::BLNACTIVE, SysSqlqueryPeer::INTCREATEDBY, SysSqlqueryPeer::INTMODIFIEDBY, SysSqlqueryPeer::DTCREATEDDATE, SysSqlqueryPeer::DTMODIFIEDDATE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('SQLQUERY_ID', 'STRSTATEMENT', 'STRNAME', 'STRDESCRIPTION', 'DBVERSIONID', 'BLNACTIVE', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
-        BasePeer::TYPE_FIELDNAME => array ('sqlquery_id', 'strStatement', 'strName', 'strDescription', 'DBVersionID', 'blnActive', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('SqlqueryId', 'Statement', 'Name', 'Description', 'Primaryfield', 'Dbversionid', 'Active', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('sqlqueryId', 'statement', 'name', 'description', 'primaryfield', 'dbversionid', 'active', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
+        BasePeer::TYPE_COLNAME => array (SysSqlqueryPeer::SQLQUERY_ID, SysSqlqueryPeer::STRSTATEMENT, SysSqlqueryPeer::STRNAME, SysSqlqueryPeer::STRDESCRIPTION, SysSqlqueryPeer::STRPRIMARYFIELD, SysSqlqueryPeer::DBVERSIONID, SysSqlqueryPeer::BLNACTIVE, SysSqlqueryPeer::INTCREATEDBY, SysSqlqueryPeer::INTMODIFIEDBY, SysSqlqueryPeer::DTCREATEDDATE, SysSqlqueryPeer::DTMODIFIEDDATE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('SQLQUERY_ID', 'STRSTATEMENT', 'STRNAME', 'STRDESCRIPTION', 'STRPRIMARYFIELD', 'DBVERSIONID', 'BLNACTIVE', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
+        BasePeer::TYPE_FIELDNAME => array ('sqlquery_id', 'strStatement', 'strName', 'strDescription', 'strPrimaryField', 'DBVersionID', 'blnActive', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -96,12 +99,12 @@ abstract class BaseSysSqlqueryPeer
      * e.g. SysSqlqueryPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('SqlqueryId' => 0, 'Statement' => 1, 'Name' => 2, 'Description' => 3, 'Dbversionid' => 4, 'Active' => 5, 'Createdby' => 6, 'Modifiedby' => 7, 'Createddate' => 8, 'Modifieddate' => 9, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('sqlqueryId' => 0, 'statement' => 1, 'name' => 2, 'description' => 3, 'dbversionid' => 4, 'active' => 5, 'createdby' => 6, 'modifiedby' => 7, 'createddate' => 8, 'modifieddate' => 9, ),
-        BasePeer::TYPE_COLNAME => array (SysSqlqueryPeer::SQLQUERY_ID => 0, SysSqlqueryPeer::STRSTATEMENT => 1, SysSqlqueryPeer::STRNAME => 2, SysSqlqueryPeer::STRDESCRIPTION => 3, SysSqlqueryPeer::DBVERSIONID => 4, SysSqlqueryPeer::BLNACTIVE => 5, SysSqlqueryPeer::INTCREATEDBY => 6, SysSqlqueryPeer::INTMODIFIEDBY => 7, SysSqlqueryPeer::DTCREATEDDATE => 8, SysSqlqueryPeer::DTMODIFIEDDATE => 9, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('SQLQUERY_ID' => 0, 'STRSTATEMENT' => 1, 'STRNAME' => 2, 'STRDESCRIPTION' => 3, 'DBVERSIONID' => 4, 'BLNACTIVE' => 5, 'INTCREATEDBY' => 6, 'INTMODIFIEDBY' => 7, 'DTCREATEDDATE' => 8, 'DTMODIFIEDDATE' => 9, ),
-        BasePeer::TYPE_FIELDNAME => array ('sqlquery_id' => 0, 'strStatement' => 1, 'strName' => 2, 'strDescription' => 3, 'DBVersionID' => 4, 'blnActive' => 5, 'intCreatedBy' => 6, 'intModifiedBy' => 7, 'dtCreatedDate' => 8, 'dtModifiedDate' => 9, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, )
+        BasePeer::TYPE_PHPNAME => array ('SqlqueryId' => 0, 'Statement' => 1, 'Name' => 2, 'Description' => 3, 'Primaryfield' => 4, 'Dbversionid' => 5, 'Active' => 6, 'Createdby' => 7, 'Modifiedby' => 8, 'Createddate' => 9, 'Modifieddate' => 10, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('sqlqueryId' => 0, 'statement' => 1, 'name' => 2, 'description' => 3, 'primaryfield' => 4, 'dbversionid' => 5, 'active' => 6, 'createdby' => 7, 'modifiedby' => 8, 'createddate' => 9, 'modifieddate' => 10, ),
+        BasePeer::TYPE_COLNAME => array (SysSqlqueryPeer::SQLQUERY_ID => 0, SysSqlqueryPeer::STRSTATEMENT => 1, SysSqlqueryPeer::STRNAME => 2, SysSqlqueryPeer::STRDESCRIPTION => 3, SysSqlqueryPeer::STRPRIMARYFIELD => 4, SysSqlqueryPeer::DBVERSIONID => 5, SysSqlqueryPeer::BLNACTIVE => 6, SysSqlqueryPeer::INTCREATEDBY => 7, SysSqlqueryPeer::INTMODIFIEDBY => 8, SysSqlqueryPeer::DTCREATEDDATE => 9, SysSqlqueryPeer::DTMODIFIEDDATE => 10, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('SQLQUERY_ID' => 0, 'STRSTATEMENT' => 1, 'STRNAME' => 2, 'STRDESCRIPTION' => 3, 'STRPRIMARYFIELD' => 4, 'DBVERSIONID' => 5, 'BLNACTIVE' => 6, 'INTCREATEDBY' => 7, 'INTMODIFIEDBY' => 8, 'DTCREATEDDATE' => 9, 'DTMODIFIEDDATE' => 10, ),
+        BasePeer::TYPE_FIELDNAME => array ('sqlquery_id' => 0, 'strStatement' => 1, 'strName' => 2, 'strDescription' => 3, 'strPrimaryField' => 4, 'DBVersionID' => 5, 'blnActive' => 6, 'intCreatedBy' => 7, 'intModifiedBy' => 8, 'dtCreatedDate' => 9, 'dtModifiedDate' => 10, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, )
     );
 
     /**
@@ -179,6 +182,7 @@ abstract class BaseSysSqlqueryPeer
             $criteria->addSelectColumn(SysSqlqueryPeer::STRSTATEMENT);
             $criteria->addSelectColumn(SysSqlqueryPeer::STRNAME);
             $criteria->addSelectColumn(SysSqlqueryPeer::STRDESCRIPTION);
+            $criteria->addSelectColumn(SysSqlqueryPeer::STRPRIMARYFIELD);
             $criteria->addSelectColumn(SysSqlqueryPeer::DBVERSIONID);
             $criteria->addSelectColumn(SysSqlqueryPeer::BLNACTIVE);
             $criteria->addSelectColumn(SysSqlqueryPeer::INTCREATEDBY);
@@ -190,6 +194,7 @@ abstract class BaseSysSqlqueryPeer
             $criteria->addSelectColumn($alias . '.STRSTATEMENT');
             $criteria->addSelectColumn($alias . '.STRNAME');
             $criteria->addSelectColumn($alias . '.STRDESCRIPTION');
+            $criteria->addSelectColumn($alias . '.STRPRIMARYFIELD');
             $criteria->addSelectColumn($alias . '.DBVERSIONID');
             $criteria->addSelectColumn($alias . '.BLNACTIVE');
             $criteria->addSelectColumn($alias . '.INTCREATEDBY');

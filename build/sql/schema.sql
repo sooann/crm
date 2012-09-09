@@ -115,6 +115,7 @@ CREATE TABLE `SYS_SQLQuery`
     `strStatement` TEXT,
     `strName` TEXT,
     `strDescription` TEXT,
+    `strPrimaryField` VARCHAR(255),
     `DBVersionID` BIGINT,
     `blnActive` INTEGER,
     `intCreatedBy` BIGINT,
@@ -122,29 +123,6 @@ CREATE TABLE `SYS_SQLQuery`
     `dtCreatedDate` DATETIME,
     `dtModifiedDate` DATETIME,
     PRIMARY KEY (`sqlquery_id`)
-) ENGINE=MyISAM;
-
--- ---------------------------------------------------------------------
--- SYS_SQLQueryDetail
--- ---------------------------------------------------------------------
-
-DROP TABLE IF EXISTS `SYS_SQLQueryDetail`;
-
-CREATE TABLE `SYS_SQLQueryDetail`
-(
-    `sqlquerydetail_id` BIGINT NOT NULL AUTO_INCREMENT,
-    `sqlquery_id` BIGINT NOT NULL,
-    `strParameter` VARCHAR(255),
-    `strName` VARCHAR(255),
-    `intType` INTEGER,
-    `strTypeName` VARCHAR(255),
-    `intCreatedBy` BIGINT,
-    `dtCreatedDate` DATETIME,
-    PRIMARY KEY (`sqlquerydetail_id`),
-    INDEX `sqlquery_id` (`sqlquery_id`),
-    CONSTRAINT `sys_sqlquerydetail_ibfk_1`
-        FOREIGN KEY (`sqlquery_id`)
-        REFERENCES `SYS_SQLQuery` (`sqlquery_id`)
 ) ENGINE=MyISAM;
 
 -- ---------------------------------------------------------------------

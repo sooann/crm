@@ -10,6 +10,7 @@
  * @method SysSqlqueryQuery orderByStatement($order = Criteria::ASC) Order by the strStatement column
  * @method SysSqlqueryQuery orderByName($order = Criteria::ASC) Order by the strName column
  * @method SysSqlqueryQuery orderByDescription($order = Criteria::ASC) Order by the strDescription column
+ * @method SysSqlqueryQuery orderByPrimaryfield($order = Criteria::ASC) Order by the strPrimaryField column
  * @method SysSqlqueryQuery orderByDbversionid($order = Criteria::ASC) Order by the DBVersionID column
  * @method SysSqlqueryQuery orderByActive($order = Criteria::ASC) Order by the blnActive column
  * @method SysSqlqueryQuery orderByCreatedby($order = Criteria::ASC) Order by the intCreatedBy column
@@ -21,6 +22,7 @@
  * @method SysSqlqueryQuery groupByStatement() Group by the strStatement column
  * @method SysSqlqueryQuery groupByName() Group by the strName column
  * @method SysSqlqueryQuery groupByDescription() Group by the strDescription column
+ * @method SysSqlqueryQuery groupByPrimaryfield() Group by the strPrimaryField column
  * @method SysSqlqueryQuery groupByDbversionid() Group by the DBVersionID column
  * @method SysSqlqueryQuery groupByActive() Group by the blnActive column
  * @method SysSqlqueryQuery groupByCreatedby() Group by the intCreatedBy column
@@ -32,10 +34,6 @@
  * @method SysSqlqueryQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method SysSqlqueryQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method SysSqlqueryQuery leftJoinSysSqlquerydetail($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysSqlquerydetail relation
- * @method SysSqlqueryQuery rightJoinSysSqlquerydetail($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysSqlquerydetail relation
- * @method SysSqlqueryQuery innerJoinSysSqlquerydetail($relationAlias = null) Adds a INNER JOIN clause to the query using the SysSqlquerydetail relation
- *
  * @method SysSqlquery findOne(PropelPDO $con = null) Return the first SysSqlquery matching the query
  * @method SysSqlquery findOneOrCreate(PropelPDO $con = null) Return the first SysSqlquery matching the query, or a new SysSqlquery object populated from the query conditions when no match is found
  *
@@ -43,6 +41,7 @@
  * @method SysSqlquery findOneByStatement(string $strStatement) Return the first SysSqlquery filtered by the strStatement column
  * @method SysSqlquery findOneByName(string $strName) Return the first SysSqlquery filtered by the strName column
  * @method SysSqlquery findOneByDescription(string $strDescription) Return the first SysSqlquery filtered by the strDescription column
+ * @method SysSqlquery findOneByPrimaryfield(string $strPrimaryField) Return the first SysSqlquery filtered by the strPrimaryField column
  * @method SysSqlquery findOneByDbversionid(string $DBVersionID) Return the first SysSqlquery filtered by the DBVersionID column
  * @method SysSqlquery findOneByActive(int $blnActive) Return the first SysSqlquery filtered by the blnActive column
  * @method SysSqlquery findOneByCreatedby(string $intCreatedBy) Return the first SysSqlquery filtered by the intCreatedBy column
@@ -54,6 +53,7 @@
  * @method array findByStatement(string $strStatement) Return SysSqlquery objects filtered by the strStatement column
  * @method array findByName(string $strName) Return SysSqlquery objects filtered by the strName column
  * @method array findByDescription(string $strDescription) Return SysSqlquery objects filtered by the strDescription column
+ * @method array findByPrimaryfield(string $strPrimaryField) Return SysSqlquery objects filtered by the strPrimaryField column
  * @method array findByDbversionid(string $DBVersionID) Return SysSqlquery objects filtered by the DBVersionID column
  * @method array findByActive(int $blnActive) Return SysSqlquery objects filtered by the blnActive column
  * @method array findByCreatedby(string $intCreatedBy) Return SysSqlquery objects filtered by the intCreatedBy column
@@ -149,7 +149,7 @@ abstract class BaseSysSqlqueryQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `SQLQUERY_ID`, `STRSTATEMENT`, `STRNAME`, `STRDESCRIPTION`, `DBVERSIONID`, `BLNACTIVE`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_SQLQuery` WHERE `SQLQUERY_ID` = :p0';
+        $sql = 'SELECT `SQLQUERY_ID`, `STRSTATEMENT`, `STRNAME`, `STRDESCRIPTION`, `STRPRIMARYFIELD`, `DBVERSIONID`, `BLNACTIVE`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_SQLQuery` WHERE `SQLQUERY_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -350,6 +350,35 @@ abstract class BaseSysSqlqueryQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysSqlqueryPeer::STRDESCRIPTION, $description, $comparison);
+    }
+
+    /**
+     * Filter the query on the strPrimaryField column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByPrimaryfield('fooValue');   // WHERE strPrimaryField = 'fooValue'
+     * $query->filterByPrimaryfield('%fooValue%'); // WHERE strPrimaryField LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $primaryfield The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysSqlqueryQuery The current query, for fluid interface
+     */
+    public function filterByPrimaryfield($primaryfield = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($primaryfield)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $primaryfield)) {
+                $primaryfield = str_replace('*', '%', $primaryfield);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysSqlqueryPeer::STRPRIMARYFIELD, $primaryfield, $comparison);
     }
 
     /**
@@ -600,80 +629,6 @@ abstract class BaseSysSqlqueryQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysSqlqueryPeer::DTMODIFIEDDATE, $modifieddate, $comparison);
-    }
-
-    /**
-     * Filter the query by a related SysSqlquerydetail object
-     *
-     * @param   SysSqlquerydetail|PropelObjectCollection $sysSqlquerydetail  the related object to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return   SysSqlqueryQuery The current query, for fluid interface
-     * @throws   PropelException - if the provided filter is invalid.
-     */
-    public function filterBySysSqlquerydetail($sysSqlquerydetail, $comparison = null)
-    {
-        if ($sysSqlquerydetail instanceof SysSqlquerydetail) {
-            return $this
-                ->addUsingAlias(SysSqlqueryPeer::SQLQUERY_ID, $sysSqlquerydetail->getSqlqueryId(), $comparison);
-        } elseif ($sysSqlquerydetail instanceof PropelObjectCollection) {
-            return $this
-                ->useSysSqlquerydetailQuery()
-                ->filterByPrimaryKeys($sysSqlquerydetail->getPrimaryKeys())
-                ->endUse();
-        } else {
-            throw new PropelException('filterBySysSqlquerydetail() only accepts arguments of type SysSqlquerydetail or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the SysSqlquerydetail relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return SysSqlqueryQuery The current query, for fluid interface
-     */
-    public function joinSysSqlquerydetail($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('SysSqlquerydetail');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'SysSqlquerydetail');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the SysSqlquerydetail relation SysSqlquerydetail object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   SysSqlquerydetailQuery A secondary query class using the current class as primary query
-     */
-    public function useSysSqlquerydetailQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
-    {
-        return $this
-            ->joinSysSqlquerydetail($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'SysSqlquerydetail', 'SysSqlquerydetailQuery');
     }
 
     /**

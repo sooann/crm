@@ -54,6 +54,12 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
     protected $strdescription;
 
     /**
+     * The value for the strprimaryfield field.
+     * @var        string
+     */
+    protected $strprimaryfield;
+
+    /**
      * The value for the dbversionid field.
      * @var        string
      */
@@ -90,12 +96,6 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
     protected $dtmodifieddate;
 
     /**
-     * @var        PropelObjectCollection|SysSqlquerydetail[] Collection to store aggregation of SysSqlquerydetail objects.
-     */
-    protected $collSysSqlquerydetails;
-    protected $collSysSqlquerydetailsPartial;
-
-    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -108,12 +108,6 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
      * @var        boolean
      */
     protected $alreadyInValidation = false;
-
-    /**
-     * An array of objects scheduled for deletion.
-     * @var		PropelObjectCollection
-     */
-    protected $sysSqlquerydetailsScheduledForDeletion = null;
 
     /**
      * Get the [sqlquery_id] column value.
@@ -153,6 +147,16 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
     public function getDescription()
     {
         return $this->strdescription;
+    }
+
+    /**
+     * Get the [strprimaryfield] column value.
+     *
+     * @return string
+     */
+    public function getPrimaryfield()
+    {
+        return $this->strprimaryfield;
     }
 
     /**
@@ -354,6 +358,27 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
     } // setDescription()
 
     /**
+     * Set the value of [strprimaryfield] column.
+     *
+     * @param string $v new value
+     * @return SysSqlquery The current object (for fluent API support)
+     */
+    public function setPrimaryfield($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strprimaryfield !== $v) {
+            $this->strprimaryfield = $v;
+            $this->modifiedColumns[] = SysSqlqueryPeer::STRPRIMARYFIELD;
+        }
+
+
+        return $this;
+    } // setPrimaryfield()
+
+    /**
      * Set the value of [dbversionid] column.
      *
      * @param string $v new value
@@ -519,12 +544,13 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
             $this->strstatement = ($row[$startcol + 1] !== null) ? (string) $row[$startcol + 1] : null;
             $this->strname = ($row[$startcol + 2] !== null) ? (string) $row[$startcol + 2] : null;
             $this->strdescription = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
-            $this->dbversionid = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->blnactive = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
-            $this->intcreatedby = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
-            $this->intmodifiedby = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
-            $this->dtcreateddate = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->dtmodifieddate = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->strprimaryfield = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
+            $this->dbversionid = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->blnactive = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
+            $this->intcreatedby = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->intmodifiedby = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->dtcreateddate = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->dtmodifieddate = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -533,7 +559,7 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 10; // 10 = SysSqlqueryPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 11; // 11 = SysSqlqueryPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating SysSqlquery object", $e);
@@ -594,8 +620,6 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
         $this->hydrate($row, 0, true); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
-
-            $this->collSysSqlquerydetails = null;
 
         } // if (deep)
     }
@@ -764,23 +788,6 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
                 $this->resetModified();
             }
 
-            if ($this->sysSqlquerydetailsScheduledForDeletion !== null) {
-                if (!$this->sysSqlquerydetailsScheduledForDeletion->isEmpty()) {
-                    SysSqlquerydetailQuery::create()
-                        ->filterByPrimaryKeys($this->sysSqlquerydetailsScheduledForDeletion->getPrimaryKeys(false))
-                        ->delete($con);
-                    $this->sysSqlquerydetailsScheduledForDeletion = null;
-                }
-            }
-
-            if ($this->collSysSqlquerydetails !== null) {
-                foreach ($this->collSysSqlquerydetails as $referrerFK) {
-                    if (!$referrerFK->isDeleted()) {
-                        $affectedRows += $referrerFK->save($con);
-                    }
-                }
-            }
-
             $this->alreadyInSave = false;
 
         }
@@ -818,6 +825,9 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
         }
         if ($this->isColumnModified(SysSqlqueryPeer::STRDESCRIPTION)) {
             $modifiedColumns[':p' . $index++]  = '`STRDESCRIPTION`';
+        }
+        if ($this->isColumnModified(SysSqlqueryPeer::STRPRIMARYFIELD)) {
+            $modifiedColumns[':p' . $index++]  = '`STRPRIMARYFIELD`';
         }
         if ($this->isColumnModified(SysSqlqueryPeer::DBVERSIONID)) {
             $modifiedColumns[':p' . $index++]  = '`DBVERSIONID`';
@@ -859,6 +869,9 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
                         break;
                     case '`STRDESCRIPTION`':
                         $stmt->bindValue($identifier, $this->strdescription, PDO::PARAM_STR);
+                        break;
+                    case '`STRPRIMARYFIELD`':
+                        $stmt->bindValue($identifier, $this->strprimaryfield, PDO::PARAM_STR);
                         break;
                     case '`DBVERSIONID`':
                         $stmt->bindValue($identifier, $this->dbversionid, PDO::PARAM_INT);
@@ -977,14 +990,6 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
             }
 
 
-                if ($this->collSysSqlquerydetails !== null) {
-                    foreach ($this->collSysSqlquerydetails as $referrerFK) {
-                        if (!$referrerFK->validate($columns)) {
-                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
-                        }
-                    }
-                }
-
 
             $this->alreadyInValidation = false;
         }
@@ -1033,21 +1038,24 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
                 return $this->getDescription();
                 break;
             case 4:
-                return $this->getDbversionid();
+                return $this->getPrimaryfield();
                 break;
             case 5:
-                return $this->getActive();
+                return $this->getDbversionid();
                 break;
             case 6:
-                return $this->getCreatedby();
+                return $this->getActive();
                 break;
             case 7:
-                return $this->getModifiedby();
+                return $this->getCreatedby();
                 break;
             case 8:
-                return $this->getCreateddate();
+                return $this->getModifiedby();
                 break;
             case 9:
+                return $this->getCreateddate();
+                break;
+            case 10:
                 return $this->getModifieddate();
                 break;
             default:
@@ -1067,11 +1075,10 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
      *                    Defaults to BasePeer::TYPE_PHPNAME.
      * @param     boolean $includeLazyLoadColumns (optional) Whether to include lazy loaded columns. Defaults to true.
      * @param     array $alreadyDumpedObjects List of objects to skip to avoid recursion
-     * @param     boolean $includeForeignObjects (optional) Whether to include hydrated related objects. Default to FALSE.
      *
      * @return array an associative array containing the field names (as keys) and field values
      */
-    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array(), $includeForeignObjects = false)
+    public function toArray($keyType = BasePeer::TYPE_PHPNAME, $includeLazyLoadColumns = true, $alreadyDumpedObjects = array())
     {
         if (isset($alreadyDumpedObjects['SysSqlquery'][$this->getPrimaryKey()])) {
             return '*RECURSION*';
@@ -1083,18 +1090,14 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
             $keys[1] => $this->getStatement(),
             $keys[2] => $this->getName(),
             $keys[3] => $this->getDescription(),
-            $keys[4] => $this->getDbversionid(),
-            $keys[5] => $this->getActive(),
-            $keys[6] => $this->getCreatedby(),
-            $keys[7] => $this->getModifiedby(),
-            $keys[8] => $this->getCreateddate(),
-            $keys[9] => $this->getModifieddate(),
+            $keys[4] => $this->getPrimaryfield(),
+            $keys[5] => $this->getDbversionid(),
+            $keys[6] => $this->getActive(),
+            $keys[7] => $this->getCreatedby(),
+            $keys[8] => $this->getModifiedby(),
+            $keys[9] => $this->getCreateddate(),
+            $keys[10] => $this->getModifieddate(),
         );
-        if ($includeForeignObjects) {
-            if (null !== $this->collSysSqlquerydetails) {
-                $result['SysSqlquerydetails'] = $this->collSysSqlquerydetails->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
-            }
-        }
 
         return $result;
     }
@@ -1141,21 +1144,24 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
                 $this->setDescription($value);
                 break;
             case 4:
-                $this->setDbversionid($value);
+                $this->setPrimaryfield($value);
                 break;
             case 5:
-                $this->setActive($value);
+                $this->setDbversionid($value);
                 break;
             case 6:
-                $this->setCreatedby($value);
+                $this->setActive($value);
                 break;
             case 7:
-                $this->setModifiedby($value);
+                $this->setCreatedby($value);
                 break;
             case 8:
-                $this->setCreateddate($value);
+                $this->setModifiedby($value);
                 break;
             case 9:
+                $this->setCreateddate($value);
+                break;
+            case 10:
                 $this->setModifieddate($value);
                 break;
         } // switch()
@@ -1186,12 +1192,13 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
         if (array_key_exists($keys[1], $arr)) $this->setStatement($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setName($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setDescription($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setDbversionid($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setActive($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setCreatedby($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setModifiedby($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setCreateddate($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setModifieddate($arr[$keys[9]]);
+        if (array_key_exists($keys[4], $arr)) $this->setPrimaryfield($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setDbversionid($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setActive($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setCreatedby($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setModifiedby($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setCreateddate($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setModifieddate($arr[$keys[10]]);
     }
 
     /**
@@ -1207,6 +1214,7 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
         if ($this->isColumnModified(SysSqlqueryPeer::STRSTATEMENT)) $criteria->add(SysSqlqueryPeer::STRSTATEMENT, $this->strstatement);
         if ($this->isColumnModified(SysSqlqueryPeer::STRNAME)) $criteria->add(SysSqlqueryPeer::STRNAME, $this->strname);
         if ($this->isColumnModified(SysSqlqueryPeer::STRDESCRIPTION)) $criteria->add(SysSqlqueryPeer::STRDESCRIPTION, $this->strdescription);
+        if ($this->isColumnModified(SysSqlqueryPeer::STRPRIMARYFIELD)) $criteria->add(SysSqlqueryPeer::STRPRIMARYFIELD, $this->strprimaryfield);
         if ($this->isColumnModified(SysSqlqueryPeer::DBVERSIONID)) $criteria->add(SysSqlqueryPeer::DBVERSIONID, $this->dbversionid);
         if ($this->isColumnModified(SysSqlqueryPeer::BLNACTIVE)) $criteria->add(SysSqlqueryPeer::BLNACTIVE, $this->blnactive);
         if ($this->isColumnModified(SysSqlqueryPeer::INTCREATEDBY)) $criteria->add(SysSqlqueryPeer::INTCREATEDBY, $this->intcreatedby);
@@ -1279,30 +1287,13 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
         $copyObj->setStatement($this->getStatement());
         $copyObj->setName($this->getName());
         $copyObj->setDescription($this->getDescription());
+        $copyObj->setPrimaryfield($this->getPrimaryfield());
         $copyObj->setDbversionid($this->getDbversionid());
         $copyObj->setActive($this->getActive());
         $copyObj->setCreatedby($this->getCreatedby());
         $copyObj->setModifiedby($this->getModifiedby());
         $copyObj->setCreateddate($this->getCreateddate());
         $copyObj->setModifieddate($this->getModifieddate());
-
-        if ($deepCopy && !$this->startCopy) {
-            // important: temporarily setNew(false) because this affects the behavior of
-            // the getter/setter methods for fkey referrer objects.
-            $copyObj->setNew(false);
-            // store object hash to prevent cycle
-            $this->startCopy = true;
-
-            foreach ($this->getSysSqlquerydetails() as $relObj) {
-                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
-                    $copyObj->addSysSqlquerydetail($relObj->copy($deepCopy));
-                }
-            }
-
-            //unflag object copy
-            $this->startCopy = false;
-        } // if ($deepCopy)
-
         if ($makeNew) {
             $copyObj->setNew(true);
             $copyObj->setSqlqueryId(NULL); // this is a auto-increment column, so set to default value
@@ -1349,229 +1340,6 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
         return self::$peer;
     }
 
-
-    /**
-     * Initializes a collection based on the name of a relation.
-     * Avoids crafting an 'init[$relationName]s' method name
-     * that wouldn't work when StandardEnglishPluralizer is used.
-     *
-     * @param string $relationName The name of the relation to initialize
-     * @return void
-     */
-    public function initRelation($relationName)
-    {
-        if ('SysSqlquerydetail' == $relationName) {
-            $this->initSysSqlquerydetails();
-        }
-    }
-
-    /**
-     * Clears out the collSysSqlquerydetails collection
-     *
-     * This does not modify the database; however, it will remove any associated objects, causing
-     * them to be refetched by subsequent calls to accessor method.
-     *
-     * @return void
-     * @see        addSysSqlquerydetails()
-     */
-    public function clearSysSqlquerydetails()
-    {
-        $this->collSysSqlquerydetails = null; // important to set this to null since that means it is uninitialized
-        $this->collSysSqlquerydetailsPartial = null;
-    }
-
-    /**
-     * reset is the collSysSqlquerydetails collection loaded partially
-     *
-     * @return void
-     */
-    public function resetPartialSysSqlquerydetails($v = true)
-    {
-        $this->collSysSqlquerydetailsPartial = $v;
-    }
-
-    /**
-     * Initializes the collSysSqlquerydetails collection.
-     *
-     * By default this just sets the collSysSqlquerydetails collection to an empty array (like clearcollSysSqlquerydetails());
-     * however, you may wish to override this method in your stub class to provide setting appropriate
-     * to your application -- for example, setting the initial array to the values stored in database.
-     *
-     * @param boolean $overrideExisting If set to true, the method call initializes
-     *                                        the collection even if it is not empty
-     *
-     * @return void
-     */
-    public function initSysSqlquerydetails($overrideExisting = true)
-    {
-        if (null !== $this->collSysSqlquerydetails && !$overrideExisting) {
-            return;
-        }
-        $this->collSysSqlquerydetails = new PropelObjectCollection();
-        $this->collSysSqlquerydetails->setModel('SysSqlquerydetail');
-    }
-
-    /**
-     * Gets an array of SysSqlquerydetail objects which contain a foreign key that references this object.
-     *
-     * If the $criteria is not null, it is used to always fetch the results from the database.
-     * Otherwise the results are fetched from the database the first time, then cached.
-     * Next time the same method is called without $criteria, the cached collection is returned.
-     * If this SysSqlquery is new, it will return
-     * an empty collection or the current collection; the criteria is ignored on a new object.
-     *
-     * @param Criteria $criteria optional Criteria object to narrow the query
-     * @param PropelPDO $con optional connection object
-     * @return PropelObjectCollection|SysSqlquerydetail[] List of SysSqlquerydetail objects
-     * @throws PropelException
-     */
-    public function getSysSqlquerydetails($criteria = null, PropelPDO $con = null)
-    {
-        $partial = $this->collSysSqlquerydetailsPartial && !$this->isNew();
-        if (null === $this->collSysSqlquerydetails || null !== $criteria  || $partial) {
-            if ($this->isNew() && null === $this->collSysSqlquerydetails) {
-                // return empty collection
-                $this->initSysSqlquerydetails();
-            } else {
-                $collSysSqlquerydetails = SysSqlquerydetailQuery::create(null, $criteria)
-                    ->filterBySysSqlquery($this)
-                    ->find($con);
-                if (null !== $criteria) {
-                    if (false !== $this->collSysSqlquerydetailsPartial && count($collSysSqlquerydetails)) {
-                      $this->initSysSqlquerydetails(false);
-
-                      foreach($collSysSqlquerydetails as $obj) {
-                        if (false == $this->collSysSqlquerydetails->contains($obj)) {
-                          $this->collSysSqlquerydetails->append($obj);
-                        }
-                      }
-
-                      $this->collSysSqlquerydetailsPartial = true;
-                    }
-
-                    return $collSysSqlquerydetails;
-                }
-
-                if($partial && $this->collSysSqlquerydetails) {
-                    foreach($this->collSysSqlquerydetails as $obj) {
-                        if($obj->isNew()) {
-                            $collSysSqlquerydetails[] = $obj;
-                        }
-                    }
-                }
-
-                $this->collSysSqlquerydetails = $collSysSqlquerydetails;
-                $this->collSysSqlquerydetailsPartial = false;
-            }
-        }
-
-        return $this->collSysSqlquerydetails;
-    }
-
-    /**
-     * Sets a collection of SysSqlquerydetail objects related by a one-to-many relationship
-     * to the current object.
-     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
-     * and new objects from the given Propel collection.
-     *
-     * @param PropelCollection $sysSqlquerydetails A Propel collection.
-     * @param PropelPDO $con Optional connection object
-     */
-    public function setSysSqlquerydetails(PropelCollection $sysSqlquerydetails, PropelPDO $con = null)
-    {
-        $this->sysSqlquerydetailsScheduledForDeletion = $this->getSysSqlquerydetails(new Criteria(), $con)->diff($sysSqlquerydetails);
-
-        foreach ($this->sysSqlquerydetailsScheduledForDeletion as $sysSqlquerydetailRemoved) {
-            $sysSqlquerydetailRemoved->setSysSqlquery(null);
-        }
-
-        $this->collSysSqlquerydetails = null;
-        foreach ($sysSqlquerydetails as $sysSqlquerydetail) {
-            $this->addSysSqlquerydetail($sysSqlquerydetail);
-        }
-
-        $this->collSysSqlquerydetails = $sysSqlquerydetails;
-        $this->collSysSqlquerydetailsPartial = false;
-    }
-
-    /**
-     * Returns the number of related SysSqlquerydetail objects.
-     *
-     * @param Criteria $criteria
-     * @param boolean $distinct
-     * @param PropelPDO $con
-     * @return int             Count of related SysSqlquerydetail objects.
-     * @throws PropelException
-     */
-    public function countSysSqlquerydetails(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
-    {
-        $partial = $this->collSysSqlquerydetailsPartial && !$this->isNew();
-        if (null === $this->collSysSqlquerydetails || null !== $criteria || $partial) {
-            if ($this->isNew() && null === $this->collSysSqlquerydetails) {
-                return 0;
-            } else {
-                if($partial && !$criteria) {
-                    return count($this->getSysSqlquerydetails());
-                }
-                $query = SysSqlquerydetailQuery::create(null, $criteria);
-                if ($distinct) {
-                    $query->distinct();
-                }
-
-                return $query
-                    ->filterBySysSqlquery($this)
-                    ->count($con);
-            }
-        } else {
-            return count($this->collSysSqlquerydetails);
-        }
-    }
-
-    /**
-     * Method called to associate a SysSqlquerydetail object to this object
-     * through the SysSqlquerydetail foreign key attribute.
-     *
-     * @param    SysSqlquerydetail $l SysSqlquerydetail
-     * @return SysSqlquery The current object (for fluent API support)
-     */
-    public function addSysSqlquerydetail(SysSqlquerydetail $l)
-    {
-        if ($this->collSysSqlquerydetails === null) {
-            $this->initSysSqlquerydetails();
-            $this->collSysSqlquerydetailsPartial = true;
-        }
-        if (!$this->collSysSqlquerydetails->contains($l)) { // only add it if the **same** object is not already associated
-            $this->doAddSysSqlquerydetail($l);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param	SysSqlquerydetail $sysSqlquerydetail The sysSqlquerydetail object to add.
-     */
-    protected function doAddSysSqlquerydetail($sysSqlquerydetail)
-    {
-        $this->collSysSqlquerydetails[]= $sysSqlquerydetail;
-        $sysSqlquerydetail->setSysSqlquery($this);
-    }
-
-    /**
-     * @param	SysSqlquerydetail $sysSqlquerydetail The sysSqlquerydetail object to remove.
-     */
-    public function removeSysSqlquerydetail($sysSqlquerydetail)
-    {
-        if ($this->getSysSqlquerydetails()->contains($sysSqlquerydetail)) {
-            $this->collSysSqlquerydetails->remove($this->collSysSqlquerydetails->search($sysSqlquerydetail));
-            if (null === $this->sysSqlquerydetailsScheduledForDeletion) {
-                $this->sysSqlquerydetailsScheduledForDeletion = clone $this->collSysSqlquerydetails;
-                $this->sysSqlquerydetailsScheduledForDeletion->clear();
-            }
-            $this->sysSqlquerydetailsScheduledForDeletion[]= $sysSqlquerydetail;
-            $sysSqlquerydetail->setSysSqlquery(null);
-        }
-    }
-
     /**
      * Clears the current object and sets all attributes to their default values
      */
@@ -1581,6 +1349,7 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
         $this->strstatement = null;
         $this->strname = null;
         $this->strdescription = null;
+        $this->strprimaryfield = null;
         $this->dbversionid = null;
         $this->blnactive = null;
         $this->intcreatedby = null;
@@ -1607,17 +1376,8 @@ abstract class BaseSysSqlquery extends BaseObject implements Persistent
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->collSysSqlquerydetails) {
-                foreach ($this->collSysSqlquerydetails as $o) {
-                    $o->clearAllReferences($deep);
-                }
-            }
         } // if ($deep)
 
-        if ($this->collSysSqlquerydetails instanceof PropelCollection) {
-            $this->collSysSqlquerydetails->clearIterator();
-        }
-        $this->collSysSqlquerydetails = null;
     }
 
     /**

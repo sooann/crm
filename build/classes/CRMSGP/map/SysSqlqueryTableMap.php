@@ -42,6 +42,7 @@ class SysSqlqueryTableMap extends TableMap
         $this->addColumn('STRSTATEMENT', 'Statement', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STRNAME', 'Name', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STRDESCRIPTION', 'Description', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('STRPRIMARYFIELD', 'Primaryfield', 'VARCHAR', false, 255, null);
         $this->addColumn('DBVERSIONID', 'Dbversionid', 'BIGINT', false, null, null);
         $this->addColumn('BLNACTIVE', 'Active', 'INTEGER', false, null, null);
         $this->addColumn('INTCREATEDBY', 'Createdby', 'BIGINT', false, null, null);
@@ -56,7 +57,6 @@ class SysSqlqueryTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysSqlquerydetail', 'SysSqlquerydetail', RelationMap::ONE_TO_MANY, array('sqlquery_id' => 'sqlquery_id', ), null, null, 'SysSqlquerydetails');
     } // buildRelations()
 
     /**
