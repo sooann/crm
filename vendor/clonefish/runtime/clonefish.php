@@ -111,7 +111,7 @@ class clonefish {
    * @var    string 
    * @access public 
    */
-  var $jspath  = 'js/clonefish/clonefish.js';
+  var $jspath  = '/crm/js/clonefish/clonefish.js';
 
   /**
    * Enable or disable JavaScript in the form.
