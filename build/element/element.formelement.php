@@ -15,6 +15,9 @@ var $json="";
 var $pattern = "";
 
 	public function getHTML() {
+		if ($this->json=="") {
+					$this->json = '{"data" : [ { "data": "Form Elements", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [] } ] }';
+				}
 		
 		return '
 		<script type="text/javascript" src="/crm/js/jquery.js"></script>
@@ -82,7 +85,6 @@ var $pattern = "";
 	}
 
 	public function setValue($value, $magic_quotes_gpc) {
-		
 				$value = $this->_prepareInput( $value, $magic_quotes_gpc );
 				
 				if (count($_POST)==0) {
@@ -99,34 +101,36 @@ protected function getPHPArray ($value) {
 		$this->value=array();
 		if (json_decode($value)!==NULL) {
 			$prop = json_decode($value);
-			//echo str_replace("\n","<br />",var_export($prop[0]->children,TRUE));
+			//echo str_replace("\n","<br />",var_export($prop[0],TRUE));
 			$arrtext="";
-			foreach ($prop[0]->children as $e) {
-				$arrtext .= '"'.$e->data.'"=> array(';
-				foreach ($e->children as $ep) {
-					if ($ep->data!="") {
-						$exp = explode("=>", $ep->data);
-						if ($exp[1]=="{array}") {
-							$arrtext .= $exp[0] . "=>array(" ;
-							if (property_exists($ep, "children")) {
-								foreach ($ep->children as $epa) {
-									$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+			if (method_exists($prop[0],"children")) {
+				foreach ($prop[0]->children as $e) {
+					$arrtext .= '"'.$e->data.'"=> array(';
+					foreach ($e->children as $ep) {
+						if ($ep->data!="") {
+							$exp = explode("=>", $ep->data);
+							if ($exp[1]=="{array}") {
+								$arrtext .= $exp[0] . "=>array(" ;
+								if (property_exists($ep, "children")) {
+									foreach ($ep->children as $epa) {
+										$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+									}
 								}
+								if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+									$arrtext = substr($arrtext, 0, -1);
+								}
+								$arrtext .= ")," ;
+							} else {
+								$arrtext .= str_replace("[]","array()",$ep->data) . ",";
 							}
-							if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-								$arrtext = substr($arrtext, 0, -1);
-							}
-							$arrtext .= ")," ;
-						} else {
-							$arrtext .= str_replace("[]","array()",$ep->data) . ",";
 						}
+
 					}
-					
+					if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+						$arrtext = substr($arrtext, 0, -1);
+					}
+					$arrtext .= "),";
 				}
-				if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-					$arrtext = substr($arrtext, 0, -1);
-				}
-				$arrtext .= "),";
 			}
 			if (substr($arrtext,strlen($arrtext)-1,1)==",") {
 				$arrtext = substr($arrtext, 0, -1);
