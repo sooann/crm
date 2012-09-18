@@ -1582,7 +1582,7 @@
 						if(callback) { callback.call(this, t); }
 						if(p.length && p.hasClass("jstree-closed")) { this.open_node(p, false, true); }
 						if(!skip_rename) { 
-							this._show_input(t, function (obj, new_name, old_name) { 
+							this._show_option(t, function (obj, new_name, old_name) { 
 								_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
 							});
 						}
@@ -4743,6 +4743,12 @@
 				if (this.data.onelevelcrrm!=undefined) {
 					var checktype=true;
 					var tobj = this._get_parent(obj);
+					
+					if (this._get_parent(obj)==-1) {
+						checktype=true;
+					} else {
+						checktype=false;
+					}
 					
 					if (!checktype) {
                         var k = this.get_settings().contextmenu.items; 
