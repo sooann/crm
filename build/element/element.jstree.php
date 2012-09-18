@@ -16,7 +16,7 @@ var $json= '{ "data" : [ { "data": "Form Elements", "attr": { "class": "" }, "st
 
 var $pattern = "";
 
-var $plugins = array("themes","json_data","ui","onelevel","cookies","dnd","search","types","hotkeys","contextmenu");
+var $plugins = array("themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu");
 	
 	public function getHTML() {
 		
