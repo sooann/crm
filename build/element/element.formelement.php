@@ -28,7 +28,7 @@ var $pattern = "";
 		<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
 		<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
 		<script type="text/javascript">
-			var treedata = '.$this->json.';
+			var '.$this->_getHTMLId().'_treedata = '.$this->json.';
 			$(function () {
 			// TO CREATE AN INSTANCE
 			// select the tree container using jQuery
@@ -36,7 +36,7 @@ var $pattern = "";
 				// call `.jstree` with the options object
 				.jstree({
 					// the `plugins` array allows you to configure the active plugins on this instance
-					"json_data" : treedata,
+					"json_data" : '.$this->_getHTMLId().'_treedata,
 					"themes" : {
 						"theme" : "default",
 						"dots" : true,

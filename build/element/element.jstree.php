@@ -18,16 +18,22 @@ var $pattern = "";
 var $plugins = array("themes","json_data","ui","onelevel","cookies","dnd","search","types","hotkeys","contextmenu");
 
 	public function getHTML() {
-		return '
-				<script type="text/javascript" src="/crm/js/jquery.js"></script>
+		/*
+		 *		temporary remove declaration for javascript
+		 *		<script type="text/javascript" src="/crm/js/jquery.js"></script>
 				<script type="text/javascript" src="/crm/js/jquery.cookie.js"></script>
 				<script type="text/javascript" src="/crm/js/jquery.hotkeys.js"></script>
 				<script type="text/javascript" src="/crm/js/jquery.jstree.js"></script>
 				<link type="text/css" rel="stylesheet" href="/crm/css/!style.css"/>
+				
+		 * 
+		 */
+		
+		return '
 				<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
 				<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
 				<script type="text/javascript">
-					var treedata = '.$this->json.';
+					var '.$this->_getHTMLId().'_treedata = '.$this->json.';
 					$(function () {
 					// TO CREATE AN INSTANCE
 					// select the tree container using jQuery
@@ -35,7 +41,7 @@ var $plugins = array("themes","json_data","ui","onelevel","cookies","dnd","searc
 						// call `.jstree` with the options object
 						.jstree({
 							// the `plugins` array allows you to configure the active plugins on this instance
-							"json_data" : treedata,
+							"json_data" : '.$this->_getHTMLId().'_treedata,
 							"themes" : {
 								"theme" : "default",
 								"dots" : true,
