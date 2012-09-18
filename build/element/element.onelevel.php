@@ -11,11 +11,14 @@
 */
 		
 class onelevel extends jstree {
+	
 	function __construct($key, $configvalues) {
-		//set plugins
-		array_replace_value($this->plugins, "crrm", "onelevel");
-				
+		
 		parent::__construct($key, $configvalues);
+		
+		//configure onelevel plugins
+		$this->replacePlugins("crrm", "onelevel");
+		
 	}
 
 

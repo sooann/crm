@@ -15,7 +15,7 @@ var $json= '{ "data" : [ { "data": "Form Elements", "attr": { "class": "" }, "st
 
 var $pattern = "";
 
-var $plugins = array("themes","json_data","ui","onelevel","cookies","dnd","search","types","hotkeys","contextmenu");
+var $plugins = array("themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu");
 
 	public function getHTML() {
 		/*
@@ -181,6 +181,10 @@ protected function getPHPArray ($value) {
 	
 	protected function getPlugins() {
 		return array_to_string($this->plugins, true);
+	}
+	
+	public function replacePlugins ($search,$replace) {
+		$this->plugins = array_replace_value($this->plugins, $search, $replace);
 	}
 	
 	private function getPattern () {
