@@ -60,10 +60,8 @@ class jstree extends element {
 								"icons" : false
 							},
 							"plugins" : ['.$this->getPlugins().'],
+							"pattern" : ['.$this->getPattern().']
 							
-							"'.  get_class() . '" : {
-								"pattern" : [ '.$this->getPattern().' ]
-							}
 							// it makes sense to configure a plugin only if overriding the defaults
 						})
 						.bind("loaded.jstree", function (event, data) {

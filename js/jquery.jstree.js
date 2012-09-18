@@ -1547,17 +1547,11 @@
 					});
 
 					//display type option
-					h2.append(
-						$("<option />", {
-							"value" : "type",
-							"html" : "type"
-						})
-					);
-					for (var i=0; i<this._get_settings().onelevelcrrm.pattern.length; i++){
-						h7.append(
+					for (var i=0; i<this._get_settings().pattern.length; i++){
+						h2.append(
 							$("<option />", {
-								"value" : this._get_settings().onelevelcrrm.pattern[i],
-								"html" : this._get_settings().onelevelcrrm.pattern[i]
+								"value" : this._get_settings().pattern[i],
+								"html" : this._get_settings().pattern[i]
 							})
 						);
 					}
@@ -4747,7 +4741,7 @@
 					y = o.top + this.data.core.li_height;
 				}
 				if (this.data.onelevelcrrm!=undefined) {
-					var checktype=false;
+					var checktype=true;
 					var tobj = this._get_parent(obj);
 					
 					if (!checktype) {
