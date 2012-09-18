@@ -18,4 +18,15 @@ function array_to_string ($arr, $addquote) {
 	return $text;
 	
 }
+
+function array_replace_value ($arr, $search, $replace) {
+	
+	for ($array_replace_value_count=0; $array_replace_value_count<count($arr); $array_replace_value_count++ ) {
+		if ($arr[$array_replace_value_count]==$search) {
+			$arr[$array_replace_value_count]=$replace;
+		}
+	}
+	
+	return $arr;
+}
 ?>
