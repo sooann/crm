@@ -2,7 +2,15 @@
 
 function array_to_string ($arr, $addquote) {
 	$text="";
-	$temparr = explode(",", $arr);
+	$temparr = array();
+	
+	if (!is_array($arr)) {
+		if ($arr!="") {
+			//removing trailing quotes
+			$temparr = explode(",", str_replace('"', "", $arr));
+		}
+	}
+	
 	foreach ($temparr as $value) {
 		if ($value!="") {
 			if ($addquote) {
