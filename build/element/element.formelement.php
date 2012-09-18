@@ -28,7 +28,7 @@ var $pattern = "";
 		<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
 		<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
 		<script type="text/javascript">
-			var '.$this->_getHTMLId().'_treedata = '.$this->json.';
+			var treedata = '.$this->json.';
 			$(function () {
 			// TO CREATE AN INSTANCE
 			// select the tree container using jQuery
@@ -36,7 +36,7 @@ var $pattern = "";
 				// call `.jstree` with the options object
 				.jstree({
 					// the `plugins` array allows you to configure the active plugins on this instance
-					"json_data" : '.$this->_getHTMLId().'_treedata,
+					"json_data" : treedata,
 					"themes" : {
 						"theme" : "default",
 						"dots" : true,
@@ -101,8 +101,7 @@ protected function getPHPArray ($value) {
 		$this->value=array();
 		if (json_decode($value)!==NULL) {
 			$prop = json_decode($value);
-			//echo str_replace("\n","<br />",var_export($prop->data,TRUE));
-			//exit();
+			//echo str_replace("\n","<br />",var_export($prop[0],TRUE));
 			$arrtext="";
 			if (property_exists($prop->data[0],"children")) {
 				foreach ($prop->data[0]->children as $e) {
