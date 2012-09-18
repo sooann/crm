@@ -57,6 +57,7 @@ class SysSqlqueryTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('SysWebpage', 'SysWebpage', RelationMap::ONE_TO_MANY, array('sqlquery_id' => 'sqlquery_id', ), null, null, 'SysWebpages');
     } // buildRelations()
 
     /**

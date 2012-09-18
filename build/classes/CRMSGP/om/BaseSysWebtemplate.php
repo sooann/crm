@@ -778,7 +778,7 @@ abstract class BaseSysWebtemplate extends BaseObject implements Persistent
                 $this->postSave($con);
                 // sqlaudit behavior
 
-                if (!class_exists('SecSqlaudit', false)) {
+                if (class_exists('SecSqlaudit', true)==true) {
                     if (get_class($this)!='SecSqlaudit') {
                         $SqlAudit = new SecSqlaudit();
                         $SqlAudit->setSqlstatement($con->getLastExecutedQuery());
