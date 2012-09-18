@@ -9,13 +9,6 @@ require_once 'vendor/propel/runtime/lib/Propel.php';
 Propel::init("build/conf/CRM".$strDBRegion."-conf.php");
 set_include_path("build/classes" . PATH_SEPARATOR . get_include_path());
 
-//Clonefish init
-//include "vendor/clonefish/runtime/clonefish.php";
-//include "vendor/clonefish/runtime/messages_en.php";
-
-//slim microframework init
-require "vendor/slim/Slim.php";
-
 //CMS final autoloaders
 require 'build/autoloader/autoloader.php';
 spl_autoload_register('__autoload');	
