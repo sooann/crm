@@ -47,10 +47,17 @@ class SysWebpageTableMap extends TableMap
         $this->addColumn('STRREQUIREDPARAMETERS', 'Requiredparameters', 'VARCHAR', false, 255, null);
         $this->addColumn('STRWEBPAGEFACTORY', 'Webpagefactory', 'VARCHAR', false, 255, null);
         $this->addColumn('STRHTML', 'Html', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('STRCOMMONJS', 'Commonjs', 'LONGVARCHAR', false, null, null);
         $this->addColumn('CLONEFISHPARENTID', 'Clonefishparentid', 'BIGINT', false, null, null);
         $this->addColumn('STRCLONEFISHCONFIG', 'Clonefishconfig', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STRORMCLASS', 'Ormclass', 'VARCHAR', false, 255, null);
         $this->addColumn('STRSUCCREDIRECT', 'Succredirect', 'VARCHAR', false, 255, null);
+        $this->addForeignKey('SQLQUERY_ID', 'SqlqueryId', 'BIGINT', 'SYS_SQLQuery', 'SQLQUERY_ID', false, null, null);
+        $this->addColumn('STRGRIDOPTIONS', 'Gridoptions', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('STREDITBASELINKURL', 'Editbaselinkurl', 'VARCHAR', false, 255, null);
+        $this->addColumn('STREDITCUSTOMFUNCNAME', 'Editcustomfuncname', 'VARCHAR', false, 255, null);
+        $this->addColumn('STREDITCUSTOMFUNCTION', 'Editcustomfunction', 'LONGVARCHAR', false, null, null);
+        $this->addColumn('STRMULTISELECTCUSTOMFUNCTION', 'Multiselectcustomfunction', 'LONGVARCHAR', false, null, null);
         $this->addColumn('BLNACTIVE', 'Active', 'INTEGER', false, null, null);
         $this->addColumn('DBVERSIONID', 'Dbversionid', 'INTEGER', false, null, null);
         $this->addColumn('INTCREATEDBY', 'Createdby', 'BIGINT', false, null, null);
@@ -66,6 +73,7 @@ class SysWebpageTableMap extends TableMap
     public function buildRelations()
     {
         $this->addRelation('SysWebtemplate', 'SysWebtemplate', RelationMap::MANY_TO_ONE, array('webtemplate_id' => 'webtemplate_id', ), null, null);
+        $this->addRelation('SysSqlquery', 'SysSqlquery', RelationMap::MANY_TO_ONE, array('sqlquery_id' => 'sqlquery_id', ), null, null);
     } // buildRelations()
 
     /**

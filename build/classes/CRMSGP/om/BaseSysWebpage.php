@@ -84,6 +84,12 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     protected $strhtml;
 
     /**
+     * The value for the strcommonjs field.
+     * @var        string
+     */
+    protected $strcommonjs;
+
+    /**
      * The value for the clonefishparentid field.
      * @var        string
      */
@@ -106,6 +112,42 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
      * @var        string
      */
     protected $strsuccredirect;
+
+    /**
+     * The value for the sqlquery_id field.
+     * @var        string
+     */
+    protected $sqlquery_id;
+
+    /**
+     * The value for the strgridoptions field.
+     * @var        string
+     */
+    protected $strgridoptions;
+
+    /**
+     * The value for the streditbaselinkurl field.
+     * @var        string
+     */
+    protected $streditbaselinkurl;
+
+    /**
+     * The value for the streditcustomfuncname field.
+     * @var        string
+     */
+    protected $streditcustomfuncname;
+
+    /**
+     * The value for the streditcustomfunction field.
+     * @var        string
+     */
+    protected $streditcustomfunction;
+
+    /**
+     * The value for the strmultiselectcustomfunction field.
+     * @var        string
+     */
+    protected $strmultiselectcustomfunction;
 
     /**
      * The value for the blnactive field.
@@ -147,6 +189,11 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
      * @var        SysWebtemplate
      */
     protected $aSysWebtemplate;
+
+    /**
+     * @var        SysSqlquery
+     */
+    protected $aSysSqlquery;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -253,6 +300,16 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     }
 
     /**
+     * Get the [strcommonjs] column value.
+     *
+     * @return string
+     */
+    public function getCommonjs()
+    {
+        return $this->strcommonjs;
+    }
+
+    /**
      * Get the [clonefishparentid] column value.
      *
      * @return string
@@ -290,6 +347,66 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     public function getSuccredirect()
     {
         return $this->strsuccredirect;
+    }
+
+    /**
+     * Get the [sqlquery_id] column value.
+     *
+     * @return string
+     */
+    public function getSqlqueryId()
+    {
+        return $this->sqlquery_id;
+    }
+
+    /**
+     * Get the [strgridoptions] column value.
+     *
+     * @return string
+     */
+    public function getGridoptions()
+    {
+        return $this->strgridoptions;
+    }
+
+    /**
+     * Get the [streditbaselinkurl] column value.
+     *
+     * @return string
+     */
+    public function getEditbaselinkurl()
+    {
+        return $this->streditbaselinkurl;
+    }
+
+    /**
+     * Get the [streditcustomfuncname] column value.
+     *
+     * @return string
+     */
+    public function getEditcustomfuncname()
+    {
+        return $this->streditcustomfuncname;
+    }
+
+    /**
+     * Get the [streditcustomfunction] column value.
+     *
+     * @return string
+     */
+    public function getEditcustomfunction()
+    {
+        return $this->streditcustomfunction;
+    }
+
+    /**
+     * Get the [strmultiselectcustomfunction] column value.
+     *
+     * @return string
+     */
+    public function getMultiselectcustomfunction()
+    {
+        return $this->strmultiselectcustomfunction;
     }
 
     /**
@@ -600,6 +717,27 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     } // setHtml()
 
     /**
+     * Set the value of [strcommonjs] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setCommonjs($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strcommonjs !== $v) {
+            $this->strcommonjs = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STRCOMMONJS;
+        }
+
+
+        return $this;
+    } // setCommonjs()
+
+    /**
      * Set the value of [clonefishparentid] column.
      *
      * @param string $v new value
@@ -682,6 +820,136 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
 
         return $this;
     } // setSuccredirect()
+
+    /**
+     * Set the value of [sqlquery_id] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setSqlqueryId($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->sqlquery_id !== $v) {
+            $this->sqlquery_id = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::SQLQUERY_ID;
+        }
+
+        if ($this->aSysSqlquery !== null && $this->aSysSqlquery->getSqlqueryId() !== $v) {
+            $this->aSysSqlquery = null;
+        }
+
+
+        return $this;
+    } // setSqlqueryId()
+
+    /**
+     * Set the value of [strgridoptions] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setGridoptions($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strgridoptions !== $v) {
+            $this->strgridoptions = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STRGRIDOPTIONS;
+        }
+
+
+        return $this;
+    } // setGridoptions()
+
+    /**
+     * Set the value of [streditbaselinkurl] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setEditbaselinkurl($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->streditbaselinkurl !== $v) {
+            $this->streditbaselinkurl = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STREDITBASELINKURL;
+        }
+
+
+        return $this;
+    } // setEditbaselinkurl()
+
+    /**
+     * Set the value of [streditcustomfuncname] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setEditcustomfuncname($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->streditcustomfuncname !== $v) {
+            $this->streditcustomfuncname = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STREDITCUSTOMFUNCNAME;
+        }
+
+
+        return $this;
+    } // setEditcustomfuncname()
+
+    /**
+     * Set the value of [streditcustomfunction] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setEditcustomfunction($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->streditcustomfunction !== $v) {
+            $this->streditcustomfunction = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STREDITCUSTOMFUNCTION;
+        }
+
+
+        return $this;
+    } // setEditcustomfunction()
+
+    /**
+     * Set the value of [strmultiselectcustomfunction] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setMultiselectcustomfunction($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strmultiselectcustomfunction !== $v) {
+            $this->strmultiselectcustomfunction = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION;
+        }
+
+
+        return $this;
+    } // setMultiselectcustomfunction()
 
     /**
      * Set the value of [blnactive] column.
@@ -854,16 +1122,23 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $this->strrequiredparameters = ($row[$startcol + 6] !== null) ? (string) $row[$startcol + 6] : null;
             $this->strwebpagefactory = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
             $this->strhtml = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
-            $this->clonefishparentid = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
-            $this->strclonefishconfig = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
-            $this->strormclass = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
-            $this->strsuccredirect = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
-            $this->blnactive = ($row[$startcol + 13] !== null) ? (int) $row[$startcol + 13] : null;
-            $this->dbversionid = ($row[$startcol + 14] !== null) ? (int) $row[$startcol + 14] : null;
-            $this->intcreatedby = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
-            $this->intmodifiedby = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
-            $this->dtcreateddate = ($row[$startcol + 17] !== null) ? (string) $row[$startcol + 17] : null;
-            $this->dtmodifieddate = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
+            $this->strcommonjs = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->clonefishparentid = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->strclonefishconfig = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
+            $this->strormclass = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+            $this->strsuccredirect = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
+            $this->sqlquery_id = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
+            $this->strgridoptions = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
+            $this->streditbaselinkurl = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
+            $this->streditcustomfuncname = ($row[$startcol + 17] !== null) ? (string) $row[$startcol + 17] : null;
+            $this->streditcustomfunction = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
+            $this->strmultiselectcustomfunction = ($row[$startcol + 19] !== null) ? (string) $row[$startcol + 19] : null;
+            $this->blnactive = ($row[$startcol + 20] !== null) ? (int) $row[$startcol + 20] : null;
+            $this->dbversionid = ($row[$startcol + 21] !== null) ? (int) $row[$startcol + 21] : null;
+            $this->intcreatedby = ($row[$startcol + 22] !== null) ? (string) $row[$startcol + 22] : null;
+            $this->intmodifiedby = ($row[$startcol + 23] !== null) ? (string) $row[$startcol + 23] : null;
+            $this->dtcreateddate = ($row[$startcol + 24] !== null) ? (string) $row[$startcol + 24] : null;
+            $this->dtmodifieddate = ($row[$startcol + 25] !== null) ? (string) $row[$startcol + 25] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -872,7 +1147,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 19; // 19 = SysWebpagePeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 26; // 26 = SysWebpagePeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating SysWebpage object", $e);
@@ -897,6 +1172,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
 
         if ($this->aSysWebtemplate !== null && $this->webtemplate_id !== $this->aSysWebtemplate->getWebtemplateId()) {
             $this->aSysWebtemplate = null;
+        }
+        if ($this->aSysSqlquery !== null && $this->sqlquery_id !== $this->aSysSqlquery->getSqlqueryId()) {
+            $this->aSysSqlquery = null;
         }
     } // ensureConsistency
 
@@ -938,6 +1216,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if ($deep) {  // also de-associate any related objects?
 
             $this->aSysWebtemplate = null;
+            $this->aSysSqlquery = null;
         } // if (deep)
     }
 
@@ -1106,6 +1385,13 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 $this->setSysWebtemplate($this->aSysWebtemplate);
             }
 
+            if ($this->aSysSqlquery !== null) {
+                if ($this->aSysSqlquery->isModified() || $this->aSysSqlquery->isNew()) {
+                    $affectedRows += $this->aSysSqlquery->save($con);
+                }
+                $this->setSysSqlquery($this->aSysSqlquery);
+            }
+
             if ($this->isNew() || $this->isModified()) {
                 // persist changes
                 if ($this->isNew()) {
@@ -1170,6 +1456,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagePeer::STRHTML)) {
             $modifiedColumns[':p' . $index++]  = '`STRHTML`';
         }
+        if ($this->isColumnModified(SysWebpagePeer::STRCOMMONJS)) {
+            $modifiedColumns[':p' . $index++]  = '`STRCOMMONJS`';
+        }
         if ($this->isColumnModified(SysWebpagePeer::CLONEFISHPARENTID)) {
             $modifiedColumns[':p' . $index++]  = '`CLONEFISHPARENTID`';
         }
@@ -1181,6 +1470,24 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         }
         if ($this->isColumnModified(SysWebpagePeer::STRSUCCREDIRECT)) {
             $modifiedColumns[':p' . $index++]  = '`STRSUCCREDIRECT`';
+        }
+        if ($this->isColumnModified(SysWebpagePeer::SQLQUERY_ID)) {
+            $modifiedColumns[':p' . $index++]  = '`SQLQUERY_ID`';
+        }
+        if ($this->isColumnModified(SysWebpagePeer::STRGRIDOPTIONS)) {
+            $modifiedColumns[':p' . $index++]  = '`STRGRIDOPTIONS`';
+        }
+        if ($this->isColumnModified(SysWebpagePeer::STREDITBASELINKURL)) {
+            $modifiedColumns[':p' . $index++]  = '`STREDITBASELINKURL`';
+        }
+        if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCNAME)) {
+            $modifiedColumns[':p' . $index++]  = '`STREDITCUSTOMFUNCNAME`';
+        }
+        if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCTION)) {
+            $modifiedColumns[':p' . $index++]  = '`STREDITCUSTOMFUNCTION`';
+        }
+        if ($this->isColumnModified(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION)) {
+            $modifiedColumns[':p' . $index++]  = '`STRMULTISELECTCUSTOMFUNCTION`';
         }
         if ($this->isColumnModified(SysWebpagePeer::BLNACTIVE)) {
             $modifiedColumns[':p' . $index++]  = '`BLNACTIVE`';
@@ -1238,6 +1545,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                     case '`STRHTML`':
                         $stmt->bindValue($identifier, $this->strhtml, PDO::PARAM_STR);
                         break;
+                    case '`STRCOMMONJS`':
+                        $stmt->bindValue($identifier, $this->strcommonjs, PDO::PARAM_STR);
+                        break;
                     case '`CLONEFISHPARENTID`':
                         $stmt->bindValue($identifier, $this->clonefishparentid, PDO::PARAM_INT);
                         break;
@@ -1249,6 +1559,24 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                         break;
                     case '`STRSUCCREDIRECT`':
                         $stmt->bindValue($identifier, $this->strsuccredirect, PDO::PARAM_STR);
+                        break;
+                    case '`SQLQUERY_ID`':
+                        $stmt->bindValue($identifier, $this->sqlquery_id, PDO::PARAM_INT);
+                        break;
+                    case '`STRGRIDOPTIONS`':
+                        $stmt->bindValue($identifier, $this->strgridoptions, PDO::PARAM_STR);
+                        break;
+                    case '`STREDITBASELINKURL`':
+                        $stmt->bindValue($identifier, $this->streditbaselinkurl, PDO::PARAM_STR);
+                        break;
+                    case '`STREDITCUSTOMFUNCNAME`':
+                        $stmt->bindValue($identifier, $this->streditcustomfuncname, PDO::PARAM_STR);
+                        break;
+                    case '`STREDITCUSTOMFUNCTION`':
+                        $stmt->bindValue($identifier, $this->streditcustomfunction, PDO::PARAM_STR);
+                        break;
+                    case '`STRMULTISELECTCUSTOMFUNCTION`':
+                        $stmt->bindValue($identifier, $this->strmultiselectcustomfunction, PDO::PARAM_STR);
                         break;
                     case '`BLNACTIVE`':
                         $stmt->bindValue($identifier, $this->blnactive, PDO::PARAM_INT);
@@ -1373,6 +1701,12 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 }
             }
 
+            if ($this->aSysSqlquery !== null) {
+                if (!$this->aSysSqlquery->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aSysSqlquery->getValidationFailures());
+                }
+            }
+
 
             if (($retval = SysWebpagePeer::doValidate($this, $columns)) !== true) {
                 $failureMap = array_merge($failureMap, $retval);
@@ -1442,33 +1776,54 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 return $this->getHtml();
                 break;
             case 9:
-                return $this->getClonefishparentid();
+                return $this->getCommonjs();
                 break;
             case 10:
-                return $this->getClonefishconfig();
+                return $this->getClonefishparentid();
                 break;
             case 11:
-                return $this->getOrmclass();
+                return $this->getClonefishconfig();
                 break;
             case 12:
-                return $this->getSuccredirect();
+                return $this->getOrmclass();
                 break;
             case 13:
-                return $this->getActive();
+                return $this->getSuccredirect();
                 break;
             case 14:
-                return $this->getDbversionid();
+                return $this->getSqlqueryId();
                 break;
             case 15:
-                return $this->getCreatedby();
+                return $this->getGridoptions();
                 break;
             case 16:
-                return $this->getModifiedby();
+                return $this->getEditbaselinkurl();
                 break;
             case 17:
-                return $this->getCreateddate();
+                return $this->getEditcustomfuncname();
                 break;
             case 18:
+                return $this->getEditcustomfunction();
+                break;
+            case 19:
+                return $this->getMultiselectcustomfunction();
+                break;
+            case 20:
+                return $this->getActive();
+                break;
+            case 21:
+                return $this->getDbversionid();
+                break;
+            case 22:
+                return $this->getCreatedby();
+                break;
+            case 23:
+                return $this->getModifiedby();
+                break;
+            case 24:
+                return $this->getCreateddate();
+                break;
+            case 25:
                 return $this->getModifieddate();
                 break;
             default:
@@ -1509,20 +1864,30 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $keys[6] => $this->getRequiredparameters(),
             $keys[7] => $this->getWebpagefactory(),
             $keys[8] => $this->getHtml(),
-            $keys[9] => $this->getClonefishparentid(),
-            $keys[10] => $this->getClonefishconfig(),
-            $keys[11] => $this->getOrmclass(),
-            $keys[12] => $this->getSuccredirect(),
-            $keys[13] => $this->getActive(),
-            $keys[14] => $this->getDbversionid(),
-            $keys[15] => $this->getCreatedby(),
-            $keys[16] => $this->getModifiedby(),
-            $keys[17] => $this->getCreateddate(),
-            $keys[18] => $this->getModifieddate(),
+            $keys[9] => $this->getCommonjs(),
+            $keys[10] => $this->getClonefishparentid(),
+            $keys[11] => $this->getClonefishconfig(),
+            $keys[12] => $this->getOrmclass(),
+            $keys[13] => $this->getSuccredirect(),
+            $keys[14] => $this->getSqlqueryId(),
+            $keys[15] => $this->getGridoptions(),
+            $keys[16] => $this->getEditbaselinkurl(),
+            $keys[17] => $this->getEditcustomfuncname(),
+            $keys[18] => $this->getEditcustomfunction(),
+            $keys[19] => $this->getMultiselectcustomfunction(),
+            $keys[20] => $this->getActive(),
+            $keys[21] => $this->getDbversionid(),
+            $keys[22] => $this->getCreatedby(),
+            $keys[23] => $this->getModifiedby(),
+            $keys[24] => $this->getCreateddate(),
+            $keys[25] => $this->getModifieddate(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aSysWebtemplate) {
                 $result['SysWebtemplate'] = $this->aSysWebtemplate->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aSysSqlquery) {
+                $result['SysSqlquery'] = $this->aSysSqlquery->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1586,33 +1951,54 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 $this->setHtml($value);
                 break;
             case 9:
-                $this->setClonefishparentid($value);
+                $this->setCommonjs($value);
                 break;
             case 10:
-                $this->setClonefishconfig($value);
+                $this->setClonefishparentid($value);
                 break;
             case 11:
-                $this->setOrmclass($value);
+                $this->setClonefishconfig($value);
                 break;
             case 12:
-                $this->setSuccredirect($value);
+                $this->setOrmclass($value);
                 break;
             case 13:
-                $this->setActive($value);
+                $this->setSuccredirect($value);
                 break;
             case 14:
-                $this->setDbversionid($value);
+                $this->setSqlqueryId($value);
                 break;
             case 15:
-                $this->setCreatedby($value);
+                $this->setGridoptions($value);
                 break;
             case 16:
-                $this->setModifiedby($value);
+                $this->setEditbaselinkurl($value);
                 break;
             case 17:
-                $this->setCreateddate($value);
+                $this->setEditcustomfuncname($value);
                 break;
             case 18:
+                $this->setEditcustomfunction($value);
+                break;
+            case 19:
+                $this->setMultiselectcustomfunction($value);
+                break;
+            case 20:
+                $this->setActive($value);
+                break;
+            case 21:
+                $this->setDbversionid($value);
+                break;
+            case 22:
+                $this->setCreatedby($value);
+                break;
+            case 23:
+                $this->setModifiedby($value);
+                break;
+            case 24:
+                $this->setCreateddate($value);
+                break;
+            case 25:
                 $this->setModifieddate($value);
                 break;
         } // switch()
@@ -1648,16 +2034,23 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if (array_key_exists($keys[6], $arr)) $this->setRequiredparameters($arr[$keys[6]]);
         if (array_key_exists($keys[7], $arr)) $this->setWebpagefactory($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setHtml($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setClonefishparentid($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setClonefishconfig($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setOrmclass($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setSuccredirect($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setActive($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setDbversionid($arr[$keys[14]]);
-        if (array_key_exists($keys[15], $arr)) $this->setCreatedby($arr[$keys[15]]);
-        if (array_key_exists($keys[16], $arr)) $this->setModifiedby($arr[$keys[16]]);
-        if (array_key_exists($keys[17], $arr)) $this->setCreateddate($arr[$keys[17]]);
-        if (array_key_exists($keys[18], $arr)) $this->setModifieddate($arr[$keys[18]]);
+        if (array_key_exists($keys[9], $arr)) $this->setCommonjs($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setClonefishparentid($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setClonefishconfig($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setOrmclass($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setSuccredirect($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setSqlqueryId($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setGridoptions($arr[$keys[15]]);
+        if (array_key_exists($keys[16], $arr)) $this->setEditbaselinkurl($arr[$keys[16]]);
+        if (array_key_exists($keys[17], $arr)) $this->setEditcustomfuncname($arr[$keys[17]]);
+        if (array_key_exists($keys[18], $arr)) $this->setEditcustomfunction($arr[$keys[18]]);
+        if (array_key_exists($keys[19], $arr)) $this->setMultiselectcustomfunction($arr[$keys[19]]);
+        if (array_key_exists($keys[20], $arr)) $this->setActive($arr[$keys[20]]);
+        if (array_key_exists($keys[21], $arr)) $this->setDbversionid($arr[$keys[21]]);
+        if (array_key_exists($keys[22], $arr)) $this->setCreatedby($arr[$keys[22]]);
+        if (array_key_exists($keys[23], $arr)) $this->setModifiedby($arr[$keys[23]]);
+        if (array_key_exists($keys[24], $arr)) $this->setCreateddate($arr[$keys[24]]);
+        if (array_key_exists($keys[25], $arr)) $this->setModifieddate($arr[$keys[25]]);
     }
 
     /**
@@ -1678,10 +2071,17 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagePeer::STRREQUIREDPARAMETERS)) $criteria->add(SysWebpagePeer::STRREQUIREDPARAMETERS, $this->strrequiredparameters);
         if ($this->isColumnModified(SysWebpagePeer::STRWEBPAGEFACTORY)) $criteria->add(SysWebpagePeer::STRWEBPAGEFACTORY, $this->strwebpagefactory);
         if ($this->isColumnModified(SysWebpagePeer::STRHTML)) $criteria->add(SysWebpagePeer::STRHTML, $this->strhtml);
+        if ($this->isColumnModified(SysWebpagePeer::STRCOMMONJS)) $criteria->add(SysWebpagePeer::STRCOMMONJS, $this->strcommonjs);
         if ($this->isColumnModified(SysWebpagePeer::CLONEFISHPARENTID)) $criteria->add(SysWebpagePeer::CLONEFISHPARENTID, $this->clonefishparentid);
         if ($this->isColumnModified(SysWebpagePeer::STRCLONEFISHCONFIG)) $criteria->add(SysWebpagePeer::STRCLONEFISHCONFIG, $this->strclonefishconfig);
         if ($this->isColumnModified(SysWebpagePeer::STRORMCLASS)) $criteria->add(SysWebpagePeer::STRORMCLASS, $this->strormclass);
         if ($this->isColumnModified(SysWebpagePeer::STRSUCCREDIRECT)) $criteria->add(SysWebpagePeer::STRSUCCREDIRECT, $this->strsuccredirect);
+        if ($this->isColumnModified(SysWebpagePeer::SQLQUERY_ID)) $criteria->add(SysWebpagePeer::SQLQUERY_ID, $this->sqlquery_id);
+        if ($this->isColumnModified(SysWebpagePeer::STRGRIDOPTIONS)) $criteria->add(SysWebpagePeer::STRGRIDOPTIONS, $this->strgridoptions);
+        if ($this->isColumnModified(SysWebpagePeer::STREDITBASELINKURL)) $criteria->add(SysWebpagePeer::STREDITBASELINKURL, $this->streditbaselinkurl);
+        if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCNAME)) $criteria->add(SysWebpagePeer::STREDITCUSTOMFUNCNAME, $this->streditcustomfuncname);
+        if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCTION)) $criteria->add(SysWebpagePeer::STREDITCUSTOMFUNCTION, $this->streditcustomfunction);
+        if ($this->isColumnModified(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION)) $criteria->add(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION, $this->strmultiselectcustomfunction);
         if ($this->isColumnModified(SysWebpagePeer::BLNACTIVE)) $criteria->add(SysWebpagePeer::BLNACTIVE, $this->blnactive);
         if ($this->isColumnModified(SysWebpagePeer::DBVERSIONID)) $criteria->add(SysWebpagePeer::DBVERSIONID, $this->dbversionid);
         if ($this->isColumnModified(SysWebpagePeer::INTCREATEDBY)) $criteria->add(SysWebpagePeer::INTCREATEDBY, $this->intcreatedby);
@@ -1759,10 +2159,17 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         $copyObj->setRequiredparameters($this->getRequiredparameters());
         $copyObj->setWebpagefactory($this->getWebpagefactory());
         $copyObj->setHtml($this->getHtml());
+        $copyObj->setCommonjs($this->getCommonjs());
         $copyObj->setClonefishparentid($this->getClonefishparentid());
         $copyObj->setClonefishconfig($this->getClonefishconfig());
         $copyObj->setOrmclass($this->getOrmclass());
         $copyObj->setSuccredirect($this->getSuccredirect());
+        $copyObj->setSqlqueryId($this->getSqlqueryId());
+        $copyObj->setGridoptions($this->getGridoptions());
+        $copyObj->setEditbaselinkurl($this->getEditbaselinkurl());
+        $copyObj->setEditcustomfuncname($this->getEditcustomfuncname());
+        $copyObj->setEditcustomfunction($this->getEditcustomfunction());
+        $copyObj->setMultiselectcustomfunction($this->getMultiselectcustomfunction());
         $copyObj->setActive($this->getActive());
         $copyObj->setDbversionid($this->getDbversionid());
         $copyObj->setCreatedby($this->getCreatedby());
@@ -1879,6 +2286,57 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     }
 
     /**
+     * Declares an association between this object and a SysSqlquery object.
+     *
+     * @param             SysSqlquery $v
+     * @return SysWebpage The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setSysSqlquery(SysSqlquery $v = null)
+    {
+        if ($v === null) {
+            $this->setSqlqueryId(NULL);
+        } else {
+            $this->setSqlqueryId($v->getSqlqueryId());
+        }
+
+        $this->aSysSqlquery = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the SysSqlquery object, it will not be re-added.
+        if ($v !== null) {
+            $v->addSysWebpage($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated SysSqlquery object
+     *
+     * @param PropelPDO $con Optional Connection object.
+     * @return SysSqlquery The associated SysSqlquery object.
+     * @throws PropelException
+     */
+    public function getSysSqlquery(PropelPDO $con = null)
+    {
+        if ($this->aSysSqlquery === null && (($this->sqlquery_id !== "" && $this->sqlquery_id !== null))) {
+            $this->aSysSqlquery = SysSqlqueryQuery::create()->findPk($this->sqlquery_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aSysSqlquery->addSysWebpages($this);
+             */
+        }
+
+        return $this->aSysSqlquery;
+    }
+
+    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -1892,10 +2350,17 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         $this->strrequiredparameters = null;
         $this->strwebpagefactory = null;
         $this->strhtml = null;
+        $this->strcommonjs = null;
         $this->clonefishparentid = null;
         $this->strclonefishconfig = null;
         $this->strormclass = null;
         $this->strsuccredirect = null;
+        $this->sqlquery_id = null;
+        $this->strgridoptions = null;
+        $this->streditbaselinkurl = null;
+        $this->streditcustomfuncname = null;
+        $this->streditcustomfunction = null;
+        $this->strmultiselectcustomfunction = null;
         $this->blnactive = null;
         $this->dbversionid = null;
         $this->intcreatedby = null;
@@ -1925,6 +2390,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         } // if ($deep)
 
         $this->aSysWebtemplate = null;
+        $this->aSysSqlquery = null;
     }
 
     /**

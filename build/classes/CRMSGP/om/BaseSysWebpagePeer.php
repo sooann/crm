@@ -24,13 +24,13 @@ abstract class BaseSysWebpagePeer
     const TM_CLASS = 'SysWebpageTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 19;
+    const NUM_COLUMNS = 26;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 19;
+    const NUM_HYDRATE_COLUMNS = 26;
 
     /** the column name for the WEBPAGE_ID field */
     const WEBPAGE_ID = 'SYS_Webpage.WEBPAGE_ID';
@@ -59,6 +59,9 @@ abstract class BaseSysWebpagePeer
     /** the column name for the STRHTML field */
     const STRHTML = 'SYS_Webpage.STRHTML';
 
+    /** the column name for the STRCOMMONJS field */
+    const STRCOMMONJS = 'SYS_Webpage.STRCOMMONJS';
+
     /** the column name for the CLONEFISHPARENTID field */
     const CLONEFISHPARENTID = 'SYS_Webpage.CLONEFISHPARENTID';
 
@@ -70,6 +73,24 @@ abstract class BaseSysWebpagePeer
 
     /** the column name for the STRSUCCREDIRECT field */
     const STRSUCCREDIRECT = 'SYS_Webpage.STRSUCCREDIRECT';
+
+    /** the column name for the SQLQUERY_ID field */
+    const SQLQUERY_ID = 'SYS_Webpage.SQLQUERY_ID';
+
+    /** the column name for the STRGRIDOPTIONS field */
+    const STRGRIDOPTIONS = 'SYS_Webpage.STRGRIDOPTIONS';
+
+    /** the column name for the STREDITBASELINKURL field */
+    const STREDITBASELINKURL = 'SYS_Webpage.STREDITBASELINKURL';
+
+    /** the column name for the STREDITCUSTOMFUNCNAME field */
+    const STREDITCUSTOMFUNCNAME = 'SYS_Webpage.STREDITCUSTOMFUNCNAME';
+
+    /** the column name for the STREDITCUSTOMFUNCTION field */
+    const STREDITCUSTOMFUNCTION = 'SYS_Webpage.STREDITCUSTOMFUNCTION';
+
+    /** the column name for the STRMULTISELECTCUSTOMFUNCTION field */
+    const STRMULTISELECTCUSTOMFUNCTION = 'SYS_Webpage.STRMULTISELECTCUSTOMFUNCTION';
 
     /** the column name for the BLNACTIVE field */
     const BLNACTIVE = 'SYS_Webpage.BLNACTIVE';
@@ -108,12 +129,12 @@ abstract class BaseSysWebpagePeer
      * e.g. SysWebpagePeer::$fieldNames[SysWebpagePeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('WebpageId', 'WebtemplateId', 'Location', 'Name', 'Description', 'Action', 'Requiredparameters', 'Webpagefactory', 'Html', 'Clonefishparentid', 'Clonefishconfig', 'Ormclass', 'Succredirect', 'Active', 'Dbversionid', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('webpageId', 'webtemplateId', 'location', 'name', 'description', 'action', 'requiredparameters', 'webpagefactory', 'html', 'clonefishparentid', 'clonefishconfig', 'ormclass', 'succredirect', 'active', 'dbversionid', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
-        BasePeer::TYPE_COLNAME => array (SysWebpagePeer::WEBPAGE_ID, SysWebpagePeer::WEBTEMPLATE_ID, SysWebpagePeer::STRLOCATION, SysWebpagePeer::STRNAME, SysWebpagePeer::STRDESCRIPTION, SysWebpagePeer::STRACTION, SysWebpagePeer::STRREQUIREDPARAMETERS, SysWebpagePeer::STRWEBPAGEFACTORY, SysWebpagePeer::STRHTML, SysWebpagePeer::CLONEFISHPARENTID, SysWebpagePeer::STRCLONEFISHCONFIG, SysWebpagePeer::STRORMCLASS, SysWebpagePeer::STRSUCCREDIRECT, SysWebpagePeer::BLNACTIVE, SysWebpagePeer::DBVERSIONID, SysWebpagePeer::INTCREATEDBY, SysWebpagePeer::INTMODIFIEDBY, SysWebpagePeer::DTCREATEDDATE, SysWebpagePeer::DTMODIFIEDDATE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGE_ID', 'WEBTEMPLATE_ID', 'STRLOCATION', 'STRNAME', 'STRDESCRIPTION', 'STRACTION', 'STRREQUIREDPARAMETERS', 'STRWEBPAGEFACTORY', 'STRHTML', 'CLONEFISHPARENTID', 'STRCLONEFISHCONFIG', 'STRORMCLASS', 'STRSUCCREDIRECT', 'BLNACTIVE', 'DBVERSIONID', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
-        BasePeer::TYPE_FIELDNAME => array ('webpage_id', 'webtemplate_id', 'strLocation', 'strName', 'strDescription', 'strAction', 'strRequiredParameters', 'strWebpageFactory', 'strHtml', 'ClonefishparentID', 'strClonefishConfig', 'strORMClass', 'strSuccRedirect', 'blnActive', 'DBVersionID', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
+        BasePeer::TYPE_PHPNAME => array ('WebpageId', 'WebtemplateId', 'Location', 'Name', 'Description', 'Action', 'Requiredparameters', 'Webpagefactory', 'Html', 'Commonjs', 'Clonefishparentid', 'Clonefishconfig', 'Ormclass', 'Succredirect', 'SqlqueryId', 'Gridoptions', 'Editbaselinkurl', 'Editcustomfuncname', 'Editcustomfunction', 'Multiselectcustomfunction', 'Active', 'Dbversionid', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('webpageId', 'webtemplateId', 'location', 'name', 'description', 'action', 'requiredparameters', 'webpagefactory', 'html', 'commonjs', 'clonefishparentid', 'clonefishconfig', 'ormclass', 'succredirect', 'sqlqueryId', 'gridoptions', 'editbaselinkurl', 'editcustomfuncname', 'editcustomfunction', 'multiselectcustomfunction', 'active', 'dbversionid', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
+        BasePeer::TYPE_COLNAME => array (SysWebpagePeer::WEBPAGE_ID, SysWebpagePeer::WEBTEMPLATE_ID, SysWebpagePeer::STRLOCATION, SysWebpagePeer::STRNAME, SysWebpagePeer::STRDESCRIPTION, SysWebpagePeer::STRACTION, SysWebpagePeer::STRREQUIREDPARAMETERS, SysWebpagePeer::STRWEBPAGEFACTORY, SysWebpagePeer::STRHTML, SysWebpagePeer::STRCOMMONJS, SysWebpagePeer::CLONEFISHPARENTID, SysWebpagePeer::STRCLONEFISHCONFIG, SysWebpagePeer::STRORMCLASS, SysWebpagePeer::STRSUCCREDIRECT, SysWebpagePeer::SQLQUERY_ID, SysWebpagePeer::STRGRIDOPTIONS, SysWebpagePeer::STREDITBASELINKURL, SysWebpagePeer::STREDITCUSTOMFUNCNAME, SysWebpagePeer::STREDITCUSTOMFUNCTION, SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION, SysWebpagePeer::BLNACTIVE, SysWebpagePeer::DBVERSIONID, SysWebpagePeer::INTCREATEDBY, SysWebpagePeer::INTMODIFIEDBY, SysWebpagePeer::DTCREATEDDATE, SysWebpagePeer::DTMODIFIEDDATE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGE_ID', 'WEBTEMPLATE_ID', 'STRLOCATION', 'STRNAME', 'STRDESCRIPTION', 'STRACTION', 'STRREQUIREDPARAMETERS', 'STRWEBPAGEFACTORY', 'STRHTML', 'STRCOMMONJS', 'CLONEFISHPARENTID', 'STRCLONEFISHCONFIG', 'STRORMCLASS', 'STRSUCCREDIRECT', 'SQLQUERY_ID', 'STRGRIDOPTIONS', 'STREDITBASELINKURL', 'STREDITCUSTOMFUNCNAME', 'STREDITCUSTOMFUNCTION', 'STRMULTISELECTCUSTOMFUNCTION', 'BLNACTIVE', 'DBVERSIONID', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
+        BasePeer::TYPE_FIELDNAME => array ('webpage_id', 'webtemplate_id', 'strLocation', 'strName', 'strDescription', 'strAction', 'strRequiredParameters', 'strWebpageFactory', 'strHtml', 'strCommonJS', 'ClonefishparentID', 'strClonefishConfig', 'strORMClass', 'strSuccRedirect', 'sqlquery_id', 'strGridOptions', 'strEditBaseLinkUrl', 'strEditCustomFuncName', 'strEditCustomFunction', 'strMultiSelectCustomFunction', 'blnActive', 'DBVersionID', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, )
     );
 
     /**
@@ -123,12 +144,12 @@ abstract class BaseSysWebpagePeer
      * e.g. SysWebpagePeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('WebpageId' => 0, 'WebtemplateId' => 1, 'Location' => 2, 'Name' => 3, 'Description' => 4, 'Action' => 5, 'Requiredparameters' => 6, 'Webpagefactory' => 7, 'Html' => 8, 'Clonefishparentid' => 9, 'Clonefishconfig' => 10, 'Ormclass' => 11, 'Succredirect' => 12, 'Active' => 13, 'Dbversionid' => 14, 'Createdby' => 15, 'Modifiedby' => 16, 'Createddate' => 17, 'Modifieddate' => 18, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('webpageId' => 0, 'webtemplateId' => 1, 'location' => 2, 'name' => 3, 'description' => 4, 'action' => 5, 'requiredparameters' => 6, 'webpagefactory' => 7, 'html' => 8, 'clonefishparentid' => 9, 'clonefishconfig' => 10, 'ormclass' => 11, 'succredirect' => 12, 'active' => 13, 'dbversionid' => 14, 'createdby' => 15, 'modifiedby' => 16, 'createddate' => 17, 'modifieddate' => 18, ),
-        BasePeer::TYPE_COLNAME => array (SysWebpagePeer::WEBPAGE_ID => 0, SysWebpagePeer::WEBTEMPLATE_ID => 1, SysWebpagePeer::STRLOCATION => 2, SysWebpagePeer::STRNAME => 3, SysWebpagePeer::STRDESCRIPTION => 4, SysWebpagePeer::STRACTION => 5, SysWebpagePeer::STRREQUIREDPARAMETERS => 6, SysWebpagePeer::STRWEBPAGEFACTORY => 7, SysWebpagePeer::STRHTML => 8, SysWebpagePeer::CLONEFISHPARENTID => 9, SysWebpagePeer::STRCLONEFISHCONFIG => 10, SysWebpagePeer::STRORMCLASS => 11, SysWebpagePeer::STRSUCCREDIRECT => 12, SysWebpagePeer::BLNACTIVE => 13, SysWebpagePeer::DBVERSIONID => 14, SysWebpagePeer::INTCREATEDBY => 15, SysWebpagePeer::INTMODIFIEDBY => 16, SysWebpagePeer::DTCREATEDDATE => 17, SysWebpagePeer::DTMODIFIEDDATE => 18, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGE_ID' => 0, 'WEBTEMPLATE_ID' => 1, 'STRLOCATION' => 2, 'STRNAME' => 3, 'STRDESCRIPTION' => 4, 'STRACTION' => 5, 'STRREQUIREDPARAMETERS' => 6, 'STRWEBPAGEFACTORY' => 7, 'STRHTML' => 8, 'CLONEFISHPARENTID' => 9, 'STRCLONEFISHCONFIG' => 10, 'STRORMCLASS' => 11, 'STRSUCCREDIRECT' => 12, 'BLNACTIVE' => 13, 'DBVERSIONID' => 14, 'INTCREATEDBY' => 15, 'INTMODIFIEDBY' => 16, 'DTCREATEDDATE' => 17, 'DTMODIFIEDDATE' => 18, ),
-        BasePeer::TYPE_FIELDNAME => array ('webpage_id' => 0, 'webtemplate_id' => 1, 'strLocation' => 2, 'strName' => 3, 'strDescription' => 4, 'strAction' => 5, 'strRequiredParameters' => 6, 'strWebpageFactory' => 7, 'strHtml' => 8, 'ClonefishparentID' => 9, 'strClonefishConfig' => 10, 'strORMClass' => 11, 'strSuccRedirect' => 12, 'blnActive' => 13, 'DBVersionID' => 14, 'intCreatedBy' => 15, 'intModifiedBy' => 16, 'dtCreatedDate' => 17, 'dtModifiedDate' => 18, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, )
+        BasePeer::TYPE_PHPNAME => array ('WebpageId' => 0, 'WebtemplateId' => 1, 'Location' => 2, 'Name' => 3, 'Description' => 4, 'Action' => 5, 'Requiredparameters' => 6, 'Webpagefactory' => 7, 'Html' => 8, 'Commonjs' => 9, 'Clonefishparentid' => 10, 'Clonefishconfig' => 11, 'Ormclass' => 12, 'Succredirect' => 13, 'SqlqueryId' => 14, 'Gridoptions' => 15, 'Editbaselinkurl' => 16, 'Editcustomfuncname' => 17, 'Editcustomfunction' => 18, 'Multiselectcustomfunction' => 19, 'Active' => 20, 'Dbversionid' => 21, 'Createdby' => 22, 'Modifiedby' => 23, 'Createddate' => 24, 'Modifieddate' => 25, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('webpageId' => 0, 'webtemplateId' => 1, 'location' => 2, 'name' => 3, 'description' => 4, 'action' => 5, 'requiredparameters' => 6, 'webpagefactory' => 7, 'html' => 8, 'commonjs' => 9, 'clonefishparentid' => 10, 'clonefishconfig' => 11, 'ormclass' => 12, 'succredirect' => 13, 'sqlqueryId' => 14, 'gridoptions' => 15, 'editbaselinkurl' => 16, 'editcustomfuncname' => 17, 'editcustomfunction' => 18, 'multiselectcustomfunction' => 19, 'active' => 20, 'dbversionid' => 21, 'createdby' => 22, 'modifiedby' => 23, 'createddate' => 24, 'modifieddate' => 25, ),
+        BasePeer::TYPE_COLNAME => array (SysWebpagePeer::WEBPAGE_ID => 0, SysWebpagePeer::WEBTEMPLATE_ID => 1, SysWebpagePeer::STRLOCATION => 2, SysWebpagePeer::STRNAME => 3, SysWebpagePeer::STRDESCRIPTION => 4, SysWebpagePeer::STRACTION => 5, SysWebpagePeer::STRREQUIREDPARAMETERS => 6, SysWebpagePeer::STRWEBPAGEFACTORY => 7, SysWebpagePeer::STRHTML => 8, SysWebpagePeer::STRCOMMONJS => 9, SysWebpagePeer::CLONEFISHPARENTID => 10, SysWebpagePeer::STRCLONEFISHCONFIG => 11, SysWebpagePeer::STRORMCLASS => 12, SysWebpagePeer::STRSUCCREDIRECT => 13, SysWebpagePeer::SQLQUERY_ID => 14, SysWebpagePeer::STRGRIDOPTIONS => 15, SysWebpagePeer::STREDITBASELINKURL => 16, SysWebpagePeer::STREDITCUSTOMFUNCNAME => 17, SysWebpagePeer::STREDITCUSTOMFUNCTION => 18, SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION => 19, SysWebpagePeer::BLNACTIVE => 20, SysWebpagePeer::DBVERSIONID => 21, SysWebpagePeer::INTCREATEDBY => 22, SysWebpagePeer::INTMODIFIEDBY => 23, SysWebpagePeer::DTCREATEDDATE => 24, SysWebpagePeer::DTMODIFIEDDATE => 25, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGE_ID' => 0, 'WEBTEMPLATE_ID' => 1, 'STRLOCATION' => 2, 'STRNAME' => 3, 'STRDESCRIPTION' => 4, 'STRACTION' => 5, 'STRREQUIREDPARAMETERS' => 6, 'STRWEBPAGEFACTORY' => 7, 'STRHTML' => 8, 'STRCOMMONJS' => 9, 'CLONEFISHPARENTID' => 10, 'STRCLONEFISHCONFIG' => 11, 'STRORMCLASS' => 12, 'STRSUCCREDIRECT' => 13, 'SQLQUERY_ID' => 14, 'STRGRIDOPTIONS' => 15, 'STREDITBASELINKURL' => 16, 'STREDITCUSTOMFUNCNAME' => 17, 'STREDITCUSTOMFUNCTION' => 18, 'STRMULTISELECTCUSTOMFUNCTION' => 19, 'BLNACTIVE' => 20, 'DBVERSIONID' => 21, 'INTCREATEDBY' => 22, 'INTMODIFIEDBY' => 23, 'DTCREATEDDATE' => 24, 'DTMODIFIEDDATE' => 25, ),
+        BasePeer::TYPE_FIELDNAME => array ('webpage_id' => 0, 'webtemplate_id' => 1, 'strLocation' => 2, 'strName' => 3, 'strDescription' => 4, 'strAction' => 5, 'strRequiredParameters' => 6, 'strWebpageFactory' => 7, 'strHtml' => 8, 'strCommonJS' => 9, 'ClonefishparentID' => 10, 'strClonefishConfig' => 11, 'strORMClass' => 12, 'strSuccRedirect' => 13, 'sqlquery_id' => 14, 'strGridOptions' => 15, 'strEditBaseLinkUrl' => 16, 'strEditCustomFuncName' => 17, 'strEditCustomFunction' => 18, 'strMultiSelectCustomFunction' => 19, 'blnActive' => 20, 'DBVersionID' => 21, 'intCreatedBy' => 22, 'intModifiedBy' => 23, 'dtCreatedDate' => 24, 'dtModifiedDate' => 25, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, )
     );
 
     /**
@@ -211,10 +232,17 @@ abstract class BaseSysWebpagePeer
             $criteria->addSelectColumn(SysWebpagePeer::STRREQUIREDPARAMETERS);
             $criteria->addSelectColumn(SysWebpagePeer::STRWEBPAGEFACTORY);
             $criteria->addSelectColumn(SysWebpagePeer::STRHTML);
+            $criteria->addSelectColumn(SysWebpagePeer::STRCOMMONJS);
             $criteria->addSelectColumn(SysWebpagePeer::CLONEFISHPARENTID);
             $criteria->addSelectColumn(SysWebpagePeer::STRCLONEFISHCONFIG);
             $criteria->addSelectColumn(SysWebpagePeer::STRORMCLASS);
             $criteria->addSelectColumn(SysWebpagePeer::STRSUCCREDIRECT);
+            $criteria->addSelectColumn(SysWebpagePeer::SQLQUERY_ID);
+            $criteria->addSelectColumn(SysWebpagePeer::STRGRIDOPTIONS);
+            $criteria->addSelectColumn(SysWebpagePeer::STREDITBASELINKURL);
+            $criteria->addSelectColumn(SysWebpagePeer::STREDITCUSTOMFUNCNAME);
+            $criteria->addSelectColumn(SysWebpagePeer::STREDITCUSTOMFUNCTION);
+            $criteria->addSelectColumn(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION);
             $criteria->addSelectColumn(SysWebpagePeer::BLNACTIVE);
             $criteria->addSelectColumn(SysWebpagePeer::DBVERSIONID);
             $criteria->addSelectColumn(SysWebpagePeer::INTCREATEDBY);
@@ -231,10 +259,17 @@ abstract class BaseSysWebpagePeer
             $criteria->addSelectColumn($alias . '.STRREQUIREDPARAMETERS');
             $criteria->addSelectColumn($alias . '.STRWEBPAGEFACTORY');
             $criteria->addSelectColumn($alias . '.STRHTML');
+            $criteria->addSelectColumn($alias . '.STRCOMMONJS');
             $criteria->addSelectColumn($alias . '.CLONEFISHPARENTID');
             $criteria->addSelectColumn($alias . '.STRCLONEFISHCONFIG');
             $criteria->addSelectColumn($alias . '.STRORMCLASS');
             $criteria->addSelectColumn($alias . '.STRSUCCREDIRECT');
+            $criteria->addSelectColumn($alias . '.SQLQUERY_ID');
+            $criteria->addSelectColumn($alias . '.STRGRIDOPTIONS');
+            $criteria->addSelectColumn($alias . '.STREDITBASELINKURL');
+            $criteria->addSelectColumn($alias . '.STREDITCUSTOMFUNCNAME');
+            $criteria->addSelectColumn($alias . '.STREDITCUSTOMFUNCTION');
+            $criteria->addSelectColumn($alias . '.STRMULTISELECTCUSTOMFUNCTION');
             $criteria->addSelectColumn($alias . '.BLNACTIVE');
             $criteria->addSelectColumn($alias . '.DBVERSIONID');
             $criteria->addSelectColumn($alias . '.INTCREATEDBY');
@@ -589,6 +624,57 @@ abstract class BaseSysWebpagePeer
 
 
     /**
+     * Returns the number of rows matching criteria, joining the related SysSqlquery table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinSysSqlquery(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(SysWebpagePeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            SysWebpagePeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
      * Selects a collection of SysWebpage objects pre-filled with their SysWebtemplate objects.
      * @param      Criteria  $criteria
      * @param      PropelPDO $con
@@ -656,6 +742,73 @@ abstract class BaseSysWebpagePeer
 
 
     /**
+     * Selects a collection of SysWebpage objects pre-filled with their SysSqlquery objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of SysWebpage objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinSysSqlquery(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+        }
+
+        SysWebpagePeer::addSelectColumns($criteria);
+        $startcol = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
+        SysSqlqueryPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = SysWebpagePeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = SysWebpagePeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = SysWebpagePeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                SysWebpagePeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = SysSqlqueryPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = SysSqlqueryPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = SysSqlqueryPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    SysSqlqueryPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (SysWebpage) to $obj2 (SysSqlquery)
+                $obj2->addSysWebpage($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
      * Returns the number of rows matching criteria, joining all related tables
      *
      * @param      Criteria $criteria
@@ -692,6 +845,8 @@ abstract class BaseSysWebpagePeer
         }
 
         $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -730,7 +885,12 @@ abstract class BaseSysWebpagePeer
         SysWebtemplatePeer::addSelectColumns($criteria);
         $startcol3 = $startcol2 + SysWebtemplatePeer::NUM_HYDRATE_COLUMNS;
 
+        SysSqlqueryPeer::addSelectColumns($criteria);
+        $startcol4 = $startcol3 + SysSqlqueryPeer::NUM_HYDRATE_COLUMNS;
+
         $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -766,6 +926,274 @@ abstract class BaseSysWebpagePeer
                 // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysWebtemplate)
                 $obj2->addSysWebpage($obj1);
             } // if joined row not null
+
+            // Add objects for joined SysSqlquery rows
+
+            $key3 = SysSqlqueryPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+            if ($key3 !== null) {
+                $obj3 = SysSqlqueryPeer::getInstanceFromPool($key3);
+                if (!$obj3) {
+
+                    $cls = SysSqlqueryPeer::getOMClass();
+
+                    $obj3 = new $cls();
+                    $obj3->hydrate($row, $startcol3);
+                    SysSqlqueryPeer::addInstanceToPool($obj3, $key3);
+                } // if obj3 loaded
+
+                // Add the $obj1 (SysWebpage) to the collection in $obj3 (SysSqlquery)
+                $obj3->addSysWebpage($obj1);
+            } // if joined row not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining the related SysWebtemplate table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAllExceptSysWebtemplate(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(SysWebpagePeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            SysWebpagePeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+        // Set the correct dbName
+        $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
+     * Returns the number of rows matching criteria, joining the related SysSqlquery table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return int Number of matching rows.
+     */
+    public static function doCountJoinAllExceptSysSqlquery(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        // we're going to modify criteria, so copy it first
+        $criteria = clone $criteria;
+
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(SysWebpagePeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
+        }
+
+        if (!$criteria->hasSelectClause()) {
+            SysWebpagePeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+        // Set the correct dbName
+        $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
+
+        $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
+
+        $stmt = BasePeer::doCount($criteria, $con);
+
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
+        }
+        $stmt->closeCursor();
+
+        return $count;
+    }
+
+
+    /**
+     * Selects a collection of SysWebpage objects pre-filled with all related objects except SysWebtemplate.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of SysWebpage objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAllExceptSysWebtemplate(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        // $criteria->getDbName() will return the same object if not set to another value
+        // so == check is okay and faster
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+        }
+
+        SysWebpagePeer::addSelectColumns($criteria);
+        $startcol2 = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
+
+        SysSqlqueryPeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + SysSqlqueryPeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
+
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = SysWebpagePeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = SysWebpagePeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = SysWebpagePeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                SysWebpagePeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+                // Add objects for joined SysSqlquery rows
+
+                $key2 = SysSqlqueryPeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                if ($key2 !== null) {
+                    $obj2 = SysSqlqueryPeer::getInstanceFromPool($key2);
+                    if (!$obj2) {
+
+                        $cls = SysSqlqueryPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    SysSqlqueryPeer::addInstanceToPool($obj2, $key2);
+                } // if $obj2 already loaded
+
+                // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysSqlquery)
+                $obj2->addSysWebpage($obj1);
+
+            } // if joined row is not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Selects a collection of SysWebpage objects pre-filled with all related objects except SysSqlquery.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of SysWebpage objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAllExceptSysSqlquery(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        // $criteria->getDbName() will return the same object if not set to another value
+        // so == check is okay and faster
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+        }
+
+        SysWebpagePeer::addSelectColumns($criteria);
+        $startcol2 = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
+
+        SysWebtemplatePeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + SysWebtemplatePeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
+
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = SysWebpagePeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = SysWebpagePeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = SysWebpagePeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                SysWebpagePeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+                // Add objects for joined SysWebtemplate rows
+
+                $key2 = SysWebtemplatePeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                if ($key2 !== null) {
+                    $obj2 = SysWebtemplatePeer::getInstanceFromPool($key2);
+                    if (!$obj2) {
+
+                        $cls = SysWebtemplatePeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    SysWebtemplatePeer::addInstanceToPool($obj2, $key2);
+                } // if $obj2 already loaded
+
+                // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysWebtemplate)
+                $obj2->addSysWebpage($obj1);
+
+            } // if joined row is not null
 
             $results[] = $obj1;
         }

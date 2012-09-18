@@ -15,10 +15,17 @@
  * @method SysWebpageQuery orderByRequiredparameters($order = Criteria::ASC) Order by the strRequiredParameters column
  * @method SysWebpageQuery orderByWebpagefactory($order = Criteria::ASC) Order by the strWebpageFactory column
  * @method SysWebpageQuery orderByHtml($order = Criteria::ASC) Order by the strHtml column
+ * @method SysWebpageQuery orderByCommonjs($order = Criteria::ASC) Order by the strCommonJS column
  * @method SysWebpageQuery orderByClonefishparentid($order = Criteria::ASC) Order by the ClonefishparentID column
  * @method SysWebpageQuery orderByClonefishconfig($order = Criteria::ASC) Order by the strClonefishConfig column
  * @method SysWebpageQuery orderByOrmclass($order = Criteria::ASC) Order by the strORMClass column
  * @method SysWebpageQuery orderBySuccredirect($order = Criteria::ASC) Order by the strSuccRedirect column
+ * @method SysWebpageQuery orderBySqlqueryId($order = Criteria::ASC) Order by the sqlquery_id column
+ * @method SysWebpageQuery orderByGridoptions($order = Criteria::ASC) Order by the strGridOptions column
+ * @method SysWebpageQuery orderByEditbaselinkurl($order = Criteria::ASC) Order by the strEditBaseLinkUrl column
+ * @method SysWebpageQuery orderByEditcustomfuncname($order = Criteria::ASC) Order by the strEditCustomFuncName column
+ * @method SysWebpageQuery orderByEditcustomfunction($order = Criteria::ASC) Order by the strEditCustomFunction column
+ * @method SysWebpageQuery orderByMultiselectcustomfunction($order = Criteria::ASC) Order by the strMultiSelectCustomFunction column
  * @method SysWebpageQuery orderByActive($order = Criteria::ASC) Order by the blnActive column
  * @method SysWebpageQuery orderByDbversionid($order = Criteria::ASC) Order by the DBVersionID column
  * @method SysWebpageQuery orderByCreatedby($order = Criteria::ASC) Order by the intCreatedBy column
@@ -35,10 +42,17 @@
  * @method SysWebpageQuery groupByRequiredparameters() Group by the strRequiredParameters column
  * @method SysWebpageQuery groupByWebpagefactory() Group by the strWebpageFactory column
  * @method SysWebpageQuery groupByHtml() Group by the strHtml column
+ * @method SysWebpageQuery groupByCommonjs() Group by the strCommonJS column
  * @method SysWebpageQuery groupByClonefishparentid() Group by the ClonefishparentID column
  * @method SysWebpageQuery groupByClonefishconfig() Group by the strClonefishConfig column
  * @method SysWebpageQuery groupByOrmclass() Group by the strORMClass column
  * @method SysWebpageQuery groupBySuccredirect() Group by the strSuccRedirect column
+ * @method SysWebpageQuery groupBySqlqueryId() Group by the sqlquery_id column
+ * @method SysWebpageQuery groupByGridoptions() Group by the strGridOptions column
+ * @method SysWebpageQuery groupByEditbaselinkurl() Group by the strEditBaseLinkUrl column
+ * @method SysWebpageQuery groupByEditcustomfuncname() Group by the strEditCustomFuncName column
+ * @method SysWebpageQuery groupByEditcustomfunction() Group by the strEditCustomFunction column
+ * @method SysWebpageQuery groupByMultiselectcustomfunction() Group by the strMultiSelectCustomFunction column
  * @method SysWebpageQuery groupByActive() Group by the blnActive column
  * @method SysWebpageQuery groupByDbversionid() Group by the DBVersionID column
  * @method SysWebpageQuery groupByCreatedby() Group by the intCreatedBy column
@@ -54,6 +68,10 @@
  * @method SysWebpageQuery rightJoinSysWebtemplate($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysWebtemplate relation
  * @method SysWebpageQuery innerJoinSysWebtemplate($relationAlias = null) Adds a INNER JOIN clause to the query using the SysWebtemplate relation
  *
+ * @method SysWebpageQuery leftJoinSysSqlquery($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysSqlquery relation
+ * @method SysWebpageQuery rightJoinSysSqlquery($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysSqlquery relation
+ * @method SysWebpageQuery innerJoinSysSqlquery($relationAlias = null) Adds a INNER JOIN clause to the query using the SysSqlquery relation
+ *
  * @method SysWebpage findOne(PropelPDO $con = null) Return the first SysWebpage matching the query
  * @method SysWebpage findOneOrCreate(PropelPDO $con = null) Return the first SysWebpage matching the query, or a new SysWebpage object populated from the query conditions when no match is found
  *
@@ -66,10 +84,17 @@
  * @method SysWebpage findOneByRequiredparameters(string $strRequiredParameters) Return the first SysWebpage filtered by the strRequiredParameters column
  * @method SysWebpage findOneByWebpagefactory(string $strWebpageFactory) Return the first SysWebpage filtered by the strWebpageFactory column
  * @method SysWebpage findOneByHtml(string $strHtml) Return the first SysWebpage filtered by the strHtml column
+ * @method SysWebpage findOneByCommonjs(string $strCommonJS) Return the first SysWebpage filtered by the strCommonJS column
  * @method SysWebpage findOneByClonefishparentid(string $ClonefishparentID) Return the first SysWebpage filtered by the ClonefishparentID column
  * @method SysWebpage findOneByClonefishconfig(string $strClonefishConfig) Return the first SysWebpage filtered by the strClonefishConfig column
  * @method SysWebpage findOneByOrmclass(string $strORMClass) Return the first SysWebpage filtered by the strORMClass column
  * @method SysWebpage findOneBySuccredirect(string $strSuccRedirect) Return the first SysWebpage filtered by the strSuccRedirect column
+ * @method SysWebpage findOneBySqlqueryId(string $sqlquery_id) Return the first SysWebpage filtered by the sqlquery_id column
+ * @method SysWebpage findOneByGridoptions(string $strGridOptions) Return the first SysWebpage filtered by the strGridOptions column
+ * @method SysWebpage findOneByEditbaselinkurl(string $strEditBaseLinkUrl) Return the first SysWebpage filtered by the strEditBaseLinkUrl column
+ * @method SysWebpage findOneByEditcustomfuncname(string $strEditCustomFuncName) Return the first SysWebpage filtered by the strEditCustomFuncName column
+ * @method SysWebpage findOneByEditcustomfunction(string $strEditCustomFunction) Return the first SysWebpage filtered by the strEditCustomFunction column
+ * @method SysWebpage findOneByMultiselectcustomfunction(string $strMultiSelectCustomFunction) Return the first SysWebpage filtered by the strMultiSelectCustomFunction column
  * @method SysWebpage findOneByActive(int $blnActive) Return the first SysWebpage filtered by the blnActive column
  * @method SysWebpage findOneByDbversionid(int $DBVersionID) Return the first SysWebpage filtered by the DBVersionID column
  * @method SysWebpage findOneByCreatedby(string $intCreatedBy) Return the first SysWebpage filtered by the intCreatedBy column
@@ -86,10 +111,17 @@
  * @method array findByRequiredparameters(string $strRequiredParameters) Return SysWebpage objects filtered by the strRequiredParameters column
  * @method array findByWebpagefactory(string $strWebpageFactory) Return SysWebpage objects filtered by the strWebpageFactory column
  * @method array findByHtml(string $strHtml) Return SysWebpage objects filtered by the strHtml column
+ * @method array findByCommonjs(string $strCommonJS) Return SysWebpage objects filtered by the strCommonJS column
  * @method array findByClonefishparentid(string $ClonefishparentID) Return SysWebpage objects filtered by the ClonefishparentID column
  * @method array findByClonefishconfig(string $strClonefishConfig) Return SysWebpage objects filtered by the strClonefishConfig column
  * @method array findByOrmclass(string $strORMClass) Return SysWebpage objects filtered by the strORMClass column
  * @method array findBySuccredirect(string $strSuccRedirect) Return SysWebpage objects filtered by the strSuccRedirect column
+ * @method array findBySqlqueryId(string $sqlquery_id) Return SysWebpage objects filtered by the sqlquery_id column
+ * @method array findByGridoptions(string $strGridOptions) Return SysWebpage objects filtered by the strGridOptions column
+ * @method array findByEditbaselinkurl(string $strEditBaseLinkUrl) Return SysWebpage objects filtered by the strEditBaseLinkUrl column
+ * @method array findByEditcustomfuncname(string $strEditCustomFuncName) Return SysWebpage objects filtered by the strEditCustomFuncName column
+ * @method array findByEditcustomfunction(string $strEditCustomFunction) Return SysWebpage objects filtered by the strEditCustomFunction column
+ * @method array findByMultiselectcustomfunction(string $strMultiSelectCustomFunction) Return SysWebpage objects filtered by the strMultiSelectCustomFunction column
  * @method array findByActive(int $blnActive) Return SysWebpage objects filtered by the blnActive column
  * @method array findByDbversionid(int $DBVersionID) Return SysWebpage objects filtered by the DBVersionID column
  * @method array findByCreatedby(string $intCreatedBy) Return SysWebpage objects filtered by the intCreatedBy column
@@ -185,7 +217,7 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `WEBPAGE_ID`, `WEBTEMPLATE_ID`, `STRLOCATION`, `STRNAME`, `STRDESCRIPTION`, `STRACTION`, `STRREQUIREDPARAMETERS`, `STRWEBPAGEFACTORY`, `STRHTML`, `CLONEFISHPARENTID`, `STRCLONEFISHCONFIG`, `STRORMCLASS`, `STRSUCCREDIRECT`, `BLNACTIVE`, `DBVERSIONID`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_Webpage` WHERE `WEBPAGE_ID` = :p0';
+        $sql = 'SELECT `WEBPAGE_ID`, `WEBTEMPLATE_ID`, `STRLOCATION`, `STRNAME`, `STRDESCRIPTION`, `STRACTION`, `STRREQUIREDPARAMETERS`, `STRWEBPAGEFACTORY`, `STRHTML`, `STRCOMMONJS`, `CLONEFISHPARENTID`, `STRCLONEFISHCONFIG`, `STRORMCLASS`, `STRSUCCREDIRECT`, `SQLQUERY_ID`, `STRGRIDOPTIONS`, `STREDITBASELINKURL`, `STREDITCUSTOMFUNCNAME`, `STREDITCUSTOMFUNCTION`, `STRMULTISELECTCUSTOMFUNCTION`, `BLNACTIVE`, `DBVERSIONID`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_Webpage` WHERE `WEBPAGE_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -548,6 +580,35 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the strCommonJS column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCommonjs('fooValue');   // WHERE strCommonJS = 'fooValue'
+     * $query->filterByCommonjs('%fooValue%'); // WHERE strCommonJS LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $commonjs The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByCommonjs($commonjs = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($commonjs)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $commonjs)) {
+                $commonjs = str_replace('*', '%', $commonjs);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STRCOMMONJS, $commonjs, $comparison);
+    }
+
+    /**
      * Filter the query on the ClonefishparentID column
      *
      * Example usage:
@@ -673,6 +734,194 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysWebpagePeer::STRSUCCREDIRECT, $succredirect, $comparison);
+    }
+
+    /**
+     * Filter the query on the sqlquery_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterBySqlqueryId(1234); // WHERE sqlquery_id = 1234
+     * $query->filterBySqlqueryId(array(12, 34)); // WHERE sqlquery_id IN (12, 34)
+     * $query->filterBySqlqueryId(array('min' => 12)); // WHERE sqlquery_id > 12
+     * </code>
+     *
+     * @see       filterBySysSqlquery()
+     *
+     * @param     mixed $sqlqueryId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterBySqlqueryId($sqlqueryId = null, $comparison = null)
+    {
+        if (is_array($sqlqueryId)) {
+            $useMinMax = false;
+            if (isset($sqlqueryId['min'])) {
+                $this->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sqlqueryId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($sqlqueryId['max'])) {
+                $this->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sqlqueryId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sqlqueryId, $comparison);
+    }
+
+    /**
+     * Filter the query on the strGridOptions column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByGridoptions('fooValue');   // WHERE strGridOptions = 'fooValue'
+     * $query->filterByGridoptions('%fooValue%'); // WHERE strGridOptions LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $gridoptions The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByGridoptions($gridoptions = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($gridoptions)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $gridoptions)) {
+                $gridoptions = str_replace('*', '%', $gridoptions);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STRGRIDOPTIONS, $gridoptions, $comparison);
+    }
+
+    /**
+     * Filter the query on the strEditBaseLinkUrl column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEditbaselinkurl('fooValue');   // WHERE strEditBaseLinkUrl = 'fooValue'
+     * $query->filterByEditbaselinkurl('%fooValue%'); // WHERE strEditBaseLinkUrl LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $editbaselinkurl The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByEditbaselinkurl($editbaselinkurl = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($editbaselinkurl)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $editbaselinkurl)) {
+                $editbaselinkurl = str_replace('*', '%', $editbaselinkurl);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STREDITBASELINKURL, $editbaselinkurl, $comparison);
+    }
+
+    /**
+     * Filter the query on the strEditCustomFuncName column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEditcustomfuncname('fooValue');   // WHERE strEditCustomFuncName = 'fooValue'
+     * $query->filterByEditcustomfuncname('%fooValue%'); // WHERE strEditCustomFuncName LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $editcustomfuncname The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByEditcustomfuncname($editcustomfuncname = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($editcustomfuncname)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $editcustomfuncname)) {
+                $editcustomfuncname = str_replace('*', '%', $editcustomfuncname);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STREDITCUSTOMFUNCNAME, $editcustomfuncname, $comparison);
+    }
+
+    /**
+     * Filter the query on the strEditCustomFunction column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEditcustomfunction('fooValue');   // WHERE strEditCustomFunction = 'fooValue'
+     * $query->filterByEditcustomfunction('%fooValue%'); // WHERE strEditCustomFunction LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $editcustomfunction The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByEditcustomfunction($editcustomfunction = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($editcustomfunction)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $editcustomfunction)) {
+                $editcustomfunction = str_replace('*', '%', $editcustomfunction);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STREDITCUSTOMFUNCTION, $editcustomfunction, $comparison);
+    }
+
+    /**
+     * Filter the query on the strMultiSelectCustomFunction column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMultiselectcustomfunction('fooValue');   // WHERE strMultiSelectCustomFunction = 'fooValue'
+     * $query->filterByMultiselectcustomfunction('%fooValue%'); // WHERE strMultiSelectCustomFunction LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $multiselectcustomfunction The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByMultiselectcustomfunction($multiselectcustomfunction = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($multiselectcustomfunction)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $multiselectcustomfunction)) {
+                $multiselectcustomfunction = str_replace('*', '%', $multiselectcustomfunction);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION, $multiselectcustomfunction, $comparison);
     }
 
     /**
@@ -999,6 +1248,82 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
         return $this
             ->joinSysWebtemplate($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'SysWebtemplate', 'SysWebtemplateQuery');
+    }
+
+    /**
+     * Filter the query by a related SysSqlquery object
+     *
+     * @param   SysSqlquery|PropelObjectCollection $sysSqlquery The related object(s) to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return   SysWebpageQuery The current query, for fluid interface
+     * @throws   PropelException - if the provided filter is invalid.
+     */
+    public function filterBySysSqlquery($sysSqlquery, $comparison = null)
+    {
+        if ($sysSqlquery instanceof SysSqlquery) {
+            return $this
+                ->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sysSqlquery->getSqlqueryId(), $comparison);
+        } elseif ($sysSqlquery instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sysSqlquery->toKeyValue('PrimaryKey', 'SqlqueryId'), $comparison);
+        } else {
+            throw new PropelException('filterBySysSqlquery() only accepts arguments of type SysSqlquery or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the SysSqlquery relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function joinSysSqlquery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('SysSqlquery');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'SysSqlquery');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the SysSqlquery relation SysSqlquery object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   SysSqlqueryQuery A secondary query class using the current class as primary query
+     */
+    public function useSysSqlqueryQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinSysSqlquery($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'SysSqlquery', 'SysSqlqueryQuery');
     }
 
     /**
