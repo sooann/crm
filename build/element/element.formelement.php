@@ -103,7 +103,7 @@ protected function getPHPArray ($value) {
 			$prop = json_decode($value);
 			//echo str_replace("\n","<br />",var_export($prop[0],TRUE));
 			$arrtext="";
-			if (method_exists($prop[0],"children")) {
+			if (property_exists($prop[0],"children")) {
 				foreach ($prop[0]->children as $e) {
 					$arrtext .= '"'.$e->data.'"=> array(';
 					foreach ($e->children as $ep) {
