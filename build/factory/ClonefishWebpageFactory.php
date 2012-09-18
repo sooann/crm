@@ -14,7 +14,8 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 			if ($webpage->getClonefishParentid()>0) {
 				$q1 = new SysWebpageQuery();
 				if ($parentwebpage = $query->findPK($webpage->getClonefishParentid())) {
-					$configtxt .= $parentwebpage->getClonefishConfig();
+					$configtxt .= $parentwebpage->getClonefishConfig(); 
+					$html .= $parentwebpage->getCommonjs();
 				}
 			} 
 			
@@ -75,7 +76,7 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 				}
 				
 			}
-			parent::run($id,$controller,$clonefish->gethtml().$webpage->getHtml());
+			parent::run($id,$controller,$clonefish->gethtml().$webpage->getHtml().$webpage->getCommonjs().$html);
 			return true;
 			
 		} else {
