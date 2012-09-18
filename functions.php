@@ -9,6 +9,8 @@ function array_to_string ($arr, $addquote) {
 			//removing trailing quotes
 			$temparr = explode(",", str_replace('"', "", $arr));
 		}
+	} else {
+		$temparr = $arr;
 	}
 	
 	foreach ($temparr as $value) {
