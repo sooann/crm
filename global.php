@@ -4,6 +4,8 @@ global $strDBRegion;
 
 $strDBRegion = "SGP";
 
+include_once "functions.php";
+
 //Propel DAO init
 require_once 'vendor/propel/runtime/lib/Propel.php';
 Propel::init("build/conf/CRM".$strDBRegion."-conf.php");
