@@ -27,7 +27,7 @@ class SQLAuditBehavior extends Behavior
     public function postSave($builder)
     {
     	$script = "
-if (!class_exists('".$this->getParameter('class')."', false)) {
+if (class_exists('".$this->getParameter('class')."', false)) {
 	if (get_class(\$this)!='".$this->getParameter('class')."') {
 		\$SqlAudit = new ".$this->getParameter('class')."();
 		\$SqlAudit->setSqlstatement(\$con->getLastExecutedQuery());
