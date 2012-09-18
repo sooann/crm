@@ -101,37 +101,42 @@ protected function getPHPArray ($value) {
 		$this->value=array();
 		if (json_decode($value)!==NULL) {
 			$prop = json_decode($value);
-			//echo str_replace("\n","<br />",var_export($prop[0],TRUE));
+			//echo str_replace("\n","<br />",var_export($prop,TRUE));
 			$arrtext="";
-			if (property_exists($prop->data[0],"children")) {
-				foreach ($prop->data[0]->children as $e) {
-					$arrtext .= '"'.$e->data.'"=> array(';
-					foreach ($e->children as $ep) {
-						if ($ep->data!="") {
-							$exp = explode("=>", $ep->data);
-							if ($exp[1]=="{array}") {
-								$arrtext .= $exp[0] . "=>array(" ;
-								if (property_exists($ep, "children")) {
-									foreach ($ep->children as $epa) {
-										$arrtext .= str_replace("[]","array()",$epa->data) . ",";
-									}
-								}
-								if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-									$arrtext = substr($arrtext, 0, -1);
-								}
-								$arrtext .= ")," ;
-							} else {
-								$arrtext .= str_replace("[]","array()",$ep->data) . ",";
-							}
-						}
-
-					}
-					if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-						$arrtext = substr($arrtext, 0, -1);
-					}
-					$arrtext .= "),";
-				}
+			if (is_array($prop)) {
+				$ele = $prop[0];
+			} else if (property_exists($prop->data[0],"children")) {
+				$ele = $prop->data[0];
 			}
+				
+			foreach ($ele->children as $e) {
+				$arrtext .= '"'.$e->data.'"=> array(';
+				foreach ($e->children as $ep) {
+					if ($ep->data!="") {
+						$exp = explode("=>", $ep->data);
+						if ($exp[1]=="{array}") {
+							$arrtext .= $exp[0] . "=>array(" ;
+							if (property_exists($ep, "children")) {
+								foreach ($ep->children as $epa) {
+									$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+								}
+							}
+							if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+								$arrtext = substr($arrtext, 0, -1);
+							}
+							$arrtext .= ")," ;
+						} else {
+							$arrtext .= str_replace("[]","array()",$ep->data) . ",";
+						}
+					}
+
+				}
+				if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+					$arrtext = substr($arrtext, 0, -1);
+				}
+				$arrtext .= "),";
+			}
+			
 			if (substr($arrtext,strlen($arrtext)-1,1)==",") {
 				$arrtext = substr($arrtext, 0, -1);
 			}
