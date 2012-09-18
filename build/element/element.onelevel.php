@@ -17,7 +17,7 @@ class onelevel extends jstree {
 		parent::__construct($key, $configvalues);
 		
 		//configure onelevel plugins
-		$this->replacePlugins("crrm", "onelevel");
+		$this->replacePlugins("crrm", "onelevelcrrm");
 		
 	}
 

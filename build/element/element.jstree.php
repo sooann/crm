@@ -11,11 +11,23 @@
 */
 		
 class jstree extends element {
-var $json= '{ "data" : [ { "data": "Form Elements", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [] } ] }';
 
-var $pattern = "";
-
-var $plugins = array("themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu");
+	var $roottext = "";
+	var $json="";
+	var $pattern = "";
+	var $plugins = array("themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu");
+	
+	public function __constructor ($key, $configvalues) {
+		
+		parent::__construct($key, $configvalues);
+		
+		if ($this->roottext=="") {
+			$this->roottext="Options"; 
+		}
+		
+		$this->json= '{ "data" : [ { "data": "'.$this->roottext.'", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [] } ] }';
+		
+	}
 
 	public function getHTML() {
 		/*
@@ -149,7 +161,10 @@ protected function getPHPArray ($value) {
 	
 	protected function getJSON ($value) {
 		
-		$this->json = '{"data" : [ { "data": "Form Elements", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [';
+		if ($this->roottext=="") {
+			$this->roottext="Options"; 
+		}
+		$this->json = '{"data" : [ { "data": "'.$this->roottext.'", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [';
 		
 		eval ("\$array = array(" . $value .");");
 
