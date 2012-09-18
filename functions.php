@@ -14,9 +14,9 @@ function array_to_string ($arr, $addquote) {
 	foreach ($temparr as $value) {
 		if ($value!="") {
 			if ($addquote) {
-				$text .= '"$value",'; 
+				$text .= '"'.$value.'",'; 
 			} else {
-				$text .= '$value,'; 
+				$text .= $value.','; 
 			}
 		}
 	}
