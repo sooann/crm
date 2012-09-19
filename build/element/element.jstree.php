@@ -114,10 +114,27 @@ protected function getPHPArray ($value) {
 			$prop = json_decode($value);
 			//echo str_replace("\n","<br />",var_export($prop[0],TRUE));
 			$arrtext="";
-			if (method_exists($prop[0],"children")) {
-				foreach ($prop[0]->children as $e) {
+			
+			if (is_array($prop)) {
+				$ele = $prop[0];
+			} else if (property_exists($prop->data[0],"children")) {
+				$ele = $prop->data[0];
+			}
+			
+			foreach ($ele->children as $e) {
+				//echo str_replace("\n","<br />",var_export($e,TRUE));
+				
+				if (is_array($e) || property_exists($e, "children")) {
+				
+					if (is_array($e)) {
+						$arr = $e;
+					} else if (property_exists($e, "children")) {
+						$arr = $e->children;
+					}
+				
 					$arrtext .= '"'.$e->data.'"=> array(';
-					foreach ($e->children as $ep) {
+					
+					foreach ($arr as $ep) {
 						if ($ep->data!="") {
 							$exp = explode("=>", $ep->data);
 							if ($exp[1]=="{array}") {
@@ -137,12 +154,21 @@ protected function getPHPArray ($value) {
 						}
 
 					}
-					if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-						$arrtext = substr($arrtext, 0, -1);
-					}
+					
+				} else {
+					$arrtext .= $e->data.",";
+				}
+				
+				if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+					$arrtext = substr($arrtext, 0, -1);
+				}
+				
+				if (is_array($e) || property_exists($e, "children")) {
 					$arrtext .= "),";
 				}
+				
 			}
+			
 			if (substr($arrtext,strlen($arrtext)-1,1)==",") {
 				$arrtext = substr($arrtext, 0, -1);
 			}
@@ -163,24 +189,35 @@ protected function getPHPArray ($value) {
 		$this->json = '{"data" : [ { "data": "'.$this->roottext.'", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [';
 		
 		eval ("\$array = array(" . $value .");");
-
-		foreach ($array as $elekey => $elementarray) {
-			$this->json .= '{ "data": "'.$elekey.'", "children": [';
-			foreach ($elementarray as $key => $value) {
-				if (is_array($value)) {
-					$this->json .= '{ "data": "\"'.$key.'\"=>{array}", "children": [';
-					foreach ($value as $arrkey => $arrval) {
-						$this->json .= '{ "data": "\"'.$arrkey.'\"=>'.addcslashes(json_encode($arrval),'"').'" }';
+		
+		foreach ($array as $elekey => $element) {
+			if (is_array($element)) {
+				$this->json .= '{ "data": "'.$elekey.'", "children": [';
+				foreach ($element as $key => $value) {
+					if (is_array($value)) {
+						$this->json .= '{ "data": "\"'.$key.'\"=>{array}", "children": [';
+						foreach ($value as $arrkey => $arrval) {
+							$this->json .= '{ "data": "\"'.$arrkey.'\"=>'.addcslashes(json_encode($arrval),'"').'" }';
+						}
+						$this->json .= '] },';
+					} else {
+						$this->json .= '{ "data": "\"'.$key.'\"=>'.addcslashes(json_encode($value),'"').'" },';
 					}
-					$this->json .= '] },';
-				} else {
-					$this->json .= '{ "data": "\"'.$key.'\"=>'.addcslashes(json_encode($value),'"').'" },';
 				}
+				
+				if (substr($this->json,strlen($this->json)-1,1)==",") {
+					$this->json = substr($this->json,0,-1);
+				}
+				
+				$this->json .= "] },";
+			} else {
+				$this->json .= '{ "data": "\"'.$elekey.'\"=>\"'.$element.'\"" },';
 			}
+			
 			if (substr($this->json,strlen($this->json)-1,1)==",") {
 				$this->json = substr($this->json,0,-1);
 			}
-			$this->json .= "]},";
+			
 		}
 		if (substr($this->json,strlen($this->json)-1,1)==",") {
 			$this->json = substr($this->json,0,-1);
