@@ -158,10 +158,6 @@ protected function getPHPArray ($value) {
 						$arrtext .= $e->data.",";
 					}
 
-					if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-						$arrtext = substr($arrtext, 0, -1);
-					}
-
 					if (is_array($e) || property_exists($e, "children")) {
 						$arrtext .= "),";
 					}
@@ -211,10 +207,6 @@ protected function getPHPArray ($value) {
 				$this->json .= "] },";
 			} else {
 				$this->json .= '{ "data": "\"'.$elekey.'\"=>\"'.$element.'\"" },';
-			}
-			
-			if (substr($this->json,strlen($this->json)-1,1)==",") {
-				$this->json = substr($this->json,0,-1);
 			}
 			
 		}
