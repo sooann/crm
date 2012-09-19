@@ -20,11 +20,14 @@ var $pattern = "";
 				}
 		
 		return '
-		<script type="text/javascript" src="/crm/js/jquery.js"></script>
-		<script type="text/javascript" src="/crm/js/jquery.cookie.js"></script>
-		<script type="text/javascript" src="/crm/js/jquery.hotkeys.js"></script>
-		<script type="text/javascript" src="/crm/js/jquery.jstree.js"></script>
-		<link type="text/css" rel="stylesheet" href="/crm/css/!style.css"/>
+			{% autoescape false %}
+				{{ calldecl ("jquery.js") }}
+				{{ calldecl ("jquery.cookie.js") }}
+				{{ calldecl ("jquery.hotkeys.js") }}
+				{{ calldecl ("jquery.jstree.js") }}
+				{{ calldecl ("!style.css") }}
+			{% endautoescape %}
+						
 		<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
 		<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
 		<script type="text/javascript">
@@ -104,33 +107,35 @@ protected function getPHPArray ($value) {
 			} else if (property_exists($prop->data[0],"children")) {
 				$ele = $prop->data[0];
 			}
-				
-			foreach ($ele->children as $e) {
-				$arrtext .= '"'.$e->data.'"=> array(';
-				foreach ($e->children as $ep) {
-					if ($ep->data!="") {
-						$exp = explode("=>", $ep->data);
-						if ($exp[1]=="{array}") {
-							$arrtext .= $exp[0] . "=>array(" ;
-							if (property_exists($ep, "children")) {
-								foreach ($ep->children as $epa) {
-									$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+			
+			if (property_exists($ele, "children")) {
+				foreach ($ele->children as $e) {
+					$arrtext .= '"'.$e->data.'"=> array(';
+					foreach ($e->children as $ep) {
+						if ($ep->data!="") {
+							$exp = explode("=>", $ep->data);
+							if ($exp[1]=="{array}") {
+								$arrtext .= $exp[0] . "=>array(" ;
+								if (property_exists($ep, "children")) {
+									foreach ($ep->children as $epa) {
+										$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+									}
 								}
+								if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+									$arrtext = substr($arrtext, 0, -1);
+								}
+								$arrtext .= ")," ;
+							} else {
+								$arrtext .= str_replace("[]","array()",$ep->data) . ",";
 							}
-							if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-								$arrtext = substr($arrtext, 0, -1);
-							}
-							$arrtext .= ")," ;
-						} else {
-							$arrtext .= str_replace("[]","array()",$ep->data) . ",";
 						}
-					}
 
+					}
+					if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+						$arrtext = substr($arrtext, 0, -1);
+					}
+					$arrtext .= "),";
 				}
-				if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-					$arrtext = substr($arrtext, 0, -1);
-				}
-				$arrtext .= "),";
 			}
 			
 			if (substr($arrtext,strlen($arrtext)-1,1)==",") {

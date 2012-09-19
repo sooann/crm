@@ -40,6 +40,13 @@ var $roottext = "";
 				 */
 				
 				return '
+						{% autoescape false %}
+							{{ calldecl ("jquery.js") }}
+							{{ calldecl ("jquery.cookie.js") }}
+							{{ calldecl ("jquery.hotkeys.js") }}
+							{{ calldecl ("jquery.jstree.js") }}
+							{{ calldecl ("!style.css") }}
+						{% endautoescape %}
 						<div id="'.$this->name.'_tree" class="demo" style="height:200px;width:500px"></div>
 						<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
 						<script type="text/javascript">
