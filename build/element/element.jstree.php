@@ -121,54 +121,53 @@ protected function getPHPArray ($value) {
 				$ele = $prop->data[0];
 			}
 			
-			foreach ($ele->children as $e) {
-				//echo str_replace("\n","<br />",var_export($e,TRUE));
-				
-				if (is_array($e) || property_exists($e, "children")) {
-				
-					if (is_array($e)) {
-						$arr = $e;
-					} else if (property_exists($e, "children")) {
-						$arr = $e->children;
-					}
-				
-					$arrtext .= '"'.$e->data.'"=> array(';
-					
-					foreach ($arr as $ep) {
-						if ($ep->data!="") {
-							$exp = explode("=>", $ep->data);
-							if ($exp[1]=="{array}") {
-								$arrtext .= $exp[0] . "=>array(" ;
-								if (property_exists($ep, "children")) {
-									foreach ($ep->children as $epa) {
-										$arrtext .= str_replace("[]","array()",$epa->data) . ",";
-									}
-								}
-								if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-									$arrtext = substr($arrtext, 0, -1);
-								}
-								$arrtext .= ")," ;
-							} else {
-								$arrtext .= str_replace("[]","array()",$ep->data) . ",";
-							}
+			if (property_exists($ele, "children")) {
+				foreach ($ele->children as $e) {		
+					if (is_array($e) || property_exists($e, "children")) {
+
+						if (is_array($e)) {
+							$arr = $e;
+						} else if (property_exists($e, "children")) {
+							$arr = $e->children;
 						}
 
+						$arrtext .= '"'.$e->data.'"=> array(';
+
+						foreach ($arr as $ep) {
+							if ($ep->data!="") {
+								$exp = explode("=>", $ep->data);
+								if ($exp[1]=="{array}") {
+									$arrtext .= $exp[0] . "=>array(" ;
+									if (property_exists($ep, "children")) {
+										foreach ($ep->children as $epa) {
+											$arrtext .= str_replace("[]","array()",$epa->data) . ",";
+										}
+									}
+									if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+										$arrtext = substr($arrtext, 0, -1);
+									}
+									$arrtext .= ")," ;
+								} else {
+									$arrtext .= str_replace("[]","array()",$ep->data) . ",";
+								}
+							}
+
+						}
+
+					} else {
+						$arrtext .= $e->data.",";
 					}
-					
-				} else {
-					$arrtext .= $e->data.",";
+
+					if (substr($arrtext,strlen($arrtext)-1,1)==",") {
+						$arrtext = substr($arrtext, 0, -1);
+					}
+
+					if (is_array($e) || property_exists($e, "children")) {
+						$arrtext .= "),";
+					}
+
 				}
-				
-				if (substr($arrtext,strlen($arrtext)-1,1)==",") {
-					$arrtext = substr($arrtext, 0, -1);
-				}
-				
-				if (is_array($e) || property_exists($e, "children")) {
-					$arrtext .= "),";
-				}
-				
 			}
-			
 			if (substr($arrtext,strlen($arrtext)-1,1)==",") {
 				$arrtext = substr($arrtext, 0, -1);
 			}
