@@ -63,19 +63,19 @@ var $roottext = "";
 									// it makes sense to configure a plugin only if overriding the defaults
 								})
 								.bind("loaded.jstree", function (event, data) {
-									displayJSON(this);
+									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 								})
 								.bind("create.jstree", function (event, data) {
-									displayJSON(this);
+									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 								})
 								.bind("rename.jstree", function (event, data) {
-									displayJSON(this);
+									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 								})
 								.bind("move_node.jstree", function (event, data) {
-									displayJSON(this);
+									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 								})
 								.bind("remove.jstree", function (event, data) {
-									displayJSON(this);
+									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 								})
 								// EVENTS
 								// each instance triggers its own events - to process those listen on the container

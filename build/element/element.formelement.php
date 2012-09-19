@@ -52,19 +52,19 @@ var $pattern = "";
 					// it makes sense to configure a plugin only if overriding the defaults
 				})
 				.bind("loaded.jstree", function (event, data) {
-					displayJSON(this);
+					$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 				})
 				.bind("create.jstree", function (event, data) {
-					displayJSON(this);
+					$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 				})
 				.bind("rename.jstree", function (event, data) {
-					displayJSON(this);
+					$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 				})
 				.bind("move_node.jstree", function (event, data) {
-					displayJSON(this);
+					$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 				})
 				.bind("remove.jstree", function (event, data) {
-					displayJSON(this);
+					$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
 				})
 				// EVENTS
 				// each instance triggers its own events - to process those listen on the container
@@ -76,10 +76,6 @@ var $pattern = "";
 			// with the methods below you can call even private functions (prefixed with `_`)
 			// 2) you can get the focused instance using `$.jstree._focused()`. 
 		});
-		
-		function displayJSON (obj) {
-			$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(obj).get_json(-1), null, 4));
-		}
 		</script>
 				';
 	}
