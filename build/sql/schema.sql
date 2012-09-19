@@ -47,6 +47,26 @@ CREATE TABLE `SEC_WebpageTracking`
 ) ENGINE=MyISAM;
 
 -- ---------------------------------------------------------------------
+-- SYS_Declaration
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `SYS_Declaration`;
+
+CREATE TABLE `SYS_Declaration`
+(
+    `declaration_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `strCode` VARCHAR(255),
+    `strHtml` TEXT,
+    `strType` VARCHAR(255),
+    `blnActive` INTEGER,
+    `intCreatedBy` BIGINT,
+    `intModifiedBy` BIGINT,
+    `dtCreatedDate` DATETIME,
+    `dtModifiedDate` DATETIME,
+    PRIMARY KEY (`declaration_id`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
 -- SYS_FrmElement
 -- ---------------------------------------------------------------------
 
@@ -167,10 +187,17 @@ CREATE TABLE `SYS_Webpage`
     `strRequiredParameters` VARCHAR(255),
     `strWebpageFactory` VARCHAR(255),
     `strHtml` TEXT,
+    `strCommonJS` TEXT,
     `ClonefishparentID` BIGINT,
     `strClonefishConfig` TEXT,
     `strORMClass` VARCHAR(255),
     `strSuccRedirect` VARCHAR(255),
+    `sqlquery_id` BIGINT,
+    `strGridOptions` TEXT,
+    `strEditBaseLinkUrl` VARCHAR(255),
+    `strEditCustomFuncName` VARCHAR(255),
+    `strEditCustomFunction` TEXT,
+    `strMultiSelectCustomFunction` TEXT,
     `blnActive` INTEGER,
     `DBVersionID` INTEGER,
     `intCreatedBy` BIGINT,
@@ -179,9 +206,13 @@ CREATE TABLE `SYS_Webpage`
     `dtModifiedDate` DATETIME,
     PRIMARY KEY (`webpage_id`),
     INDEX `webtemplate_id` (`webtemplate_id`),
+    INDEX `sqlquery_id` (`sqlquery_id`),
     CONSTRAINT `sys_webpage_ibfk_1`
         FOREIGN KEY (`webtemplate_id`)
-        REFERENCES `SYS_Webtemplate` (`webtemplate_id`)
+        REFERENCES `SYS_Webtemplate` (`webtemplate_id`),
+    CONSTRAINT `sys_webpage_ibfk_2`
+        FOREIGN KEY (`sqlquery_id`)
+        REFERENCES `SYS_SQLQuery` (`sqlquery_id`)
 ) ENGINE=MyISAM;
 
 -- ---------------------------------------------------------------------
