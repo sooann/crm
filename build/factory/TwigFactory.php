@@ -21,11 +21,22 @@ class TwigFactory extends BaseFactory {
 			
 	public static function calldecl($field) {
 		
+		$text = "";
+		
 		if (array_search($field, self::$declared)===false) {
-			echo array_push(self::$declared, $field);
-			return "testing";
+			$SysDeclarations = SysDeclarationQuery::create()
+					->filterByCode($field)
+					->filterByActive(1)
+					->find();
+			if (!$SysDeclarations->isEmpty()) {
+				foreach ($SysDeclarations as $SysDeclaration) {
+					array_push(self::$declared, $field);
+					$text .= $SysDeclaration->getHtml();
+				}
+			}
 		}
 		
+		return $text;
 	}
 	
 }
