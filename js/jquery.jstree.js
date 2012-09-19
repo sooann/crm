@@ -338,7 +338,6 @@
 			notify_plugins : true,
 			rtl			: false,
 			load_open	: false,
-			useClonefish : false,
 			strings		: {
 				loading		: "Loading ...",
 				new_node	: "New node",
@@ -618,11 +617,6 @@
 			// string functions
 			_get_string : function (key) {
 				return this._get_settings().core.strings[key] || key;
-			},
-			
-			// set clonefish parameters
-			set_clonefish : function (value) {
-				this._get_settings().core.useClonefish = value;
 			},
 
 			is_open		: function (obj) { obj = this._get_node(obj); return obj && obj !== -1 && obj.hasClass("jstree-open"); },
@@ -1668,9 +1662,6 @@
 				open_onmove			: true,
 				default_position	: "last",
 				check_move			: function (m) { return true; }
-			},
-			pattern : {
-				
 			}
 		},
 		_fn : {
@@ -1722,11 +1713,11 @@
                                 //check if selected option is a parameter array
                                 if (ty!="") {
                                     var ap = "";
-                                    for (var j=0; j<this._get_settings().clonefishcrrm.pattern.length; j++ ) {
-                                        if ( this._get_settings().clonefishcrrm.pattern[j].name == ty) {
-                                           if (this._get_settings().clonefishcrrm.pattern[j].paramarray!=undefined){
-                                             for (var k=0; k<this._get_settings().clonefishcrrm.pattern[j].paramarray.length; k++) {
-                                                 if (this._get_settings().clonefishcrrm.pattern[j].paramarray[k]==i.val()) {
+                                    for (var j=0; j<this._get_settings().pattern.length; j++ ) {
+                                        if ( this._get_settings().pattern[j].name == ty) {
+                                           if (this._get_settings().pattern[j].paramarray!=undefined){
+                                             for (var k=0; k<this._get_settings().pattern[j].paramarray.length; k++) {
+                                                 if (this._get_settings().pattern[j].paramarray[k]==i.val()) {
                                                      ap=i.val();
                                                  }
                                              }  
@@ -1848,11 +1839,11 @@
                                     //check if selected option is a parameter array
                                     if (ty!="") {
                                         var ap = "";
-                                        for (var j=0; j<this._get_settings().clonefishcrrm.pattern.length; j++ ) {
-                                            if ( this._get_settings().clonefishcrrm.pattern[j].name == ty) {
-                                               if (this._get_settings().clonefishcrrm.pattern[j].paramarray!=undefined){
-                                                 for (var k=0; k<this._get_settings().clonefishcrrm.pattern[j].paramarray.length; k++) {
-                                                     if (this._get_settings().clonefishcrrm.pattern[j].paramarray[k]==i.val()) {
+                                        for (var j=0; j<this._get_settings().pattern.length; j++ ) {
+                                            if ( this._get_settings().pattern[j].name == ty) {
+                                               if (this._get_settings().pattern[j].paramarray!=undefined){
+                                                 for (var k=0; k<this._get_settings().pattern[j].paramarray.length; k++) {
+                                                     if (this._get_settings().pattern[j].paramarray[k]==i.val()) {
                                                          ap=i.val();
                                                      }
                                                  }  
@@ -1941,11 +1932,11 @@
 							"html" : "type"
 						})
 					);
-					for (var i=0; i<this._get_settings().clonefishcrrm.pattern.length; i++){
+					for (var i=0; i<this._get_settings().pattern.length; i++){
 						h7.append(
 							$("<option />", {
-								"value" : this._get_settings().clonefishcrrm.pattern[i].name,
-								"html" : this._get_settings().clonefishcrrm.pattern[i].name
+								"value" : this._get_settings().pattern[i].name,
+								"html" : this._get_settings().pattern[i].name
 							})
 						);
 					}
@@ -1960,26 +1951,26 @@
 				   }
 				   if (ty!="") { 
 					   // find parameters in clonefish pattern
-						for (var i=0; i<this._get_settings().clonefishcrrm.pattern.length; i++){
-						   if ( this._get_settings().clonefishcrrm.pattern[i].name == ty) {
+						for (var i=0; i<this._get_settings().pattern.length; i++){
+						   if ( this._get_settings().pattern[i].name == ty) {
 								//load parameters
-								for (var j=0; j<this._get_settings().clonefishcrrm.pattern[i].parameters.length; j++) {
+								for (var j=0; j<this._get_settings().pattern[i].parameters.length; j++) {
 								   //append parameter inputs 
-                                   if (this._get_settings().clonefishcrrm.pattern[i].parameters[j])
+                                   if (this._get_settings().pattern[i].parameters[j])
 								   h2.append(
 										$("<option />", {
-											"value" : this._get_settings().clonefishcrrm.pattern[i].parameters[j],
-											"html" : this._get_settings().clonefishcrrm.pattern[i].parameters[j]
+											"value" : this._get_settings().pattern[i].parameters[j],
+											"html" : this._get_settings().pattern[i].parameters[j]
 										})
 									);
 								}
 								//append parameter arrays
-								if (this._get_settings().clonefishcrrm.pattern[i].paramarray!=undefined) {
-									for (var j=0; j<this._get_settings().clonefishcrrm.pattern[i].paramarray.length; j++) {
+								if (this._get_settings().pattern[i].paramarray!=undefined) {
+									for (var j=0; j<this._get_settings().pattern[i].paramarray.length; j++) {
 										h2.append(
 											$("<option />", {
-												"value" : this._get_settings().clonefishcrrm.pattern[i].paramarray[j],
-												"html" : this._get_settings().clonefishcrrm.pattern[i].paramarray[j]
+												"value" : this._get_settings().pattern[i].paramarray[j],
+												"html" : this._get_settings().pattern[i].paramarray[j]
 											})
 										);
 									}
@@ -2014,11 +2005,11 @@
                 
                 // set display settings for parameter array
                 var ap = "";
-                for (var j=0; j<this._get_settings().clonefishcrrm.pattern.length; j++ ) {
-                    if ( this._get_settings().clonefishcrrm.pattern[j].name == ty) {
-                       if (this._get_settings().clonefishcrrm.pattern[j].paramarray!=undefined){
-                         for (var k=0; k<this._get_settings().clonefishcrrm.pattern[j].paramarray.length; k++) {
-                             if (this._get_settings().clonefishcrrm.pattern[j].paramarray[k]==key) {
+                for (var j=0; j<this._get_settings().pattern.length; j++ ) {
+                    if ( this._get_settings().pattern[j].name == ty) {
+                       if (this._get_settings().pattern[j].paramarray!=undefined){
+                         for (var k=0; k<this._get_settings().pattern[j].paramarray.length; k++) {
+                             if (this._get_settings().pattern[j].paramarray[k]==key) {
                                  ap=key;
                              }
                          }  
