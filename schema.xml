@@ -36,6 +36,24 @@
       <parameter name="disable_updated_at" value="true"/>
     </behavior>
   </table>
+  <table name="SYS_Declaration" phpName="SysDeclaration" idMethod="native">
+    <column name="declaration_id" phpName="DeclarationId" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="strCode" phpName="Code" type="VARCHAR" size="255" required="false"/>
+    <column name="strHtml" phpName="Html" type="LONGVARCHAR" required="false"/>
+    <column name="strType" phpName="Type" type="VARCHAR" size="255" required="false"/>
+    <column name="blnActive" phpName="Active" type="INTEGER" required="false"/>
+    <column name="intCreatedBy" phpName="Createdby" type="BIGINT" required="false"/>
+    <column name="intModifiedBy" phpName="Modifiedby" type="BIGINT" required="false"/>
+    <column name="dtCreatedDate" phpName="Createddate" type="TIMESTAMP" required="false"/>
+    <column name="dtModifiedDate" phpName="Modifieddate" type="TIMESTAMP" required="false"/>
+    <behavior name="timestampable">
+      <parameter name="create_column" value="dtCreatedDate"/>
+      <parameter name="create_by" value="intCreatedBy"/>
+      <parameter name="update_column" value="dtModifiedDate"/>
+      <parameter name="update_by" value="intModifiedBy"/>
+      <parameter name="disable_updated_at" value="false"/>
+    </behavior>
+  </table>
   <table name="SYS_FrmElement" phpName="SysFrmelement" idMethod="native">
     <column name="frmelement_id" phpName="FrmelementId" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="strName" phpName="Name" type="VARCHAR" size="255" required="false"/>
@@ -142,10 +160,17 @@
     <column name="strRequiredParameters" phpName="Requiredparameters" type="VARCHAR" size="255" required="false"/>
     <column name="strWebpageFactory" phpName="Webpagefactory" type="VARCHAR" size="255" required="false"/>
     <column name="strHtml" phpName="Html" type="LONGVARCHAR" required="false"/>
+    <column name="strCommonJS" phpName="Commonjs" type="LONGVARCHAR" required="false"/>
     <column name="ClonefishparentID" phpName="Clonefishparentid" type="BIGINT" required="false"/>
     <column name="strClonefishConfig" phpName="Clonefishconfig" type="LONGVARCHAR" required="false"/>
     <column name="strORMClass" phpName="Ormclass" type="VARCHAR" size="255" required="false"/>
     <column name="strSuccRedirect" phpName="Succredirect" type="VARCHAR" size="255" required="false"/>
+    <column name="sqlquery_id" phpName="SqlqueryId" type="BIGINT" required="false"/>
+    <column name="strGridOptions" phpName="Gridoptions" type="LONGVARCHAR" required="false"/>
+    <column name="strEditBaseLinkUrl" phpName="Editbaselinkurl" type="VARCHAR" size="255" required="false"/>
+    <column name="strEditCustomFuncName" phpName="Editcustomfuncname" type="VARCHAR" size="255" required="false"/>
+    <column name="strEditCustomFunction" phpName="Editcustomfunction" type="LONGVARCHAR" required="false"/>
+    <column name="strMultiSelectCustomFunction" phpName="Multiselectcustomfunction" type="LONGVARCHAR" required="false"/>
     <column name="blnActive" phpName="Active" type="INTEGER" required="false"/>
     <column name="DBVersionID" phpName="Dbversionid" type="INTEGER" required="false"/>
     <column name="intCreatedBy" phpName="Createdby" type="BIGINT" required="false"/>
@@ -155,8 +180,14 @@
     <foreign-key foreignTable="SYS_Webtemplate" name="sys_webpage_ibfk_1">
       <reference local="webtemplate_id" foreign="webtemplate_id"/>
     </foreign-key>
+    <foreign-key foreignTable="SYS_SQLQuery" name="sys_webpage_ibfk_2">
+      <reference local="sqlquery_id" foreign="sqlquery_id"/>
+    </foreign-key>
     <index name="webtemplate_id">
       <index-column name="webtemplate_id"/>
+    </index>
+    <index name="sqlquery_id">
+      <index-column name="sqlquery_id"/>
     </index>
     <behavior name="timestampable">
       <parameter name="create_column" value="dtCreatedDate"/>
