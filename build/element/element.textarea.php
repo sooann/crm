@@ -17,7 +17,7 @@ class textarea extends element {
 		          'id="' . $this->_getHTMLId() . '" ' . 
 		          'name="' . $this->name . '" ' .
 		          $this->html .'>' .
-		        htmlspecialchars( $this->value ) . 
+				  str_replace("}","&#125",str_replace("{", "&#123", htmlspecialchars( $this->value ))) . 
 		      '</textarea>';
 	}
 
