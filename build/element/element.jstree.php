@@ -183,7 +183,7 @@ protected function getPHPArray ($value) {
 		
 		foreach ($array as $elekey => $element) {
 			if (is_array($element)) {
-				$this->json .= '{ "data": "'.$elekey.'", "children": [';
+				$this->json .= '{ "data": "\"'.$elekey.'\"=>{array}", "children": [';
 				foreach ($element as $key => $value) {
 					if (is_array($value)) {
 						$this->json .= '{ "data": "\"'.$key.'\"=>{array}", "children": [';
