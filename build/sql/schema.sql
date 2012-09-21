@@ -216,6 +216,36 @@ CREATE TABLE `SYS_Webpage`
 ) ENGINE=MyISAM;
 
 -- ---------------------------------------------------------------------
+-- SYS_WebpageColumn
+-- ---------------------------------------------------------------------
+
+DROP TABLE IF EXISTS `SYS_WebpageColumn`;
+
+CREATE TABLE `SYS_WebpageColumn`
+(
+    `webpagecolumn_id` BIGINT NOT NULL AUTO_INCREMENT,
+    `webpage_id` BIGINT,
+    `intQueryOrder` INTEGER,
+    `strQueryColumn` VARCHAR(255),
+    `strName` VARCHAR(255),
+    `intOrder` INTEGER,
+    `blnDisplay` INTEGER,
+    `blnHidden` INTEGER,
+    `blnHide` INTEGER,
+    `blnSearch` INTEGER,
+    `blnPrimaryKey` INTEGER,
+    `intCreatedBy` BIGINT,
+    `intModifiedBy` BIGINT,
+    `dtCreatedDate` DATETIME,
+    `dtModifiedDate` DATETIME,
+    PRIMARY KEY (`webpagecolumn_id`),
+    INDEX `webpage_id` (`webpage_id`),
+    CONSTRAINT `sys_webpagecolumn_ibfk_1`
+        FOREIGN KEY (`webpage_id`)
+        REFERENCES `SYS_Webpage` (`webpage_id`)
+) ENGINE=MyISAM;
+
+-- ---------------------------------------------------------------------
 -- SYS_Webtemplate
 -- ---------------------------------------------------------------------
 

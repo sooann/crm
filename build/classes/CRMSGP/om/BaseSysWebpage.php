@@ -196,6 +196,12 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     protected $aSysSqlquery;
 
     /**
+     * @var        PropelObjectCollection|SysWebpagecolumn[] Collection to store aggregation of SysWebpagecolumn objects.
+     */
+    protected $collSysWebpagecolumns;
+    protected $collSysWebpagecolumnsPartial;
+
+    /**
      * Flag to prevent endless save loop, if this object is referenced
      * by another object which falls in this transaction.
      * @var        boolean
@@ -208,6 +214,12 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
      * @var        boolean
      */
     protected $alreadyInValidation = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var		PropelObjectCollection
+     */
+    protected $sysWebpagecolumnsScheduledForDeletion = null;
 
     /**
      * Get the [webpage_id] column value.
@@ -1217,6 +1229,8 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
 
             $this->aSysWebtemplate = null;
             $this->aSysSqlquery = null;
+            $this->collSysWebpagecolumns = null;
+
         } // if (deep)
     }
 
@@ -1401,6 +1415,24 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 }
                 $affectedRows += 1;
                 $this->resetModified();
+            }
+
+            if ($this->sysWebpagecolumnsScheduledForDeletion !== null) {
+                if (!$this->sysWebpagecolumnsScheduledForDeletion->isEmpty()) {
+                    foreach ($this->sysWebpagecolumnsScheduledForDeletion as $sysWebpagecolumn) {
+                        // need to save related object because we set the relation to null
+                        $sysWebpagecolumn->save($con);
+                    }
+                    $this->sysWebpagecolumnsScheduledForDeletion = null;
+                }
+            }
+
+            if ($this->collSysWebpagecolumns !== null) {
+                foreach ($this->collSysWebpagecolumns as $referrerFK) {
+                    if (!$referrerFK->isDeleted()) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
             }
 
             $this->alreadyInSave = false;
@@ -1713,6 +1745,14 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             }
 
 
+                if ($this->collSysWebpagecolumns !== null) {
+                    foreach ($this->collSysWebpagecolumns as $referrerFK) {
+                        if (!$referrerFK->validate($columns)) {
+                            $failureMap = array_merge($failureMap, $referrerFK->getValidationFailures());
+                        }
+                    }
+                }
+
 
             $this->alreadyInValidation = false;
         }
@@ -1888,6 +1928,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             }
             if (null !== $this->aSysSqlquery) {
                 $result['SysSqlquery'] = $this->aSysSqlquery->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->collSysWebpagecolumns) {
+                $result['SysWebpagecolumns'] = $this->collSysWebpagecolumns->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -2184,6 +2227,12 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             // store object hash to prevent cycle
             $this->startCopy = true;
 
+            foreach ($this->getSysWebpagecolumns() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addSysWebpagecolumn($relObj->copy($deepCopy));
+                }
+            }
+
             //unflag object copy
             $this->startCopy = false;
         } // if ($deepCopy)
@@ -2336,6 +2385,229 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         return $this->aSysSqlquery;
     }
 
+
+    /**
+     * Initializes a collection based on the name of a relation.
+     * Avoids crafting an 'init[$relationName]s' method name
+     * that wouldn't work when StandardEnglishPluralizer is used.
+     *
+     * @param string $relationName The name of the relation to initialize
+     * @return void
+     */
+    public function initRelation($relationName)
+    {
+        if ('SysWebpagecolumn' == $relationName) {
+            $this->initSysWebpagecolumns();
+        }
+    }
+
+    /**
+     * Clears out the collSysWebpagecolumns collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addSysWebpagecolumns()
+     */
+    public function clearSysWebpagecolumns()
+    {
+        $this->collSysWebpagecolumns = null; // important to set this to null since that means it is uninitialized
+        $this->collSysWebpagecolumnsPartial = null;
+    }
+
+    /**
+     * reset is the collSysWebpagecolumns collection loaded partially
+     *
+     * @return void
+     */
+    public function resetPartialSysWebpagecolumns($v = true)
+    {
+        $this->collSysWebpagecolumnsPartial = $v;
+    }
+
+    /**
+     * Initializes the collSysWebpagecolumns collection.
+     *
+     * By default this just sets the collSysWebpagecolumns collection to an empty array (like clearcollSysWebpagecolumns());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initSysWebpagecolumns($overrideExisting = true)
+    {
+        if (null !== $this->collSysWebpagecolumns && !$overrideExisting) {
+            return;
+        }
+        $this->collSysWebpagecolumns = new PropelObjectCollection();
+        $this->collSysWebpagecolumns->setModel('SysWebpagecolumn');
+    }
+
+    /**
+     * Gets an array of SysWebpagecolumn objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this SysWebpage is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param Criteria $criteria optional Criteria object to narrow the query
+     * @param PropelPDO $con optional connection object
+     * @return PropelObjectCollection|SysWebpagecolumn[] List of SysWebpagecolumn objects
+     * @throws PropelException
+     */
+    public function getSysWebpagecolumns($criteria = null, PropelPDO $con = null)
+    {
+        $partial = $this->collSysWebpagecolumnsPartial && !$this->isNew();
+        if (null === $this->collSysWebpagecolumns || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collSysWebpagecolumns) {
+                // return empty collection
+                $this->initSysWebpagecolumns();
+            } else {
+                $collSysWebpagecolumns = SysWebpagecolumnQuery::create(null, $criteria)
+                    ->filterBySysWebpage($this)
+                    ->find($con);
+                if (null !== $criteria) {
+                    if (false !== $this->collSysWebpagecolumnsPartial && count($collSysWebpagecolumns)) {
+                      $this->initSysWebpagecolumns(false);
+
+                      foreach($collSysWebpagecolumns as $obj) {
+                        if (false == $this->collSysWebpagecolumns->contains($obj)) {
+                          $this->collSysWebpagecolumns->append($obj);
+                        }
+                      }
+
+                      $this->collSysWebpagecolumnsPartial = true;
+                    }
+
+                    return $collSysWebpagecolumns;
+                }
+
+                if($partial && $this->collSysWebpagecolumns) {
+                    foreach($this->collSysWebpagecolumns as $obj) {
+                        if($obj->isNew()) {
+                            $collSysWebpagecolumns[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collSysWebpagecolumns = $collSysWebpagecolumns;
+                $this->collSysWebpagecolumnsPartial = false;
+            }
+        }
+
+        return $this->collSysWebpagecolumns;
+    }
+
+    /**
+     * Sets a collection of SysWebpagecolumn objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param PropelCollection $sysWebpagecolumns A Propel collection.
+     * @param PropelPDO $con Optional connection object
+     */
+    public function setSysWebpagecolumns(PropelCollection $sysWebpagecolumns, PropelPDO $con = null)
+    {
+        $this->sysWebpagecolumnsScheduledForDeletion = $this->getSysWebpagecolumns(new Criteria(), $con)->diff($sysWebpagecolumns);
+
+        foreach ($this->sysWebpagecolumnsScheduledForDeletion as $sysWebpagecolumnRemoved) {
+            $sysWebpagecolumnRemoved->setSysWebpage(null);
+        }
+
+        $this->collSysWebpagecolumns = null;
+        foreach ($sysWebpagecolumns as $sysWebpagecolumn) {
+            $this->addSysWebpagecolumn($sysWebpagecolumn);
+        }
+
+        $this->collSysWebpagecolumns = $sysWebpagecolumns;
+        $this->collSysWebpagecolumnsPartial = false;
+    }
+
+    /**
+     * Returns the number of related SysWebpagecolumn objects.
+     *
+     * @param Criteria $criteria
+     * @param boolean $distinct
+     * @param PropelPDO $con
+     * @return int             Count of related SysWebpagecolumn objects.
+     * @throws PropelException
+     */
+    public function countSysWebpagecolumns(Criteria $criteria = null, $distinct = false, PropelPDO $con = null)
+    {
+        $partial = $this->collSysWebpagecolumnsPartial && !$this->isNew();
+        if (null === $this->collSysWebpagecolumns || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collSysWebpagecolumns) {
+                return 0;
+            } else {
+                if($partial && !$criteria) {
+                    return count($this->getSysWebpagecolumns());
+                }
+                $query = SysWebpagecolumnQuery::create(null, $criteria);
+                if ($distinct) {
+                    $query->distinct();
+                }
+
+                return $query
+                    ->filterBySysWebpage($this)
+                    ->count($con);
+            }
+        } else {
+            return count($this->collSysWebpagecolumns);
+        }
+    }
+
+    /**
+     * Method called to associate a SysWebpagecolumn object to this object
+     * through the SysWebpagecolumn foreign key attribute.
+     *
+     * @param    SysWebpagecolumn $l SysWebpagecolumn
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function addSysWebpagecolumn(SysWebpagecolumn $l)
+    {
+        if ($this->collSysWebpagecolumns === null) {
+            $this->initSysWebpagecolumns();
+            $this->collSysWebpagecolumnsPartial = true;
+        }
+        if (!$this->collSysWebpagecolumns->contains($l)) { // only add it if the **same** object is not already associated
+            $this->doAddSysWebpagecolumn($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param	SysWebpagecolumn $sysWebpagecolumn The sysWebpagecolumn object to add.
+     */
+    protected function doAddSysWebpagecolumn($sysWebpagecolumn)
+    {
+        $this->collSysWebpagecolumns[]= $sysWebpagecolumn;
+        $sysWebpagecolumn->setSysWebpage($this);
+    }
+
+    /**
+     * @param	SysWebpagecolumn $sysWebpagecolumn The sysWebpagecolumn object to remove.
+     */
+    public function removeSysWebpagecolumn($sysWebpagecolumn)
+    {
+        if ($this->getSysWebpagecolumns()->contains($sysWebpagecolumn)) {
+            $this->collSysWebpagecolumns->remove($this->collSysWebpagecolumns->search($sysWebpagecolumn));
+            if (null === $this->sysWebpagecolumnsScheduledForDeletion) {
+                $this->sysWebpagecolumnsScheduledForDeletion = clone $this->collSysWebpagecolumns;
+                $this->sysWebpagecolumnsScheduledForDeletion->clear();
+            }
+            $this->sysWebpagecolumnsScheduledForDeletion[]= $sysWebpagecolumn;
+            $sysWebpagecolumn->setSysWebpage(null);
+        }
+    }
+
     /**
      * Clears the current object and sets all attributes to their default values
      */
@@ -2387,8 +2659,17 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collSysWebpagecolumns) {
+                foreach ($this->collSysWebpagecolumns as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
         } // if ($deep)
 
+        if ($this->collSysWebpagecolumns instanceof PropelCollection) {
+            $this->collSysWebpagecolumns->clearIterator();
+        }
+        $this->collSysWebpagecolumns = null;
         $this->aSysWebtemplate = null;
         $this->aSysSqlquery = null;
     }

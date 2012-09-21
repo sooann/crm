@@ -72,6 +72,10 @@
  * @method SysWebpageQuery rightJoinSysSqlquery($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysSqlquery relation
  * @method SysWebpageQuery innerJoinSysSqlquery($relationAlias = null) Adds a INNER JOIN clause to the query using the SysSqlquery relation
  *
+ * @method SysWebpageQuery leftJoinSysWebpagecolumn($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysWebpagecolumn relation
+ * @method SysWebpageQuery rightJoinSysWebpagecolumn($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysWebpagecolumn relation
+ * @method SysWebpageQuery innerJoinSysWebpagecolumn($relationAlias = null) Adds a INNER JOIN clause to the query using the SysWebpagecolumn relation
+ *
  * @method SysWebpage findOne(PropelPDO $con = null) Return the first SysWebpage matching the query
  * @method SysWebpage findOneOrCreate(PropelPDO $con = null) Return the first SysWebpage matching the query, or a new SysWebpage object populated from the query conditions when no match is found
  *
@@ -1324,6 +1328,80 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
         return $this
             ->joinSysSqlquery($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'SysSqlquery', 'SysSqlqueryQuery');
+    }
+
+    /**
+     * Filter the query by a related SysWebpagecolumn object
+     *
+     * @param   SysWebpagecolumn|PropelObjectCollection $sysWebpagecolumn  the related object to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return   SysWebpageQuery The current query, for fluid interface
+     * @throws   PropelException - if the provided filter is invalid.
+     */
+    public function filterBySysWebpagecolumn($sysWebpagecolumn, $comparison = null)
+    {
+        if ($sysWebpagecolumn instanceof SysWebpagecolumn) {
+            return $this
+                ->addUsingAlias(SysWebpagePeer::WEBPAGE_ID, $sysWebpagecolumn->getWebpageId(), $comparison);
+        } elseif ($sysWebpagecolumn instanceof PropelObjectCollection) {
+            return $this
+                ->useSysWebpagecolumnQuery()
+                ->filterByPrimaryKeys($sysWebpagecolumn->getPrimaryKeys())
+                ->endUse();
+        } else {
+            throw new PropelException('filterBySysWebpagecolumn() only accepts arguments of type SysWebpagecolumn or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the SysWebpagecolumn relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function joinSysWebpagecolumn($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('SysWebpagecolumn');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'SysWebpagecolumn');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the SysWebpagecolumn relation SysWebpagecolumn object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   SysWebpagecolumnQuery A secondary query class using the current class as primary query
+     */
+    public function useSysWebpagecolumnQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinSysWebpagecolumn($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'SysWebpagecolumn', 'SysWebpagecolumnQuery');
     }
 
     /**
