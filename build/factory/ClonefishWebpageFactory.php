@@ -40,8 +40,12 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 					eval("\$query = new ". $webpage->getORMClass()."Query;");
 					if ($model = $query->findPK($controller->getParam("id"))) {
 						//load values via default from clonefish config
+						$modelcols = array_keys($model->toArray());
 						foreach (array_keys($config) as $element) {
-							$clonefish->setValue($element, $model->getByName($element), get_magic_quotes_gpc() );
+							if (array_search($element,$modelcols)!=false) {
+								$clonefish->setValue($element, $model->getByName($element), get_magic_quotes_gpc() );
+							}
+							//check for jqgrid subformv
 						}
 						//load values via db model mapping
 					
@@ -65,8 +69,11 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 					eval("\$model = new ". $webpage->getORMClass().";");
 				}
 				
+				$modelcols = array_keys($model->toArray());
 				foreach (array_keys($config) as $element) {
-					$model->setByName($element, $clonefish->getValue($element, false));
+					if (array_search($element,$modelcols)!=false) {
+						$model->setByName($element, $clonefish->getValue($element, false));
+					}
 				}
 				$model->save();
 				
