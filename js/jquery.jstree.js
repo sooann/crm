@@ -4974,7 +4974,11 @@
                        } else {
                            if (this.get_text(this._get_parent(obj)).indexOf("{array}")!==-1) {
 							   // disable create element if it is part of an parameter array
-							   checktype=false;
+							   if (this.get_text(obj).indexOf("{array}")!==-1) {
+								   checktype=true;
+							   } else {
+								   checktype=false;
+							   }
 						   } else {
 								//normal menu item
 								checktype=true;
