@@ -21,7 +21,7 @@ class JQGridFactory extends jqGridRender {
 	
 	public function buildHtml($tblelement,$pager,$script,$summary,$params,$createtbl,$createpg) {
 		
-		return $html.parent::renderGrid($tblelement,$pager,$script,$summary,$params,$createtbl,$createpg,false);
+		return $this->html.parent::renderGrid($tblelement,$pager,$script,$summary,$params,$createtbl,$createpg,false);
 			
 	}
 }
