@@ -186,14 +186,14 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     protected $dtmodifieddate;
 
     /**
-     * @var        SysWebtemplate
-     */
-    protected $aSysWebtemplate;
-
-    /**
      * @var        SysSqlquery
      */
     protected $aSysSqlquery;
+
+    /**
+     * @var        SysWebtemplate
+     */
+    protected $aSysWebtemplate;
 
     /**
      * @var        PropelObjectCollection|SysWebpagecolumn[] Collection to store aggregation of SysWebpagecolumn objects.
@@ -1227,8 +1227,8 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aSysWebtemplate = null;
             $this->aSysSqlquery = null;
+            $this->aSysWebtemplate = null;
             $this->collSysWebpagecolumns = null;
 
         } // if (deep)
@@ -1392,18 +1392,18 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aSysWebtemplate !== null) {
-                if ($this->aSysWebtemplate->isModified() || $this->aSysWebtemplate->isNew()) {
-                    $affectedRows += $this->aSysWebtemplate->save($con);
-                }
-                $this->setSysWebtemplate($this->aSysWebtemplate);
-            }
-
             if ($this->aSysSqlquery !== null) {
                 if ($this->aSysSqlquery->isModified() || $this->aSysSqlquery->isNew()) {
                     $affectedRows += $this->aSysSqlquery->save($con);
                 }
                 $this->setSysSqlquery($this->aSysSqlquery);
+            }
+
+            if ($this->aSysWebtemplate !== null) {
+                if ($this->aSysWebtemplate->isModified() || $this->aSysWebtemplate->isNew()) {
+                    $affectedRows += $this->aSysWebtemplate->save($con);
+                }
+                $this->setSysWebtemplate($this->aSysWebtemplate);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -1727,15 +1727,15 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aSysWebtemplate !== null) {
-                if (!$this->aSysWebtemplate->validate($columns)) {
-                    $failureMap = array_merge($failureMap, $this->aSysWebtemplate->getValidationFailures());
-                }
-            }
-
             if ($this->aSysSqlquery !== null) {
                 if (!$this->aSysSqlquery->validate($columns)) {
                     $failureMap = array_merge($failureMap, $this->aSysSqlquery->getValidationFailures());
+                }
+            }
+
+            if ($this->aSysWebtemplate !== null) {
+                if (!$this->aSysWebtemplate->validate($columns)) {
+                    $failureMap = array_merge($failureMap, $this->aSysWebtemplate->getValidationFailures());
                 }
             }
 
@@ -1923,11 +1923,11 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $keys[25] => $this->getModifieddate(),
         );
         if ($includeForeignObjects) {
-            if (null !== $this->aSysWebtemplate) {
-                $result['SysWebtemplate'] = $this->aSysWebtemplate->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
             if (null !== $this->aSysSqlquery) {
                 $result['SysSqlquery'] = $this->aSysSqlquery->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aSysWebtemplate) {
+                $result['SysWebtemplate'] = $this->aSysWebtemplate->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
             if (null !== $this->collSysWebpagecolumns) {
                 $result['SysWebpagecolumns'] = $this->collSysWebpagecolumns->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -2284,57 +2284,6 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     }
 
     /**
-     * Declares an association between this object and a SysWebtemplate object.
-     *
-     * @param             SysWebtemplate $v
-     * @return SysWebpage The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setSysWebtemplate(SysWebtemplate $v = null)
-    {
-        if ($v === null) {
-            $this->setWebtemplateId(NULL);
-        } else {
-            $this->setWebtemplateId($v->getWebtemplateId());
-        }
-
-        $this->aSysWebtemplate = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the SysWebtemplate object, it will not be re-added.
-        if ($v !== null) {
-            $v->addSysWebpage($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated SysWebtemplate object
-     *
-     * @param PropelPDO $con Optional Connection object.
-     * @return SysWebtemplate The associated SysWebtemplate object.
-     * @throws PropelException
-     */
-    public function getSysWebtemplate(PropelPDO $con = null)
-    {
-        if ($this->aSysWebtemplate === null && (($this->webtemplate_id !== "" && $this->webtemplate_id !== null))) {
-            $this->aSysWebtemplate = SysWebtemplateQuery::create()->findPk($this->webtemplate_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aSysWebtemplate->addSysWebpages($this);
-             */
-        }
-
-        return $this->aSysWebtemplate;
-    }
-
-    /**
      * Declares an association between this object and a SysSqlquery object.
      *
      * @param             SysSqlquery $v
@@ -2383,6 +2332,57 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         }
 
         return $this->aSysSqlquery;
+    }
+
+    /**
+     * Declares an association between this object and a SysWebtemplate object.
+     *
+     * @param             SysWebtemplate $v
+     * @return SysWebpage The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setSysWebtemplate(SysWebtemplate $v = null)
+    {
+        if ($v === null) {
+            $this->setWebtemplateId(NULL);
+        } else {
+            $this->setWebtemplateId($v->getWebtemplateId());
+        }
+
+        $this->aSysWebtemplate = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the SysWebtemplate object, it will not be re-added.
+        if ($v !== null) {
+            $v->addSysWebpage($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated SysWebtemplate object
+     *
+     * @param PropelPDO $con Optional Connection object.
+     * @return SysWebtemplate The associated SysWebtemplate object.
+     * @throws PropelException
+     */
+    public function getSysWebtemplate(PropelPDO $con = null)
+    {
+        if ($this->aSysWebtemplate === null && (($this->webtemplate_id !== "" && $this->webtemplate_id !== null))) {
+            $this->aSysWebtemplate = SysWebtemplateQuery::create()->findPk($this->webtemplate_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aSysWebtemplate->addSysWebpages($this);
+             */
+        }
+
+        return $this->aSysWebtemplate;
     }
 
 
@@ -2670,8 +2670,8 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $this->collSysWebpagecolumns->clearIterator();
         }
         $this->collSysWebpagecolumns = null;
-        $this->aSysWebtemplate = null;
         $this->aSysSqlquery = null;
+        $this->aSysWebtemplate = null;
     }
 
     /**

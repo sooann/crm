@@ -16,7 +16,7 @@
  * @method SysWebpagecolumnQuery orderByHidden($order = Criteria::ASC) Order by the blnHidden column
  * @method SysWebpagecolumnQuery orderByHide($order = Criteria::ASC) Order by the blnHide column
  * @method SysWebpagecolumnQuery orderBySearch($order = Criteria::ASC) Order by the blnSearch column
- * @method SysWebpagecolumnQuery orderByPrimarykey($order = Criteria::ASC) Order by the blnPrimaryKey column
+ * @method SysWebpagecolumnQuery orderByPrikey($order = Criteria::ASC) Order by the blnPriKey column
  * @method SysWebpagecolumnQuery orderByCreatedby($order = Criteria::ASC) Order by the intCreatedBy column
  * @method SysWebpagecolumnQuery orderByModifiedby($order = Criteria::ASC) Order by the intModifiedBy column
  * @method SysWebpagecolumnQuery orderByCreateddate($order = Criteria::ASC) Order by the dtCreatedDate column
@@ -32,7 +32,7 @@
  * @method SysWebpagecolumnQuery groupByHidden() Group by the blnHidden column
  * @method SysWebpagecolumnQuery groupByHide() Group by the blnHide column
  * @method SysWebpagecolumnQuery groupBySearch() Group by the blnSearch column
- * @method SysWebpagecolumnQuery groupByPrimarykey() Group by the blnPrimaryKey column
+ * @method SysWebpagecolumnQuery groupByPrikey() Group by the blnPriKey column
  * @method SysWebpagecolumnQuery groupByCreatedby() Group by the intCreatedBy column
  * @method SysWebpagecolumnQuery groupByModifiedby() Group by the intModifiedBy column
  * @method SysWebpagecolumnQuery groupByCreateddate() Group by the dtCreatedDate column
@@ -59,7 +59,7 @@
  * @method SysWebpagecolumn findOneByHidden(int $blnHidden) Return the first SysWebpagecolumn filtered by the blnHidden column
  * @method SysWebpagecolumn findOneByHide(int $blnHide) Return the first SysWebpagecolumn filtered by the blnHide column
  * @method SysWebpagecolumn findOneBySearch(int $blnSearch) Return the first SysWebpagecolumn filtered by the blnSearch column
- * @method SysWebpagecolumn findOneByPrimarykey(int $blnPrimaryKey) Return the first SysWebpagecolumn filtered by the blnPrimaryKey column
+ * @method SysWebpagecolumn findOneByPrikey(int $blnPriKey) Return the first SysWebpagecolumn filtered by the blnPriKey column
  * @method SysWebpagecolumn findOneByCreatedby(string $intCreatedBy) Return the first SysWebpagecolumn filtered by the intCreatedBy column
  * @method SysWebpagecolumn findOneByModifiedby(string $intModifiedBy) Return the first SysWebpagecolumn filtered by the intModifiedBy column
  * @method SysWebpagecolumn findOneByCreateddate(string $dtCreatedDate) Return the first SysWebpagecolumn filtered by the dtCreatedDate column
@@ -75,7 +75,7 @@
  * @method array findByHidden(int $blnHidden) Return SysWebpagecolumn objects filtered by the blnHidden column
  * @method array findByHide(int $blnHide) Return SysWebpagecolumn objects filtered by the blnHide column
  * @method array findBySearch(int $blnSearch) Return SysWebpagecolumn objects filtered by the blnSearch column
- * @method array findByPrimarykey(int $blnPrimaryKey) Return SysWebpagecolumn objects filtered by the blnPrimaryKey column
+ * @method array findByPrikey(int $blnPriKey) Return SysWebpagecolumn objects filtered by the blnPriKey column
  * @method array findByCreatedby(string $intCreatedBy) Return SysWebpagecolumn objects filtered by the intCreatedBy column
  * @method array findByModifiedby(string $intModifiedBy) Return SysWebpagecolumn objects filtered by the intModifiedBy column
  * @method array findByCreateddate(string $dtCreatedDate) Return SysWebpagecolumn objects filtered by the dtCreatedDate column
@@ -169,7 +169,7 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `WEBPAGECOLUMN_ID`, `WEBPAGE_ID`, `INTQUERYORDER`, `STRQUERYCOLUMN`, `STRNAME`, `INTORDER`, `BLNDISPLAY`, `BLNHIDDEN`, `BLNHIDE`, `BLNSEARCH`, `BLNPRIMARYKEY`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_WebpageColumn` WHERE `WEBPAGECOLUMN_ID` = :p0';
+        $sql = 'SELECT `WEBPAGECOLUMN_ID`, `WEBPAGE_ID`, `INTQUERYORDER`, `STRQUERYCOLUMN`, `STRNAME`, `INTORDER`, `BLNDISPLAY`, `BLNHIDDEN`, `BLNHIDE`, `BLNSEARCH`, `BLNPRIKEY`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_WebpageColumn` WHERE `WEBPAGECOLUMN_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -633,16 +633,16 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the blnPrimaryKey column
+     * Filter the query on the blnPriKey column
      *
      * Example usage:
      * <code>
-     * $query->filterByPrimarykey(1234); // WHERE blnPrimaryKey = 1234
-     * $query->filterByPrimarykey(array(12, 34)); // WHERE blnPrimaryKey IN (12, 34)
-     * $query->filterByPrimarykey(array('min' => 12)); // WHERE blnPrimaryKey > 12
+     * $query->filterByPrikey(1234); // WHERE blnPriKey = 1234
+     * $query->filterByPrikey(array(12, 34)); // WHERE blnPriKey IN (12, 34)
+     * $query->filterByPrikey(array('min' => 12)); // WHERE blnPriKey > 12
      * </code>
      *
-     * @param     mixed $primarykey The value to use as filter.
+     * @param     mixed $prikey The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -650,16 +650,16 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      *
      * @return SysWebpagecolumnQuery The current query, for fluid interface
      */
-    public function filterByPrimarykey($primarykey = null, $comparison = null)
+    public function filterByPrikey($prikey = null, $comparison = null)
     {
-        if (is_array($primarykey)) {
+        if (is_array($prikey)) {
             $useMinMax = false;
-            if (isset($primarykey['min'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIMARYKEY, $primarykey['min'], Criteria::GREATER_EQUAL);
+            if (isset($prikey['min'])) {
+                $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIKEY, $prikey['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($primarykey['max'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIMARYKEY, $primarykey['max'], Criteria::LESS_EQUAL);
+            if (isset($prikey['max'])) {
+                $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIKEY, $prikey['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -670,7 +670,7 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIMARYKEY, $primarykey, $comparison);
+        return $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIKEY, $prikey, $comparison);
     }
 
     /**

@@ -90,10 +90,10 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     protected $blnsearch;
 
     /**
-     * The value for the blnprimarykey field.
+     * The value for the blnprikey field.
      * @var        int
      */
-    protected $blnprimarykey;
+    protected $blnprikey;
 
     /**
      * The value for the intcreatedby field.
@@ -239,13 +239,13 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     }
 
     /**
-     * Get the [blnprimarykey] column value.
+     * Get the [blnprikey] column value.
      *
      * @return int
      */
-    public function getPrimarykey()
+    public function getPrikey()
     {
-        return $this->blnprimarykey;
+        return $this->blnprikey;
     }
 
     /**
@@ -557,25 +557,25 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     } // setSearch()
 
     /**
-     * Set the value of [blnprimarykey] column.
+     * Set the value of [blnprikey] column.
      *
      * @param int $v new value
      * @return SysWebpagecolumn The current object (for fluent API support)
      */
-    public function setPrimarykey($v)
+    public function setPrikey($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->blnprimarykey !== $v) {
-            $this->blnprimarykey = $v;
-            $this->modifiedColumns[] = SysWebpagecolumnPeer::BLNPRIMARYKEY;
+        if ($this->blnprikey !== $v) {
+            $this->blnprikey = $v;
+            $this->modifiedColumns[] = SysWebpagecolumnPeer::BLNPRIKEY;
         }
 
 
         return $this;
-    } // setPrimarykey()
+    } // setPrikey()
 
     /**
      * Set the value of [intcreatedby] column.
@@ -707,7 +707,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
             $this->blnhidden = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
             $this->blnhide = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
             $this->blnsearch = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
-            $this->blnprimarykey = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+            $this->blnprikey = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
             $this->intcreatedby = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
             $this->intmodifiedby = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
             $this->dtcreateddate = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
@@ -1013,8 +1013,8 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNSEARCH)) {
             $modifiedColumns[':p' . $index++]  = '`BLNSEARCH`';
         }
-        if ($this->isColumnModified(SysWebpagecolumnPeer::BLNPRIMARYKEY)) {
-            $modifiedColumns[':p' . $index++]  = '`BLNPRIMARYKEY`';
+        if ($this->isColumnModified(SysWebpagecolumnPeer::BLNPRIKEY)) {
+            $modifiedColumns[':p' . $index++]  = '`BLNPRIKEY`';
         }
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTCREATEDBY)) {
             $modifiedColumns[':p' . $index++]  = '`INTCREATEDBY`';
@@ -1069,8 +1069,8 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                     case '`BLNSEARCH`':
                         $stmt->bindValue($identifier, $this->blnsearch, PDO::PARAM_INT);
                         break;
-                    case '`BLNPRIMARYKEY`':
-                        $stmt->bindValue($identifier, $this->blnprimarykey, PDO::PARAM_INT);
+                    case '`BLNPRIKEY`':
+                        $stmt->bindValue($identifier, $this->blnprikey, PDO::PARAM_INT);
                         break;
                     case '`INTCREATEDBY`':
                         $stmt->bindValue($identifier, $this->intcreatedby, PDO::PARAM_INT);
@@ -1261,7 +1261,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 return $this->getSearch();
                 break;
             case 10:
-                return $this->getPrimarykey();
+                return $this->getPrikey();
                 break;
             case 11:
                 return $this->getCreatedby();
@@ -1314,7 +1314,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
             $keys[7] => $this->getHidden(),
             $keys[8] => $this->getHide(),
             $keys[9] => $this->getSearch(),
-            $keys[10] => $this->getPrimarykey(),
+            $keys[10] => $this->getPrikey(),
             $keys[11] => $this->getCreatedby(),
             $keys[12] => $this->getModifiedby(),
             $keys[13] => $this->getCreateddate(),
@@ -1389,7 +1389,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 $this->setSearch($value);
                 break;
             case 10:
-                $this->setPrimarykey($value);
+                $this->setPrikey($value);
                 break;
             case 11:
                 $this->setCreatedby($value);
@@ -1437,7 +1437,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if (array_key_exists($keys[7], $arr)) $this->setHidden($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setHide($arr[$keys[8]]);
         if (array_key_exists($keys[9], $arr)) $this->setSearch($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setPrimarykey($arr[$keys[10]]);
+        if (array_key_exists($keys[10], $arr)) $this->setPrikey($arr[$keys[10]]);
         if (array_key_exists($keys[11], $arr)) $this->setCreatedby($arr[$keys[11]]);
         if (array_key_exists($keys[12], $arr)) $this->setModifiedby($arr[$keys[12]]);
         if (array_key_exists($keys[13], $arr)) $this->setCreateddate($arr[$keys[13]]);
@@ -1463,7 +1463,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNHIDDEN)) $criteria->add(SysWebpagecolumnPeer::BLNHIDDEN, $this->blnhidden);
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNHIDE)) $criteria->add(SysWebpagecolumnPeer::BLNHIDE, $this->blnhide);
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNSEARCH)) $criteria->add(SysWebpagecolumnPeer::BLNSEARCH, $this->blnsearch);
-        if ($this->isColumnModified(SysWebpagecolumnPeer::BLNPRIMARYKEY)) $criteria->add(SysWebpagecolumnPeer::BLNPRIMARYKEY, $this->blnprimarykey);
+        if ($this->isColumnModified(SysWebpagecolumnPeer::BLNPRIKEY)) $criteria->add(SysWebpagecolumnPeer::BLNPRIKEY, $this->blnprikey);
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTCREATEDBY)) $criteria->add(SysWebpagecolumnPeer::INTCREATEDBY, $this->intcreatedby);
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTMODIFIEDBY)) $criteria->add(SysWebpagecolumnPeer::INTMODIFIEDBY, $this->intmodifiedby);
         if ($this->isColumnModified(SysWebpagecolumnPeer::DTCREATEDDATE)) $criteria->add(SysWebpagecolumnPeer::DTCREATEDDATE, $this->dtcreateddate);
@@ -1540,7 +1540,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         $copyObj->setHidden($this->getHidden());
         $copyObj->setHide($this->getHide());
         $copyObj->setSearch($this->getSearch());
-        $copyObj->setPrimarykey($this->getPrimarykey());
+        $copyObj->setPrikey($this->getPrikey());
         $copyObj->setCreatedby($this->getCreatedby());
         $copyObj->setModifiedby($this->getModifiedby());
         $copyObj->setCreateddate($this->getCreateddate());
@@ -1669,7 +1669,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         $this->blnhidden = null;
         $this->blnhide = null;
         $this->blnsearch = null;
-        $this->blnprimarykey = null;
+        $this->blnprikey = null;
         $this->intcreatedby = null;
         $this->intmodifiedby = null;
         $this->dtcreateddate = null;

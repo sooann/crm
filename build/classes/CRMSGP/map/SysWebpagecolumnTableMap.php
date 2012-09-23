@@ -48,7 +48,7 @@ class SysWebpagecolumnTableMap extends TableMap
         $this->addColumn('BLNHIDDEN', 'Hidden', 'INTEGER', false, null, null);
         $this->addColumn('BLNHIDE', 'Hide', 'INTEGER', false, null, null);
         $this->addColumn('BLNSEARCH', 'Search', 'INTEGER', false, null, null);
-        $this->addColumn('BLNPRIMARYKEY', 'Primarykey', 'INTEGER', false, null, null);
+        $this->addColumn('BLNPRIKEY', 'Prikey', 'INTEGER', false, null, null);
         $this->addColumn('INTCREATEDBY', 'Createdby', 'BIGINT', false, null, null);
         $this->addColumn('INTMODIFIEDBY', 'Modifiedby', 'BIGINT', false, null, null);
         $this->addColumn('DTCREATEDDATE', 'Createddate', 'TIMESTAMP', false, null, null);

@@ -72,8 +72,8 @@ class SysWebpageTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('SysWebtemplate', 'SysWebtemplate', RelationMap::MANY_TO_ONE, array('webtemplate_id' => 'webtemplate_id', ), null, null);
         $this->addRelation('SysSqlquery', 'SysSqlquery', RelationMap::MANY_TO_ONE, array('sqlquery_id' => 'sqlquery_id', ), null, null);
+        $this->addRelation('SysWebtemplate', 'SysWebtemplate', RelationMap::MANY_TO_ONE, array('webtemplate_id' => 'webtemplate_id', ), null, null);
         $this->addRelation('SysWebpagecolumn', 'SysWebpagecolumn', RelationMap::ONE_TO_MANY, array('webpage_id' => 'webpage_id', ), null, null, 'SysWebpagecolumns');
     } // buildRelations()
 
