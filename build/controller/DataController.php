@@ -72,7 +72,33 @@ class DataController extends BaseController {
 		$stmt = $conn->query($this->sql);
 		$arr = array();
 		for ($i=0; $i<$stmt->columnCount(); $i++) {
-			array_push($arr, $stmt->getColumnMeta($i));
+			//reformat metadata based on webpagecolumn table
+			$e = array();
+			$cm = $stmt->getColumnMeta($i);
+			$e["Querycolumn"] = $cm["name"];
+			switch ($cm["native_type"]) {
+				case "LONGLONG":
+					$e["Datatype"] = "int";
+					break;
+				case "LONG":
+					$e["Datatype"] = "int";
+					break;
+				case "VAR_STRING":
+					$e["Datatype"] = "string";
+					break;
+				case "BLOB":
+					$e["Datatype"] = "string";
+					break;
+				case "DATETIME":
+					$e["Datatype"] = "date";
+					break;
+			}
+			if (array_search("primary_key",$cm["flags"]) ) {
+				$e["Prikey"] = 1;
+			} else {
+				$e["Prikey"] = 0;
+			}
+			array_push($arr, $e);
 		}
 		$this->data = $arr;
 		//$this->data = json_encode($arr);
