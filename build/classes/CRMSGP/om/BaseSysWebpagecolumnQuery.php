@@ -11,6 +11,7 @@
  * @method SysWebpagecolumnQuery orderByQueryorder($order = Criteria::ASC) Order by the intQueryOrder column
  * @method SysWebpagecolumnQuery orderByQuerycolumn($order = Criteria::ASC) Order by the strQueryColumn column
  * @method SysWebpagecolumnQuery orderByName($order = Criteria::ASC) Order by the strName column
+ * @method SysWebpagecolumnQuery orderByDatatype($order = Criteria::ASC) Order by the strDataType column
  * @method SysWebpagecolumnQuery orderByOrder($order = Criteria::ASC) Order by the intOrder column
  * @method SysWebpagecolumnQuery orderByDisplay($order = Criteria::ASC) Order by the blnDisplay column
  * @method SysWebpagecolumnQuery orderByHidden($order = Criteria::ASC) Order by the blnHidden column
@@ -27,6 +28,7 @@
  * @method SysWebpagecolumnQuery groupByQueryorder() Group by the intQueryOrder column
  * @method SysWebpagecolumnQuery groupByQuerycolumn() Group by the strQueryColumn column
  * @method SysWebpagecolumnQuery groupByName() Group by the strName column
+ * @method SysWebpagecolumnQuery groupByDatatype() Group by the strDataType column
  * @method SysWebpagecolumnQuery groupByOrder() Group by the intOrder column
  * @method SysWebpagecolumnQuery groupByDisplay() Group by the blnDisplay column
  * @method SysWebpagecolumnQuery groupByHidden() Group by the blnHidden column
@@ -54,6 +56,7 @@
  * @method SysWebpagecolumn findOneByQueryorder(int $intQueryOrder) Return the first SysWebpagecolumn filtered by the intQueryOrder column
  * @method SysWebpagecolumn findOneByQuerycolumn(string $strQueryColumn) Return the first SysWebpagecolumn filtered by the strQueryColumn column
  * @method SysWebpagecolumn findOneByName(string $strName) Return the first SysWebpagecolumn filtered by the strName column
+ * @method SysWebpagecolumn findOneByDatatype(string $strDataType) Return the first SysWebpagecolumn filtered by the strDataType column
  * @method SysWebpagecolumn findOneByOrder(int $intOrder) Return the first SysWebpagecolumn filtered by the intOrder column
  * @method SysWebpagecolumn findOneByDisplay(int $blnDisplay) Return the first SysWebpagecolumn filtered by the blnDisplay column
  * @method SysWebpagecolumn findOneByHidden(int $blnHidden) Return the first SysWebpagecolumn filtered by the blnHidden column
@@ -70,6 +73,7 @@
  * @method array findByQueryorder(int $intQueryOrder) Return SysWebpagecolumn objects filtered by the intQueryOrder column
  * @method array findByQuerycolumn(string $strQueryColumn) Return SysWebpagecolumn objects filtered by the strQueryColumn column
  * @method array findByName(string $strName) Return SysWebpagecolumn objects filtered by the strName column
+ * @method array findByDatatype(string $strDataType) Return SysWebpagecolumn objects filtered by the strDataType column
  * @method array findByOrder(int $intOrder) Return SysWebpagecolumn objects filtered by the intOrder column
  * @method array findByDisplay(int $blnDisplay) Return SysWebpagecolumn objects filtered by the blnDisplay column
  * @method array findByHidden(int $blnHidden) Return SysWebpagecolumn objects filtered by the blnHidden column
@@ -169,7 +173,7 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `WEBPAGECOLUMN_ID`, `WEBPAGE_ID`, `INTQUERYORDER`, `STRQUERYCOLUMN`, `STRNAME`, `INTORDER`, `BLNDISPLAY`, `BLNHIDDEN`, `BLNHIDE`, `BLNSEARCH`, `BLNPRIKEY`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_WebpageColumn` WHERE `WEBPAGECOLUMN_ID` = :p0';
+        $sql = 'SELECT `WEBPAGECOLUMN_ID`, `WEBPAGE_ID`, `INTQUERYORDER`, `STRQUERYCOLUMN`, `STRNAME`, `STRDATATYPE`, `INTORDER`, `BLNDISPLAY`, `BLNHIDDEN`, `BLNHIDE`, `BLNSEARCH`, `BLNPRIKEY`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_WebpageColumn` WHERE `WEBPAGECOLUMN_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -425,6 +429,35 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysWebpagecolumnPeer::STRNAME, $name, $comparison);
+    }
+
+    /**
+     * Filter the query on the strDataType column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDatatype('fooValue');   // WHERE strDataType = 'fooValue'
+     * $query->filterByDatatype('%fooValue%'); // WHERE strDataType LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $datatype The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpagecolumnQuery The current query, for fluid interface
+     */
+    public function filterByDatatype($datatype = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($datatype)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $datatype)) {
+                $datatype = str_replace('*', '%', $datatype);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagecolumnPeer::STRDATATYPE, $datatype, $comparison);
     }
 
     /**

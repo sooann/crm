@@ -64,13 +64,13 @@
  * @method SysWebpageQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method SysWebpageQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method SysWebpageQuery leftJoinSysSqlquery($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysSqlquery relation
- * @method SysWebpageQuery rightJoinSysSqlquery($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysSqlquery relation
- * @method SysWebpageQuery innerJoinSysSqlquery($relationAlias = null) Adds a INNER JOIN clause to the query using the SysSqlquery relation
- *
  * @method SysWebpageQuery leftJoinSysWebtemplate($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysWebtemplate relation
  * @method SysWebpageQuery rightJoinSysWebtemplate($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysWebtemplate relation
  * @method SysWebpageQuery innerJoinSysWebtemplate($relationAlias = null) Adds a INNER JOIN clause to the query using the SysWebtemplate relation
+ *
+ * @method SysWebpageQuery leftJoinSysSqlquery($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysSqlquery relation
+ * @method SysWebpageQuery rightJoinSysSqlquery($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysSqlquery relation
+ * @method SysWebpageQuery innerJoinSysSqlquery($relationAlias = null) Adds a INNER JOIN clause to the query using the SysSqlquery relation
  *
  * @method SysWebpageQuery leftJoinSysWebpagecolumn($relationAlias = null) Adds a LEFT JOIN clause to the query using the SysWebpagecolumn relation
  * @method SysWebpageQuery rightJoinSysWebpagecolumn($relationAlias = null) Adds a RIGHT JOIN clause to the query using the SysWebpagecolumn relation
@@ -1179,82 +1179,6 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related SysSqlquery object
-     *
-     * @param   SysSqlquery|PropelObjectCollection $sysSqlquery The related object(s) to use as filter
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return   SysWebpageQuery The current query, for fluid interface
-     * @throws   PropelException - if the provided filter is invalid.
-     */
-    public function filterBySysSqlquery($sysSqlquery, $comparison = null)
-    {
-        if ($sysSqlquery instanceof SysSqlquery) {
-            return $this
-                ->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sysSqlquery->getSqlqueryId(), $comparison);
-        } elseif ($sysSqlquery instanceof PropelObjectCollection) {
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-
-            return $this
-                ->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sysSqlquery->toKeyValue('PrimaryKey', 'SqlqueryId'), $comparison);
-        } else {
-            throw new PropelException('filterBySysSqlquery() only accepts arguments of type SysSqlquery or PropelCollection');
-        }
-    }
-
-    /**
-     * Adds a JOIN clause to the query using the SysSqlquery relation
-     *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return SysWebpageQuery The current query, for fluid interface
-     */
-    public function joinSysSqlquery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('SysSqlquery');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
-        }
-
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'SysSqlquery');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Use the SysSqlquery relation SysSqlquery object
-     *
-     * @see       useQuery()
-     *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
-     *
-     * @return   SysSqlqueryQuery A secondary query class using the current class as primary query
-     */
-    public function useSysSqlqueryQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
-    {
-        return $this
-            ->joinSysSqlquery($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'SysSqlquery', 'SysSqlqueryQuery');
-    }
-
-    /**
      * Filter the query by a related SysWebtemplate object
      *
      * @param   SysWebtemplate|PropelObjectCollection $sysWebtemplate The related object(s) to use as filter
@@ -1328,6 +1252,82 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
         return $this
             ->joinSysWebtemplate($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'SysWebtemplate', 'SysWebtemplateQuery');
+    }
+
+    /**
+     * Filter the query by a related SysSqlquery object
+     *
+     * @param   SysSqlquery|PropelObjectCollection $sysSqlquery The related object(s) to use as filter
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return   SysWebpageQuery The current query, for fluid interface
+     * @throws   PropelException - if the provided filter is invalid.
+     */
+    public function filterBySysSqlquery($sysSqlquery, $comparison = null)
+    {
+        if ($sysSqlquery instanceof SysSqlquery) {
+            return $this
+                ->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sysSqlquery->getSqlqueryId(), $comparison);
+        } elseif ($sysSqlquery instanceof PropelObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(SysWebpagePeer::SQLQUERY_ID, $sysSqlquery->toKeyValue('PrimaryKey', 'SqlqueryId'), $comparison);
+        } else {
+            throw new PropelException('filterBySysSqlquery() only accepts arguments of type SysSqlquery or PropelCollection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the SysSqlquery relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function joinSysSqlquery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('SysSqlquery');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'SysSqlquery');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the SysSqlquery relation SysSqlquery object
+     *
+     * @see       useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   SysSqlqueryQuery A secondary query class using the current class as primary query
+     */
+    public function useSysSqlqueryQuery($relationAlias = null, $joinType = Criteria::LEFT_JOIN)
+    {
+        return $this
+            ->joinSysSqlquery($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'SysSqlquery', 'SysSqlqueryQuery');
     }
 
     /**

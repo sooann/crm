@@ -43,6 +43,7 @@ class SysWebpagecolumnTableMap extends TableMap
         $this->addColumn('INTQUERYORDER', 'Queryorder', 'INTEGER', false, null, null);
         $this->addColumn('STRQUERYCOLUMN', 'Querycolumn', 'VARCHAR', false, 255, null);
         $this->addColumn('STRNAME', 'Name', 'VARCHAR', false, 255, null);
+        $this->addColumn('STRDATATYPE', 'Datatype', 'VARCHAR', false, 255, null);
         $this->addColumn('INTORDER', 'Order', 'INTEGER', false, null, null);
         $this->addColumn('BLNDISPLAY', 'Display', 'INTEGER', false, null, null);
         $this->addColumn('BLNHIDDEN', 'Hidden', 'INTEGER', false, null, null);

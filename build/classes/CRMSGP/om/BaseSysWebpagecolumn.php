@@ -60,6 +60,12 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     protected $strname;
 
     /**
+     * The value for the strdatatype field.
+     * @var        string
+     */
+    protected $strdatatype;
+
+    /**
      * The value for the intorder field.
      * @var        int
      */
@@ -186,6 +192,16 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     public function getName()
     {
         return $this->strname;
+    }
+
+    /**
+     * Get the [strdatatype] column value.
+     *
+     * @return string
+     */
+    public function getDatatype()
+    {
+        return $this->strdatatype;
     }
 
     /**
@@ -452,6 +468,27 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     } // setName()
 
     /**
+     * Set the value of [strdatatype] column.
+     *
+     * @param string $v new value
+     * @return SysWebpagecolumn The current object (for fluent API support)
+     */
+    public function setDatatype($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strdatatype !== $v) {
+            $this->strdatatype = $v;
+            $this->modifiedColumns[] = SysWebpagecolumnPeer::STRDATATYPE;
+        }
+
+
+        return $this;
+    } // setDatatype()
+
+    /**
      * Set the value of [intorder] column.
      *
      * @param int $v new value
@@ -702,16 +739,17 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
             $this->intqueryorder = ($row[$startcol + 2] !== null) ? (int) $row[$startcol + 2] : null;
             $this->strquerycolumn = ($row[$startcol + 3] !== null) ? (string) $row[$startcol + 3] : null;
             $this->strname = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
-            $this->intorder = ($row[$startcol + 5] !== null) ? (int) $row[$startcol + 5] : null;
-            $this->blndisplay = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
-            $this->blnhidden = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
-            $this->blnhide = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
-            $this->blnsearch = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
-            $this->blnprikey = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
-            $this->intcreatedby = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
-            $this->intmodifiedby = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
-            $this->dtcreateddate = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
-            $this->dtmodifieddate = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
+            $this->strdatatype = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
+            $this->intorder = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
+            $this->blndisplay = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
+            $this->blnhidden = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
+            $this->blnhide = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
+            $this->blnsearch = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
+            $this->blnprikey = ($row[$startcol + 11] !== null) ? (int) $row[$startcol + 11] : null;
+            $this->intcreatedby = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+            $this->intmodifiedby = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
+            $this->dtcreateddate = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
+            $this->dtmodifieddate = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -720,7 +758,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 15; // 15 = SysWebpagecolumnPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 16; // 16 = SysWebpagecolumnPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating SysWebpagecolumn object", $e);
@@ -998,6 +1036,9 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagecolumnPeer::STRNAME)) {
             $modifiedColumns[':p' . $index++]  = '`STRNAME`';
         }
+        if ($this->isColumnModified(SysWebpagecolumnPeer::STRDATATYPE)) {
+            $modifiedColumns[':p' . $index++]  = '`STRDATATYPE`';
+        }
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTORDER)) {
             $modifiedColumns[':p' . $index++]  = '`INTORDER`';
         }
@@ -1053,6 +1094,9 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                         break;
                     case '`STRNAME`':
                         $stmt->bindValue($identifier, $this->strname, PDO::PARAM_STR);
+                        break;
+                    case '`STRDATATYPE`':
+                        $stmt->bindValue($identifier, $this->strdatatype, PDO::PARAM_STR);
                         break;
                     case '`INTORDER`':
                         $stmt->bindValue($identifier, $this->intorder, PDO::PARAM_INT);
@@ -1246,33 +1290,36 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 return $this->getName();
                 break;
             case 5:
-                return $this->getOrder();
+                return $this->getDatatype();
                 break;
             case 6:
-                return $this->getDisplay();
+                return $this->getOrder();
                 break;
             case 7:
-                return $this->getHidden();
+                return $this->getDisplay();
                 break;
             case 8:
-                return $this->getHide();
+                return $this->getHidden();
                 break;
             case 9:
-                return $this->getSearch();
+                return $this->getHide();
                 break;
             case 10:
-                return $this->getPrikey();
+                return $this->getSearch();
                 break;
             case 11:
-                return $this->getCreatedby();
+                return $this->getPrikey();
                 break;
             case 12:
-                return $this->getModifiedby();
+                return $this->getCreatedby();
                 break;
             case 13:
-                return $this->getCreateddate();
+                return $this->getModifiedby();
                 break;
             case 14:
+                return $this->getCreateddate();
+                break;
+            case 15:
                 return $this->getModifieddate();
                 break;
             default:
@@ -1309,16 +1356,17 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
             $keys[2] => $this->getQueryorder(),
             $keys[3] => $this->getQuerycolumn(),
             $keys[4] => $this->getName(),
-            $keys[5] => $this->getOrder(),
-            $keys[6] => $this->getDisplay(),
-            $keys[7] => $this->getHidden(),
-            $keys[8] => $this->getHide(),
-            $keys[9] => $this->getSearch(),
-            $keys[10] => $this->getPrikey(),
-            $keys[11] => $this->getCreatedby(),
-            $keys[12] => $this->getModifiedby(),
-            $keys[13] => $this->getCreateddate(),
-            $keys[14] => $this->getModifieddate(),
+            $keys[5] => $this->getDatatype(),
+            $keys[6] => $this->getOrder(),
+            $keys[7] => $this->getDisplay(),
+            $keys[8] => $this->getHidden(),
+            $keys[9] => $this->getHide(),
+            $keys[10] => $this->getSearch(),
+            $keys[11] => $this->getPrikey(),
+            $keys[12] => $this->getCreatedby(),
+            $keys[13] => $this->getModifiedby(),
+            $keys[14] => $this->getCreateddate(),
+            $keys[15] => $this->getModifieddate(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aSysWebpage) {
@@ -1374,33 +1422,36 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 $this->setName($value);
                 break;
             case 5:
-                $this->setOrder($value);
+                $this->setDatatype($value);
                 break;
             case 6:
-                $this->setDisplay($value);
+                $this->setOrder($value);
                 break;
             case 7:
-                $this->setHidden($value);
+                $this->setDisplay($value);
                 break;
             case 8:
-                $this->setHide($value);
+                $this->setHidden($value);
                 break;
             case 9:
-                $this->setSearch($value);
+                $this->setHide($value);
                 break;
             case 10:
-                $this->setPrikey($value);
+                $this->setSearch($value);
                 break;
             case 11:
-                $this->setCreatedby($value);
+                $this->setPrikey($value);
                 break;
             case 12:
-                $this->setModifiedby($value);
+                $this->setCreatedby($value);
                 break;
             case 13:
-                $this->setCreateddate($value);
+                $this->setModifiedby($value);
                 break;
             case 14:
+                $this->setCreateddate($value);
+                break;
+            case 15:
                 $this->setModifieddate($value);
                 break;
         } // switch()
@@ -1432,16 +1483,17 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if (array_key_exists($keys[2], $arr)) $this->setQueryorder($arr[$keys[2]]);
         if (array_key_exists($keys[3], $arr)) $this->setQuerycolumn($arr[$keys[3]]);
         if (array_key_exists($keys[4], $arr)) $this->setName($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setOrder($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setDisplay($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setHidden($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setHide($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setSearch($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setPrikey($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setCreatedby($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setModifiedby($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setCreateddate($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setModifieddate($arr[$keys[14]]);
+        if (array_key_exists($keys[5], $arr)) $this->setDatatype($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setOrder($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setDisplay($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setHidden($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setHide($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setSearch($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setPrikey($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setCreatedby($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setModifiedby($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setCreateddate($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setModifieddate($arr[$keys[15]]);
     }
 
     /**
@@ -1458,6 +1510,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTQUERYORDER)) $criteria->add(SysWebpagecolumnPeer::INTQUERYORDER, $this->intqueryorder);
         if ($this->isColumnModified(SysWebpagecolumnPeer::STRQUERYCOLUMN)) $criteria->add(SysWebpagecolumnPeer::STRQUERYCOLUMN, $this->strquerycolumn);
         if ($this->isColumnModified(SysWebpagecolumnPeer::STRNAME)) $criteria->add(SysWebpagecolumnPeer::STRNAME, $this->strname);
+        if ($this->isColumnModified(SysWebpagecolumnPeer::STRDATATYPE)) $criteria->add(SysWebpagecolumnPeer::STRDATATYPE, $this->strdatatype);
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTORDER)) $criteria->add(SysWebpagecolumnPeer::INTORDER, $this->intorder);
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNDISPLAY)) $criteria->add(SysWebpagecolumnPeer::BLNDISPLAY, $this->blndisplay);
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNHIDDEN)) $criteria->add(SysWebpagecolumnPeer::BLNHIDDEN, $this->blnhidden);
@@ -1535,6 +1588,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         $copyObj->setQueryorder($this->getQueryorder());
         $copyObj->setQuerycolumn($this->getQuerycolumn());
         $copyObj->setName($this->getName());
+        $copyObj->setDatatype($this->getDatatype());
         $copyObj->setOrder($this->getOrder());
         $copyObj->setDisplay($this->getDisplay());
         $copyObj->setHidden($this->getHidden());
@@ -1664,6 +1718,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         $this->intqueryorder = null;
         $this->strquerycolumn = null;
         $this->strname = null;
+        $this->strdatatype = null;
         $this->intorder = null;
         $this->blndisplay = null;
         $this->blnhidden = null;

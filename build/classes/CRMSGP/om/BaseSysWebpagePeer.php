@@ -573,57 +573,6 @@ abstract class BaseSysWebpagePeer
 
 
     /**
-     * Returns the number of rows matching criteria, joining the related SysSqlquery table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinSysSqlquery(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(SysWebpagePeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            SysWebpagePeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
-
-        // Set the correct dbName
-        $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
-    }
-
-
-    /**
      * Returns the number of rows matching criteria, joining the related SysWebtemplate table
      *
      * @param      Criteria $criteria
@@ -675,69 +624,53 @@ abstract class BaseSysWebpagePeer
 
 
     /**
-     * Selects a collection of SysWebpage objects pre-filled with their SysSqlquery objects.
-     * @param      Criteria  $criteria
+     * Returns the number of rows matching criteria, joining the related SysSqlquery table
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of SysWebpage objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     * @return int Number of matching rows.
      */
-    public static function doSelectJoinSysSqlquery(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinSysSqlquery(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
+        // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
 
-        // Set the correct dbName if it has not been overridden
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(SysWebpagePeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
         }
 
-        SysWebpagePeer::addSelectColumns($criteria);
-        $startcol = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
-        SysSqlqueryPeer::addSelectColumns($criteria);
+        if (!$criteria->hasSelectClause()) {
+            SysWebpagePeer::addSelectColumns($criteria);
+        }
+
+        $criteria->clearOrderByColumns(); // ORDER BY won't ever affect the count
+
+        // Set the correct dbName
+        $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
 
         $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
 
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
+        $stmt = BasePeer::doCount($criteria, $con);
 
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = SysWebpagePeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = SysWebpagePeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-
-                $cls = SysWebpagePeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                SysWebpagePeer::addInstanceToPool($obj1, $key1);
-            } // if $obj1 already loaded
-
-            $key2 = SysSqlqueryPeer::getPrimaryKeyHashFromRow($row, $startcol);
-            if ($key2 !== null) {
-                $obj2 = SysSqlqueryPeer::getInstanceFromPool($key2);
-                if (!$obj2) {
-
-                    $cls = SysSqlqueryPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol);
-                    SysSqlqueryPeer::addInstanceToPool($obj2, $key2);
-                } // if obj2 already loaded
-
-                // Add the $obj1 (SysWebpage) to $obj2 (SysSqlquery)
-                $obj2->addSysWebpage($obj1);
-
-            } // if joined row was not null
-
-            $results[] = $obj1;
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
         }
         $stmt->closeCursor();
 
-        return $results;
+        return $count;
     }
 
 
@@ -809,6 +742,73 @@ abstract class BaseSysWebpagePeer
 
 
     /**
+     * Selects a collection of SysWebpage objects pre-filled with their SysSqlquery objects.
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of SysWebpage objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinSysSqlquery(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+        }
+
+        SysWebpagePeer::addSelectColumns($criteria);
+        $startcol = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
+        SysSqlqueryPeer::addSelectColumns($criteria);
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = SysWebpagePeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = SysWebpagePeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+
+                $cls = SysWebpagePeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                SysWebpagePeer::addInstanceToPool($obj1, $key1);
+            } // if $obj1 already loaded
+
+            $key2 = SysSqlqueryPeer::getPrimaryKeyHashFromRow($row, $startcol);
+            if ($key2 !== null) {
+                $obj2 = SysSqlqueryPeer::getInstanceFromPool($key2);
+                if (!$obj2) {
+
+                    $cls = SysSqlqueryPeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol);
+                    SysSqlqueryPeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 already loaded
+
+                // Add the $obj1 (SysWebpage) to $obj2 (SysSqlquery)
+                $obj2->addSysWebpage($obj1);
+
+            } // if joined row was not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
      * Returns the number of rows matching criteria, joining all related tables
      *
      * @param      Criteria $criteria
@@ -844,9 +844,9 @@ abstract class BaseSysWebpagePeer
             $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
         }
 
-        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
-
         $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
 
         $stmt = BasePeer::doCount($criteria, $con);
 
@@ -882,15 +882,15 @@ abstract class BaseSysWebpagePeer
         SysWebpagePeer::addSelectColumns($criteria);
         $startcol2 = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
 
-        SysSqlqueryPeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + SysSqlqueryPeer::NUM_HYDRATE_COLUMNS;
-
         SysWebtemplatePeer::addSelectColumns($criteria);
-        $startcol4 = $startcol3 + SysWebtemplatePeer::NUM_HYDRATE_COLUMNS;
+        $startcol3 = $startcol2 + SysWebtemplatePeer::NUM_HYDRATE_COLUMNS;
 
-        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
+        SysSqlqueryPeer::addSelectColumns($criteria);
+        $startcol4 = $startcol3 + SysSqlqueryPeer::NUM_HYDRATE_COLUMNS;
 
         $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
+
+        $criteria->addJoin(SysWebpagePeer::SQLQUERY_ID, SysSqlqueryPeer::SQLQUERY_ID, $join_behavior);
 
         $stmt = BasePeer::doSelect($criteria, $con);
         $results = array();
@@ -909,39 +909,39 @@ abstract class BaseSysWebpagePeer
                 SysWebpagePeer::addInstanceToPool($obj1, $key1);
             } // if obj1 already loaded
 
-            // Add objects for joined SysSqlquery rows
-
-            $key2 = SysSqlqueryPeer::getPrimaryKeyHashFromRow($row, $startcol2);
-            if ($key2 !== null) {
-                $obj2 = SysSqlqueryPeer::getInstanceFromPool($key2);
-                if (!$obj2) {
-
-                    $cls = SysSqlqueryPeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    SysSqlqueryPeer::addInstanceToPool($obj2, $key2);
-                } // if obj2 loaded
-
-                // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysSqlquery)
-                $obj2->addSysWebpage($obj1);
-            } // if joined row not null
-
             // Add objects for joined SysWebtemplate rows
 
-            $key3 = SysWebtemplatePeer::getPrimaryKeyHashFromRow($row, $startcol3);
-            if ($key3 !== null) {
-                $obj3 = SysWebtemplatePeer::getInstanceFromPool($key3);
-                if (!$obj3) {
+            $key2 = SysWebtemplatePeer::getPrimaryKeyHashFromRow($row, $startcol2);
+            if ($key2 !== null) {
+                $obj2 = SysWebtemplatePeer::getInstanceFromPool($key2);
+                if (!$obj2) {
 
                     $cls = SysWebtemplatePeer::getOMClass();
 
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    SysWebtemplatePeer::addInstanceToPool($obj2, $key2);
+                } // if obj2 loaded
+
+                // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysWebtemplate)
+                $obj2->addSysWebpage($obj1);
+            } // if joined row not null
+
+            // Add objects for joined SysSqlquery rows
+
+            $key3 = SysSqlqueryPeer::getPrimaryKeyHashFromRow($row, $startcol3);
+            if ($key3 !== null) {
+                $obj3 = SysSqlqueryPeer::getInstanceFromPool($key3);
+                if (!$obj3) {
+
+                    $cls = SysSqlqueryPeer::getOMClass();
+
                     $obj3 = new $cls();
                     $obj3->hydrate($row, $startcol3);
-                    SysWebtemplatePeer::addInstanceToPool($obj3, $key3);
+                    SysSqlqueryPeer::addInstanceToPool($obj3, $key3);
                 } // if obj3 loaded
 
-                // Add the $obj1 (SysWebpage) to the collection in $obj3 (SysWebtemplate)
+                // Add the $obj1 (SysWebpage) to the collection in $obj3 (SysSqlquery)
                 $obj3->addSysWebpage($obj1);
             } // if joined row not null
 
@@ -950,57 +950,6 @@ abstract class BaseSysWebpagePeer
         $stmt->closeCursor();
 
         return $results;
-    }
-
-
-    /**
-     * Returns the number of rows matching criteria, joining the related SysSqlquery table
-     *
-     * @param      Criteria $criteria
-     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
-     * @param      PropelPDO $con
-     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return int Number of matching rows.
-     */
-    public static function doCountJoinAllExceptSysSqlquery(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
-    {
-        // we're going to modify criteria, so copy it first
-        $criteria = clone $criteria;
-
-        // We need to set the primary table name, since in the case that there are no WHERE columns
-        // it will be impossible for the BasePeer::createSelectSql() method to determine which
-        // tables go into the FROM clause.
-        $criteria->setPrimaryTableName(SysWebpagePeer::TABLE_NAME);
-
-        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
-            $criteria->setDistinct();
-        }
-
-        if (!$criteria->hasSelectClause()) {
-            SysWebpagePeer::addSelectColumns($criteria);
-        }
-
-        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
-
-        // Set the correct dbName
-        $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
-
-        if ($con === null) {
-            $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
-        }
-
-        $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
-
-        $stmt = BasePeer::doCount($criteria, $con);
-
-        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $count = (int) $row[0];
-        } else {
-            $count = 0; // no rows returned; we infer that means 0 matches.
-        }
-        $stmt->closeCursor();
-
-        return $count;
     }
 
 
@@ -1056,76 +1005,53 @@ abstract class BaseSysWebpagePeer
 
 
     /**
-     * Selects a collection of SysWebpage objects pre-filled with all related objects except SysSqlquery.
+     * Returns the number of rows matching criteria, joining the related SysSqlquery table
      *
-     * @param      Criteria  $criteria
+     * @param      Criteria $criteria
+     * @param      boolean $distinct Whether to select only distinct columns; deprecated: use Criteria->setDistinct() instead.
      * @param      PropelPDO $con
      * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
-     * @return array           Array of SysWebpage objects.
-     * @throws PropelException Any exceptions caught during processing will be
-     *		 rethrown wrapped into a PropelException.
+     * @return int Number of matching rows.
      */
-    public static function doSelectJoinAllExceptSysSqlquery(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    public static function doCountJoinAllExceptSysSqlquery(Criteria $criteria, $distinct = false, PropelPDO $con = null, $join_behavior = Criteria::LEFT_JOIN)
     {
+        // we're going to modify criteria, so copy it first
         $criteria = clone $criteria;
 
-        // Set the correct dbName if it has not been overridden
-        // $criteria->getDbName() will return the same object if not set to another value
-        // so == check is okay and faster
-        if ($criteria->getDbName() == Propel::getDefaultDB()) {
-            $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+        // We need to set the primary table name, since in the case that there are no WHERE columns
+        // it will be impossible for the BasePeer::createSelectSql() method to determine which
+        // tables go into the FROM clause.
+        $criteria->setPrimaryTableName(SysWebpagePeer::TABLE_NAME);
+
+        if ($distinct && !in_array(Criteria::DISTINCT, $criteria->getSelectModifiers())) {
+            $criteria->setDistinct();
         }
 
-        SysWebpagePeer::addSelectColumns($criteria);
-        $startcol2 = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
+        if (!$criteria->hasSelectClause()) {
+            SysWebpagePeer::addSelectColumns($criteria);
+        }
 
-        SysWebtemplatePeer::addSelectColumns($criteria);
-        $startcol3 = $startcol2 + SysWebtemplatePeer::NUM_HYDRATE_COLUMNS;
+        $criteria->clearOrderByColumns(); // ORDER BY should not affect count
+
+        // Set the correct dbName
+        $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+
+        if ($con === null) {
+            $con = Propel::getConnection(SysWebpagePeer::DATABASE_NAME, Propel::CONNECTION_READ);
+        }
 
         $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
 
+        $stmt = BasePeer::doCount($criteria, $con);
 
-        $stmt = BasePeer::doSelect($criteria, $con);
-        $results = array();
-
-        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
-            $key1 = SysWebpagePeer::getPrimaryKeyHashFromRow($row, 0);
-            if (null !== ($obj1 = SysWebpagePeer::getInstanceFromPool($key1))) {
-                // We no longer rehydrate the object, since this can cause data loss.
-                // See http://www.propelorm.org/ticket/509
-                // $obj1->hydrate($row, 0, true); // rehydrate
-            } else {
-                $cls = SysWebpagePeer::getOMClass();
-
-                $obj1 = new $cls();
-                $obj1->hydrate($row);
-                SysWebpagePeer::addInstanceToPool($obj1, $key1);
-            } // if obj1 already loaded
-
-                // Add objects for joined SysWebtemplate rows
-
-                $key2 = SysWebtemplatePeer::getPrimaryKeyHashFromRow($row, $startcol2);
-                if ($key2 !== null) {
-                    $obj2 = SysWebtemplatePeer::getInstanceFromPool($key2);
-                    if (!$obj2) {
-
-                        $cls = SysWebtemplatePeer::getOMClass();
-
-                    $obj2 = new $cls();
-                    $obj2->hydrate($row, $startcol2);
-                    SysWebtemplatePeer::addInstanceToPool($obj2, $key2);
-                } // if $obj2 already loaded
-
-                // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysWebtemplate)
-                $obj2->addSysWebpage($obj1);
-
-            } // if joined row is not null
-
-            $results[] = $obj1;
+        if ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $count = (int) $row[0];
+        } else {
+            $count = 0; // no rows returned; we infer that means 0 matches.
         }
         $stmt->closeCursor();
 
-        return $results;
+        return $count;
     }
 
 
@@ -1191,6 +1117,80 @@ abstract class BaseSysWebpagePeer
                 } // if $obj2 already loaded
 
                 // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysSqlquery)
+                $obj2->addSysWebpage($obj1);
+
+            } // if joined row is not null
+
+            $results[] = $obj1;
+        }
+        $stmt->closeCursor();
+
+        return $results;
+    }
+
+
+    /**
+     * Selects a collection of SysWebpage objects pre-filled with all related objects except SysSqlquery.
+     *
+     * @param      Criteria  $criteria
+     * @param      PropelPDO $con
+     * @param      String    $join_behavior the type of joins to use, defaults to Criteria::LEFT_JOIN
+     * @return array           Array of SysWebpage objects.
+     * @throws PropelException Any exceptions caught during processing will be
+     *		 rethrown wrapped into a PropelException.
+     */
+    public static function doSelectJoinAllExceptSysSqlquery(Criteria $criteria, $con = null, $join_behavior = Criteria::LEFT_JOIN)
+    {
+        $criteria = clone $criteria;
+
+        // Set the correct dbName if it has not been overridden
+        // $criteria->getDbName() will return the same object if not set to another value
+        // so == check is okay and faster
+        if ($criteria->getDbName() == Propel::getDefaultDB()) {
+            $criteria->setDbName(SysWebpagePeer::DATABASE_NAME);
+        }
+
+        SysWebpagePeer::addSelectColumns($criteria);
+        $startcol2 = SysWebpagePeer::NUM_HYDRATE_COLUMNS;
+
+        SysWebtemplatePeer::addSelectColumns($criteria);
+        $startcol3 = $startcol2 + SysWebtemplatePeer::NUM_HYDRATE_COLUMNS;
+
+        $criteria->addJoin(SysWebpagePeer::WEBTEMPLATE_ID, SysWebtemplatePeer::WEBTEMPLATE_ID, $join_behavior);
+
+
+        $stmt = BasePeer::doSelect($criteria, $con);
+        $results = array();
+
+        while ($row = $stmt->fetch(PDO::FETCH_NUM)) {
+            $key1 = SysWebpagePeer::getPrimaryKeyHashFromRow($row, 0);
+            if (null !== ($obj1 = SysWebpagePeer::getInstanceFromPool($key1))) {
+                // We no longer rehydrate the object, since this can cause data loss.
+                // See http://www.propelorm.org/ticket/509
+                // $obj1->hydrate($row, 0, true); // rehydrate
+            } else {
+                $cls = SysWebpagePeer::getOMClass();
+
+                $obj1 = new $cls();
+                $obj1->hydrate($row);
+                SysWebpagePeer::addInstanceToPool($obj1, $key1);
+            } // if obj1 already loaded
+
+                // Add objects for joined SysWebtemplate rows
+
+                $key2 = SysWebtemplatePeer::getPrimaryKeyHashFromRow($row, $startcol2);
+                if ($key2 !== null) {
+                    $obj2 = SysWebtemplatePeer::getInstanceFromPool($key2);
+                    if (!$obj2) {
+
+                        $cls = SysWebtemplatePeer::getOMClass();
+
+                    $obj2 = new $cls();
+                    $obj2->hydrate($row, $startcol2);
+                    SysWebtemplatePeer::addInstanceToPool($obj2, $key2);
+                } // if $obj2 already loaded
+
+                // Add the $obj1 (SysWebpage) to the collection in $obj2 (SysWebtemplate)
                 $obj2->addSysWebpage($obj1);
 
             } // if joined row is not null
