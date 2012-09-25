@@ -106,7 +106,7 @@ protected function getPHPArray ($value) {
 		if (json_decode($value)!==NULL) {
 			$prop = json_decode($value);
 			//echo str_replace("\n","<br />",var_export($prop[0],TRUE));
-			echo $value."<br /><br />";
+			//echo $value."<br /><br />";
 			$arrtext="";
 			if (is_array($prop)) {
 				$ele = $prop[0];
