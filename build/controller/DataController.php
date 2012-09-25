@@ -94,9 +94,9 @@ class DataController extends BaseController {
 					break;
 			}
 			if (array_search("primary_key",$cm["flags"]) ) {
-				$e["Prikey"] = 1;
+				$e["Prikey"] = "Yes";
 			} else {
-				$e["Prikey"] = 0;
+				$e["Prikey"] = "No";
 			}
 			array_push($arr, $e);
 		}
