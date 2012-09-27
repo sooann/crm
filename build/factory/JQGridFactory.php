@@ -24,6 +24,33 @@ class JQGridFactory extends jqGridRender {
 		return $this->html.parent::renderGrid($tblelement,$pager,$script,$summary,$params,$createtbl,$createpg,false);
 			
 	}
+	
+	protected $onselrow = <<< ONSELROW
+function(rowid, selected)
+{
+	if(rowid && rowid !== lastSelection) {
+		$("#$gridid").jqGrid('saveRow',lastSelection,{
+				url:'clientArray',
+				aftersavefunc: function() {
+					$("#$htmlid").val(JSON.stringify($('#$gridid').jqGrid('getRowData')));
+				}
+			});
+		$("#$gridid").jqGrid('restoreRow', lastSelection);
+		$("#$gridid").jqGrid('editRow', rowid,{
+				keys:true,
+				aftersavefunc: function() {
+					$("#$htmlid").val(JSON.stringify($('#$gridid').jqGrid('getRowData')));
+				}
+			});
+		lastSelection = rowid;
+	}
+}
+ONSELROW;
+	
+	public function getOnSelectRow() {
+		return $this->onselrow;
+	}
+	
 }
 	
 ?>
