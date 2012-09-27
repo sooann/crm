@@ -12,7 +12,6 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 			$configtxt = $webpage->getClonefishConfig();
 			
 			if ($webpage->getClonefishParentid()>0) {
-				$q1 = new SysWebpageQuery();
 				if ($parentwebpage = $query->findPK($webpage->getClonefishParentid())) {
 					$configtxt .= $parentwebpage->getClonefishConfig(); 
 					$html .= $parentwebpage->getCommonjs();
@@ -40,9 +39,11 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 					eval("\$query = new ". $webpage->getORMClass()."Query;");
 					if ($model = $query->findPK($controller->getParam("id"))) {
 						//load values via default from clonefish config
-						$modelcols = array_keys($model->toArray());
 						foreach (array_keys($config) as $element) {
-							if (array_search($element,$modelcols)!=false) {
+							if (property_exists($model, "coll".$element)) {
+								eval("\$temparr=\$model->get".$element."()->toArray();");
+								$clonefish->setValue($element, $temparr, get_magic_quotes_gpc() );
+							} else {	
 								$clonefish->setValue($element, $model->getByName($element), get_magic_quotes_gpc() );
 							}
 							//check for jqgrid subformv
@@ -69,9 +70,24 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 					eval("\$model = new ". $webpage->getORMClass().";");
 				}
 				
-				$modelcols = array_keys($model->toArray());
 				foreach (array_keys($config) as $element) {
-					if (array_search($element,$modelcols)!=false) {
+					if (property_exists($model, "coll".$element)) {
+						$temparr="";
+						eval ("\$temparr = \$clonefish->getvalue('".$element."',false);");
+						if ($temparr!="") {
+							$models = new PropelCollection();
+							eval ("\$coll = str_replace('Peer', '', \$model->get".$element."()->getPeerClass());");
+							eval("\$models->setModel(\$coll);");
+							$tempjson = json_decode($clonefish->getValue($element, false),1);
+							foreach ($tempjson as $v) {
+								$temp="";
+								eval ("\$temp = new ".$coll."();");
+								$temp->fromArray($v);
+								$models->append($temp);
+							}
+							eval("\$model->set".$element."(\$models);");
+						}
+					} else {
 						$model->setByName($element, $clonefish->getValue($element, false));
 					}
 				}
