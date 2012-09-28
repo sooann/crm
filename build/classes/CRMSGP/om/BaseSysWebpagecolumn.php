@@ -73,31 +73,31 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
 
     /**
      * The value for the blndisplay field.
-     * @var        int
+     * @var        string
      */
     protected $blndisplay;
 
     /**
      * The value for the blnhidden field.
-     * @var        int
+     * @var        string
      */
     protected $blnhidden;
 
     /**
      * The value for the blnhide field.
-     * @var        int
+     * @var        string
      */
     protected $blnhide;
 
     /**
      * The value for the blnsearch field.
-     * @var        int
+     * @var        string
      */
     protected $blnsearch;
 
     /**
      * The value for the blnprikey field.
-     * @var        int
+     * @var        string
      */
     protected $blnprikey;
 
@@ -217,7 +217,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Get the [blndisplay] column value.
      *
-     * @return int
+     * @return string
      */
     public function getDisplay()
     {
@@ -227,7 +227,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Get the [blnhidden] column value.
      *
-     * @return int
+     * @return string
      */
     public function getHidden()
     {
@@ -237,7 +237,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Get the [blnhide] column value.
      *
-     * @return int
+     * @return string
      */
     public function getHide()
     {
@@ -247,7 +247,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Get the [blnsearch] column value.
      *
-     * @return int
+     * @return string
      */
     public function getSearch()
     {
@@ -257,7 +257,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Get the [blnprikey] column value.
      *
-     * @return int
+     * @return string
      */
     public function getPrikey()
     {
@@ -512,13 +512,13 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Set the value of [blndisplay] column.
      *
-     * @param int $v new value
+     * @param string $v new value
      * @return SysWebpagecolumn The current object (for fluent API support)
      */
     public function setDisplay($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
         if ($this->blndisplay !== $v) {
@@ -533,13 +533,13 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Set the value of [blnhidden] column.
      *
-     * @param int $v new value
+     * @param string $v new value
      * @return SysWebpagecolumn The current object (for fluent API support)
      */
     public function setHidden($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
         if ($this->blnhidden !== $v) {
@@ -554,13 +554,13 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Set the value of [blnhide] column.
      *
-     * @param int $v new value
+     * @param string $v new value
      * @return SysWebpagecolumn The current object (for fluent API support)
      */
     public function setHide($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
         if ($this->blnhide !== $v) {
@@ -575,13 +575,13 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Set the value of [blnsearch] column.
      *
-     * @param int $v new value
+     * @param string $v new value
      * @return SysWebpagecolumn The current object (for fluent API support)
      */
     public function setSearch($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
         if ($this->blnsearch !== $v) {
@@ -596,13 +596,13 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     /**
      * Set the value of [blnprikey] column.
      *
-     * @param int $v new value
+     * @param string $v new value
      * @return SysWebpagecolumn The current object (for fluent API support)
      */
     public function setPrikey($v)
     {
         if ($v !== null) {
-            $v = (int) $v;
+            $v = (string) $v;
         }
 
         if ($this->blnprikey !== $v) {
@@ -741,11 +741,11 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
             $this->strname = ($row[$startcol + 4] !== null) ? (string) $row[$startcol + 4] : null;
             $this->strdatatype = ($row[$startcol + 5] !== null) ? (string) $row[$startcol + 5] : null;
             $this->intorder = ($row[$startcol + 6] !== null) ? (int) $row[$startcol + 6] : null;
-            $this->blndisplay = ($row[$startcol + 7] !== null) ? (int) $row[$startcol + 7] : null;
-            $this->blnhidden = ($row[$startcol + 8] !== null) ? (int) $row[$startcol + 8] : null;
-            $this->blnhide = ($row[$startcol + 9] !== null) ? (int) $row[$startcol + 9] : null;
-            $this->blnsearch = ($row[$startcol + 10] !== null) ? (int) $row[$startcol + 10] : null;
-            $this->blnprikey = ($row[$startcol + 11] !== null) ? (int) $row[$startcol + 11] : null;
+            $this->blndisplay = ($row[$startcol + 7] !== null) ? (string) $row[$startcol + 7] : null;
+            $this->blnhidden = ($row[$startcol + 8] !== null) ? (string) $row[$startcol + 8] : null;
+            $this->blnhide = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
+            $this->blnsearch = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
+            $this->blnprikey = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
             $this->intcreatedby = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
             $this->intmodifiedby = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
             $this->dtcreateddate = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
@@ -1102,19 +1102,19 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                         $stmt->bindValue($identifier, $this->intorder, PDO::PARAM_INT);
                         break;
                     case '`BLNDISPLAY`':
-                        $stmt->bindValue($identifier, $this->blndisplay, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->blndisplay, PDO::PARAM_STR);
                         break;
                     case '`BLNHIDDEN`':
-                        $stmt->bindValue($identifier, $this->blnhidden, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->blnhidden, PDO::PARAM_STR);
                         break;
                     case '`BLNHIDE`':
-                        $stmt->bindValue($identifier, $this->blnhide, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->blnhide, PDO::PARAM_STR);
                         break;
                     case '`BLNSEARCH`':
-                        $stmt->bindValue($identifier, $this->blnsearch, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->blnsearch, PDO::PARAM_STR);
                         break;
                     case '`BLNPRIKEY`':
-                        $stmt->bindValue($identifier, $this->blnprikey, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->blnprikey, PDO::PARAM_STR);
                         break;
                     case '`INTCREATEDBY`':
                         $stmt->bindValue($identifier, $this->intcreatedby, PDO::PARAM_INT);

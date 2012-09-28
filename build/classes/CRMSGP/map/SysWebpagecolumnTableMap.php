@@ -45,11 +45,11 @@ class SysWebpagecolumnTableMap extends TableMap
         $this->addColumn('STRNAME', 'Name', 'VARCHAR', false, 255, null);
         $this->addColumn('STRDATATYPE', 'Datatype', 'VARCHAR', false, 255, null);
         $this->addColumn('INTORDER', 'Order', 'INTEGER', false, null, null);
-        $this->addColumn('BLNDISPLAY', 'Display', 'INTEGER', false, null, null);
-        $this->addColumn('BLNHIDDEN', 'Hidden', 'INTEGER', false, null, null);
-        $this->addColumn('BLNHIDE', 'Hide', 'INTEGER', false, null, null);
-        $this->addColumn('BLNSEARCH', 'Search', 'INTEGER', false, null, null);
-        $this->addColumn('BLNPRIKEY', 'Prikey', 'INTEGER', false, null, null);
+        $this->addColumn('BLNDISPLAY', 'Display', 'CHAR', false, null, null);
+        $this->addColumn('BLNHIDDEN', 'Hidden', 'CHAR', false, null, null);
+        $this->addColumn('BLNHIDE', 'Hide', 'CHAR', false, null, null);
+        $this->addColumn('BLNSEARCH', 'Search', 'CHAR', false, null, null);
+        $this->addColumn('BLNPRIKEY', 'Prikey', 'CHAR', false, null, null);
         $this->addColumn('INTCREATEDBY', 'Createdby', 'BIGINT', false, null, null);
         $this->addColumn('INTMODIFIEDBY', 'Modifiedby', 'BIGINT', false, null, null);
         $this->addColumn('DTCREATEDDATE', 'Createddate', 'TIMESTAMP', false, null, null);

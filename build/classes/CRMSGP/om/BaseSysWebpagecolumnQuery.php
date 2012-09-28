@@ -58,11 +58,11 @@
  * @method SysWebpagecolumn findOneByName(string $strName) Return the first SysWebpagecolumn filtered by the strName column
  * @method SysWebpagecolumn findOneByDatatype(string $strDataType) Return the first SysWebpagecolumn filtered by the strDataType column
  * @method SysWebpagecolumn findOneByOrder(int $intOrder) Return the first SysWebpagecolumn filtered by the intOrder column
- * @method SysWebpagecolumn findOneByDisplay(int $blnDisplay) Return the first SysWebpagecolumn filtered by the blnDisplay column
- * @method SysWebpagecolumn findOneByHidden(int $blnHidden) Return the first SysWebpagecolumn filtered by the blnHidden column
- * @method SysWebpagecolumn findOneByHide(int $blnHide) Return the first SysWebpagecolumn filtered by the blnHide column
- * @method SysWebpagecolumn findOneBySearch(int $blnSearch) Return the first SysWebpagecolumn filtered by the blnSearch column
- * @method SysWebpagecolumn findOneByPrikey(int $blnPriKey) Return the first SysWebpagecolumn filtered by the blnPriKey column
+ * @method SysWebpagecolumn findOneByDisplay(string $blnDisplay) Return the first SysWebpagecolumn filtered by the blnDisplay column
+ * @method SysWebpagecolumn findOneByHidden(string $blnHidden) Return the first SysWebpagecolumn filtered by the blnHidden column
+ * @method SysWebpagecolumn findOneByHide(string $blnHide) Return the first SysWebpagecolumn filtered by the blnHide column
+ * @method SysWebpagecolumn findOneBySearch(string $blnSearch) Return the first SysWebpagecolumn filtered by the blnSearch column
+ * @method SysWebpagecolumn findOneByPrikey(string $blnPriKey) Return the first SysWebpagecolumn filtered by the blnPriKey column
  * @method SysWebpagecolumn findOneByCreatedby(string $intCreatedBy) Return the first SysWebpagecolumn filtered by the intCreatedBy column
  * @method SysWebpagecolumn findOneByModifiedby(string $intModifiedBy) Return the first SysWebpagecolumn filtered by the intModifiedBy column
  * @method SysWebpagecolumn findOneByCreateddate(string $dtCreatedDate) Return the first SysWebpagecolumn filtered by the dtCreatedDate column
@@ -75,11 +75,11 @@
  * @method array findByName(string $strName) Return SysWebpagecolumn objects filtered by the strName column
  * @method array findByDatatype(string $strDataType) Return SysWebpagecolumn objects filtered by the strDataType column
  * @method array findByOrder(int $intOrder) Return SysWebpagecolumn objects filtered by the intOrder column
- * @method array findByDisplay(int $blnDisplay) Return SysWebpagecolumn objects filtered by the blnDisplay column
- * @method array findByHidden(int $blnHidden) Return SysWebpagecolumn objects filtered by the blnHidden column
- * @method array findByHide(int $blnHide) Return SysWebpagecolumn objects filtered by the blnHide column
- * @method array findBySearch(int $blnSearch) Return SysWebpagecolumn objects filtered by the blnSearch column
- * @method array findByPrikey(int $blnPriKey) Return SysWebpagecolumn objects filtered by the blnPriKey column
+ * @method array findByDisplay(string $blnDisplay) Return SysWebpagecolumn objects filtered by the blnDisplay column
+ * @method array findByHidden(string $blnHidden) Return SysWebpagecolumn objects filtered by the blnHidden column
+ * @method array findByHide(string $blnHide) Return SysWebpagecolumn objects filtered by the blnHide column
+ * @method array findBySearch(string $blnSearch) Return SysWebpagecolumn objects filtered by the blnSearch column
+ * @method array findByPrikey(string $blnPriKey) Return SysWebpagecolumn objects filtered by the blnPriKey column
  * @method array findByCreatedby(string $intCreatedBy) Return SysWebpagecolumn objects filtered by the intCreatedBy column
  * @method array findByModifiedby(string $intModifiedBy) Return SysWebpagecolumn objects filtered by the intModifiedBy column
  * @method array findByCreateddate(string $dtCreatedDate) Return SysWebpagecolumn objects filtered by the dtCreatedDate column
@@ -506,36 +506,24 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByDisplay(1234); // WHERE blnDisplay = 1234
-     * $query->filterByDisplay(array(12, 34)); // WHERE blnDisplay IN (12, 34)
-     * $query->filterByDisplay(array('min' => 12)); // WHERE blnDisplay > 12
+     * $query->filterByDisplay('fooValue');   // WHERE blnDisplay = 'fooValue'
+     * $query->filterByDisplay('%fooValue%'); // WHERE blnDisplay LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $display The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $display The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return SysWebpagecolumnQuery The current query, for fluid interface
      */
     public function filterByDisplay($display = null, $comparison = null)
     {
-        if (is_array($display)) {
-            $useMinMax = false;
-            if (isset($display['min'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNDISPLAY, $display['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($display['max'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNDISPLAY, $display['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($display)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $display)) {
+                $display = str_replace('*', '%', $display);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -547,36 +535,24 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByHidden(1234); // WHERE blnHidden = 1234
-     * $query->filterByHidden(array(12, 34)); // WHERE blnHidden IN (12, 34)
-     * $query->filterByHidden(array('min' => 12)); // WHERE blnHidden > 12
+     * $query->filterByHidden('fooValue');   // WHERE blnHidden = 'fooValue'
+     * $query->filterByHidden('%fooValue%'); // WHERE blnHidden LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $hidden The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $hidden The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return SysWebpagecolumnQuery The current query, for fluid interface
      */
     public function filterByHidden($hidden = null, $comparison = null)
     {
-        if (is_array($hidden)) {
-            $useMinMax = false;
-            if (isset($hidden['min'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNHIDDEN, $hidden['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($hidden['max'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNHIDDEN, $hidden['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($hidden)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $hidden)) {
+                $hidden = str_replace('*', '%', $hidden);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -588,36 +564,24 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByHide(1234); // WHERE blnHide = 1234
-     * $query->filterByHide(array(12, 34)); // WHERE blnHide IN (12, 34)
-     * $query->filterByHide(array('min' => 12)); // WHERE blnHide > 12
+     * $query->filterByHide('fooValue');   // WHERE blnHide = 'fooValue'
+     * $query->filterByHide('%fooValue%'); // WHERE blnHide LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $hide The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $hide The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return SysWebpagecolumnQuery The current query, for fluid interface
      */
     public function filterByHide($hide = null, $comparison = null)
     {
-        if (is_array($hide)) {
-            $useMinMax = false;
-            if (isset($hide['min'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNHIDE, $hide['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($hide['max'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNHIDE, $hide['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($hide)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $hide)) {
+                $hide = str_replace('*', '%', $hide);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -629,36 +593,24 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterBySearch(1234); // WHERE blnSearch = 1234
-     * $query->filterBySearch(array(12, 34)); // WHERE blnSearch IN (12, 34)
-     * $query->filterBySearch(array('min' => 12)); // WHERE blnSearch > 12
+     * $query->filterBySearch('fooValue');   // WHERE blnSearch = 'fooValue'
+     * $query->filterBySearch('%fooValue%'); // WHERE blnSearch LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $search The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $search The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return SysWebpagecolumnQuery The current query, for fluid interface
      */
     public function filterBySearch($search = null, $comparison = null)
     {
-        if (is_array($search)) {
-            $useMinMax = false;
-            if (isset($search['min'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNSEARCH, $search['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($search['max'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNSEARCH, $search['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($search)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $search)) {
+                $search = str_replace('*', '%', $search);
+                $comparison = Criteria::LIKE;
             }
         }
 
@@ -670,36 +622,24 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      *
      * Example usage:
      * <code>
-     * $query->filterByPrikey(1234); // WHERE blnPriKey = 1234
-     * $query->filterByPrikey(array(12, 34)); // WHERE blnPriKey IN (12, 34)
-     * $query->filterByPrikey(array('min' => 12)); // WHERE blnPriKey > 12
+     * $query->filterByPrikey('fooValue');   // WHERE blnPriKey = 'fooValue'
+     * $query->filterByPrikey('%fooValue%'); // WHERE blnPriKey LIKE '%fooValue%'
      * </code>
      *
-     * @param     mixed $prikey The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $prikey The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
      * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return SysWebpagecolumnQuery The current query, for fluid interface
      */
     public function filterByPrikey($prikey = null, $comparison = null)
     {
-        if (is_array($prikey)) {
-            $useMinMax = false;
-            if (isset($prikey['min'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIKEY, $prikey['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($prikey['max'])) {
-                $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIKEY, $prikey['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
+        if (null === $comparison) {
+            if (is_array($prikey)) {
                 $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $prikey)) {
+                $prikey = str_replace('*', '%', $prikey);
+                $comparison = Criteria::LIKE;
             }
         }
 
