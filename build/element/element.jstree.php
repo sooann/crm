@@ -20,84 +20,84 @@ var $roottext = "";
 
 	function __construct($key, $configvalues) {
 		parent::__construct($key, $configvalues);
-				
+						
 				if ($this->roottext=="") {
 					$this->roottext="Options"; 
 				}
-				
+		
 				$this->json= '{ "data" : [ { "data": "'.$this->roottext.'", "attr": { "class": "" }, "state": "open", "metadata": {}, "children": [] } ] }';
 	}
 
 
 	public function getHTML() {
 		return '
-						{% autoescape false %}
-							{{ calldecl ("jquery.js") }}
-							{{ calldecl ("jquery.cookie.js") }}
-							{{ calldecl ("jquery.hotkeys.js") }}
-							{{ calldecl ("jquery.jstree.js") }}
-							{{ calldecl ("!style.css") }}
-						{% endautoescape %}
-						<div id="'.$this->name.'_tree" class="demo" style="height:'.$this->height.';width:'.$this->width.'"></div>
-						<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
-						<script type="text/javascript">
-							var '.$this->_getHTMLId().'_treedata = '.$this->json.';
-							$(function () {
-							// TO CREATE AN INSTANCE
-							// select the tree container using jQuery
-							$("#'.$this->name.'_tree")
-								// call `.jstree` with the options object
-								.jstree({
-									// the `plugins` array allows you to configure the active plugins on this instance
-									"json_data" : '.$this->_getHTMLId().'_treedata,
-									"themes" : {
-										"theme" : "default",
-										"dots" : true,
-										"icons" : false
-									},
-									"plugins" : ['.$this->getPlugins().'],
-									"pattern" : ['.$this->getPattern().']
+					{% autoescape false %}
+						{{ calldecl ("jquery.js") }}
+						{{ calldecl ("jquery.cookie.js") }}
+						{{ calldecl ("jquery.hotkeys.js") }}
+						{{ calldecl ("jquery.jstree.js") }}
+						{{ calldecl ("!style.css") }}
+					{% endautoescape %}
+					<div id="'.$this->name.'_tree" class="demo" style="height:'.$this->height.';width:'.$this->width.'"></div>
+					<input type="hidden" name="' . $this->name . '" id="' . $this->_getHTMLId() . '" value="' . htmlspecialchars( $this->json ) . '" />
+					<script type="text/javascript">
+						var '.$this->_getHTMLId().'_treedata = '.$this->json.';
+						$(function () {
+						// TO CREATE AN INSTANCE
+						// select the tree container using jQuery
+						$("#'.$this->name.'_tree")
+							// call `.jstree` with the options object
+							.jstree({
+								// the `plugins` array allows you to configure the active plugins on this instance
+								"json_data" : '.$this->_getHTMLId().'_treedata,
+								"themes" : {
+									"theme" : "default",
+									"dots" : true,
+									"icons" : false
+								},
+								"plugins" : ['.$this->getPlugins().'],
+								"pattern" : ['.$this->getPattern().']
 		
-									// it makes sense to configure a plugin only if overriding the defaults
-								})
-								.bind("loaded.jstree", function (event, data) {
-									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
-								})
-								.bind("create.jstree", function (event, data) {
-									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
-								})
-								.bind("rename.jstree", function (event, data) {
-									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
-								})
-								.bind("move_node.jstree", function (event, data) {
-									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
-								})
-								.bind("remove.jstree", function (event, data) {
-									$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
-								})
-								// EVENTS
-								// each instance triggers its own events - to process those listen on the container
-								// all events are in the `.jstree` namespace
-								// so listen for `function_name`.`jstree` - you can function names from the docs
-								// INSTANCES
-								// 1) you can call most functions just by selecting the container and calling `.jstree("func",`
-								setTimeout(function () { $("#demo1").jstree("set_focus"); }, 500);
-								// with the methods below you can call even private functions (prefixed with `_`)
-								// 2) you can get the focused instance using `$.jstree._focused()`. 
-							});
-						</script>';
+								// it makes sense to configure a plugin only if overriding the defaults
+							})
+							.bind("loaded.jstree", function (event, data) {
+								$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
+							})
+							.bind("create.jstree", function (event, data) {
+								$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
+							})
+							.bind("rename.jstree", function (event, data) {
+								$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
+							})
+							.bind("move_node.jstree", function (event, data) {
+								$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
+							})
+							.bind("remove.jstree", function (event, data) {
+								$("#'.$this->_getHTMLId().'").val(JSON.stringify(jQuery.jstree._reference(this).get_json(-1), null, 4));
+							})
+							// EVENTS
+							// each instance triggers its own events - to process those listen on the container
+							// all events are in the `.jstree` namespace
+							// so listen for `function_name`.`jstree` - you can function names from the docs
+							// INSTANCES
+							// 1) you can call most functions just by selecting the container and calling `.jstree("func",`
+							setTimeout(function () { $("#demo1").jstree("set_focus"); }, 500);
+							// with the methods below you can call even private functions (prefixed with `_`)
+							// 2) you can get the focused instance using `$.jstree._focused()`. 
+						});
+					</script>';
 	}
 
 	public function setValue($value, $magic_quotes_gpc) {
 		$value = $this->_prepareInput( $value, $magic_quotes_gpc );
-						
-						if (count($_POST)==0) {
-							$this->getJSON($value);
-						} else {
-							$this->getPHPArray($value);
-						}
-						
-						return true;
+								
+				if (count($_POST)==0) {
+					$this->getJSON($value);
+				} else {
+					$this->getPHPArray($value);
+				}
+		
+				return true;
 	}
 
 protected function getPHPArray ($value) {
