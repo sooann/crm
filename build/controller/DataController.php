@@ -33,27 +33,30 @@ class DataController extends BaseController {
 					$this->getQueryMetaData();
 					break;
 				case "data":
-					$this->getQueryData();
+					//$this->getQueryData();
+					$this->getPropelData();
 					break;
 				default:
 					$this->getQueryData();
 					break;
 			}
 			
-			//convert data into output format
-			switch ($this->format) {
-				case "json":
-					$parser = PropelParser::getParser("JSON");
-					$this->data = $parser->fromArray($this->data);
-					break;
-				case "xml":
-					$parser = PropelParser::getParser("XML");
-					$this->data = $parser->fromArray($this->data);
-					break;
+			if ($this->type!="data") {
+				//convert data into output format
+				switch ($this->format) {
+					case "json":
+						$parser = PropelParser::getParser("JSON");
+						$this->data = $parser->fromArray($this->data);
+						break;
+					case "xml":
+						$parser = PropelParser::getParser("XML");
+						$this->data = $parser->fromArray($this->data);
+						break;
+				}
+
+				echo $this->data;
 			}
-			
-			echo $this->data;
-			exit();
+			//exit();
 			
 		} else {
 			$router->notFound();
@@ -65,6 +68,29 @@ class DataController extends BaseController {
 			//throw new NotFoundException("Webpage not found");
 		}
 		 */
+	}
+	
+	protected function getPropelData() {
+		require_once 'vendor/jqgrid/jq-config.php';
+		// include the jqGrid Class
+		require_once ABSPATH."php/jqGrid.php";
+		// include the driver class
+		require_once ABSPATH."php/jqGridPdo.php";
+		
+		// Connection to the server
+		$conn = new PDO(DB_DSN,DB_USER,DB_PASSWORD);
+		// Tell the db that we use utf-8
+		$conn->query("SET NAMES utf8");
+		
+		$grid = new jqGridRender($conn);
+		// Write the SQL Query
+		$grid->SelectCommand = $this->sql;
+		// Set output format to json
+		$grid->dataType = 'json';
+		// Let the grid create the model
+		$grid->setColModel();
+
+		$grid->renderGrid("#grid",'#pager',true, null, null, true,true);
 	}
 	
 	protected function getQueryMetaData() {
