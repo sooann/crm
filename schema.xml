@@ -168,8 +168,10 @@
     <column name="sqlquery_id" phpName="SqlqueryId" type="BIGINT" required="false"/>
     <column name="strGridOptions" phpName="Gridoptions" type="LONGVARCHAR" required="false"/>
     <column name="strEditBaseLinkUrl" phpName="Editbaselinkurl" type="VARCHAR" size="255" required="false"/>
+    <column name="strEditActionName" phpName="Editactionname" type="VARCHAR" size="255" required="false"/>
     <column name="strEditCustomFuncName" phpName="Editcustomfuncname" type="VARCHAR" size="255" required="false"/>
     <column name="strEditCustomFunction" phpName="Editcustomfunction" type="LONGVARCHAR" required="false"/>
+    <column name="blnMassUpdateEnable" phpName="Massupdateenable" type="INTEGER" required="false"/>
     <column name="strMultiSelectCustomFunction" phpName="Multiselectcustomfunction" type="LONGVARCHAR" required="false"/>
     <column name="blnActive" phpName="Active" type="INTEGER" required="false"/>
     <column name="DBVersionID" phpName="Dbversionid" type="INTEGER" required="false"/>
@@ -188,6 +190,37 @@
     </index>
     <index name="sqlquery_id">
       <index-column name="sqlquery_id"/>
+    </index>
+    <behavior name="timestampable">
+      <parameter name="create_column" value="dtCreatedDate"/>
+      <parameter name="create_by" value="intCreatedBy"/>
+      <parameter name="update_column" value="dtModifiedDate"/>
+      <parameter name="update_by" value="intModifiedBy"/>
+      <parameter name="disable_updated_at" value="false"/>
+    </behavior>
+  </table>
+  <table name="SYS_WebpageColumn" phpName="SysWebpagecolumn" idMethod="native">
+    <column name="webpagecolumn_id" phpName="WebpagecolumnId" type="BIGINT" primaryKey="true" autoIncrement="true" required="true"/>
+    <column name="webpage_id" phpName="WebpageId" type="BIGINT" required="false"/>
+    <column name="intQueryOrder" phpName="Queryorder" type="INTEGER" required="false"/>
+    <column name="strQueryColumn" phpName="Querycolumn" type="VARCHAR" size="255" required="false"/>
+    <column name="strName" phpName="Name" type="VARCHAR" size="255" required="false"/>
+    <column name="strDataType" phpName="Datatype" type="VARCHAR" size="255" required="false"/>
+    <column name="intOrder" phpName="Order" type="INTEGER" required="false"/>
+    <column name="blnDisplay" phpName="Display" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
+    <column name="blnHidden" phpName="Hidden" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
+    <column name="blnHide" phpName="Hide" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
+    <column name="blnSearch" phpName="Search" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
+    <column name="blnPriKey" phpName="Prikey" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
+    <column name="intCreatedBy" phpName="Createdby" type="BIGINT" required="false"/>
+    <column name="intModifiedBy" phpName="Modifiedby" type="BIGINT" required="false"/>
+    <column name="dtCreatedDate" phpName="Createddate" type="TIMESTAMP" required="false"/>
+    <column name="dtModifiedDate" phpName="Modifieddate" type="TIMESTAMP" required="false"/>
+    <foreign-key foreignTable="SYS_Webpage" name="sys_webpagecolumn_ibfk_1">
+      <reference local="webpage_id" foreign="webpage_id"/>
+    </foreign-key>
+    <index name="webpage_id">
+      <index-column name="webpage_id"/>
     </index>
     <behavior name="timestampable">
       <parameter name="create_column" value="dtCreatedDate"/>
