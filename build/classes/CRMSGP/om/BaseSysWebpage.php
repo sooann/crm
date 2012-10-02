@@ -132,6 +132,12 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     protected $streditbaselinkurl;
 
     /**
+     * The value for the streditactionname field.
+     * @var        string
+     */
+    protected $streditactionname;
+
+    /**
      * The value for the streditcustomfuncname field.
      * @var        string
      */
@@ -389,6 +395,16 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     public function getEditbaselinkurl()
     {
         return $this->streditbaselinkurl;
+    }
+
+    /**
+     * Get the [streditactionname] column value.
+     *
+     * @return string
+     */
+    public function getEditactionname()
+    {
+        return $this->streditactionname;
     }
 
     /**
@@ -901,6 +917,27 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     } // setEditbaselinkurl()
 
     /**
+     * Set the value of [streditactionname] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setEditactionname($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->streditactionname !== $v) {
+            $this->streditactionname = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STREDITACTIONNAME;
+        }
+
+
+        return $this;
+    } // setEditactionname()
+
+    /**
      * Set the value of [streditcustomfuncname] column.
      *
      * @param string $v new value
@@ -1142,15 +1179,16 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $this->sqlquery_id = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
             $this->strgridoptions = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
             $this->streditbaselinkurl = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
-            $this->streditcustomfuncname = ($row[$startcol + 17] !== null) ? (string) $row[$startcol + 17] : null;
-            $this->streditcustomfunction = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
-            $this->strmultiselectcustomfunction = ($row[$startcol + 19] !== null) ? (string) $row[$startcol + 19] : null;
-            $this->blnactive = ($row[$startcol + 20] !== null) ? (int) $row[$startcol + 20] : null;
-            $this->dbversionid = ($row[$startcol + 21] !== null) ? (int) $row[$startcol + 21] : null;
-            $this->intcreatedby = ($row[$startcol + 22] !== null) ? (string) $row[$startcol + 22] : null;
-            $this->intmodifiedby = ($row[$startcol + 23] !== null) ? (string) $row[$startcol + 23] : null;
-            $this->dtcreateddate = ($row[$startcol + 24] !== null) ? (string) $row[$startcol + 24] : null;
-            $this->dtmodifieddate = ($row[$startcol + 25] !== null) ? (string) $row[$startcol + 25] : null;
+            $this->streditactionname = ($row[$startcol + 17] !== null) ? (string) $row[$startcol + 17] : null;
+            $this->streditcustomfuncname = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
+            $this->streditcustomfunction = ($row[$startcol + 19] !== null) ? (string) $row[$startcol + 19] : null;
+            $this->strmultiselectcustomfunction = ($row[$startcol + 20] !== null) ? (string) $row[$startcol + 20] : null;
+            $this->blnactive = ($row[$startcol + 21] !== null) ? (int) $row[$startcol + 21] : null;
+            $this->dbversionid = ($row[$startcol + 22] !== null) ? (int) $row[$startcol + 22] : null;
+            $this->intcreatedby = ($row[$startcol + 23] !== null) ? (string) $row[$startcol + 23] : null;
+            $this->intmodifiedby = ($row[$startcol + 24] !== null) ? (string) $row[$startcol + 24] : null;
+            $this->dtcreateddate = ($row[$startcol + 25] !== null) ? (string) $row[$startcol + 25] : null;
+            $this->dtmodifieddate = ($row[$startcol + 26] !== null) ? (string) $row[$startcol + 26] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -1159,7 +1197,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 26; // 26 = SysWebpagePeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 27; // 27 = SysWebpagePeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating SysWebpage object", $e);
@@ -1512,6 +1550,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagePeer::STREDITBASELINKURL)) {
             $modifiedColumns[':p' . $index++]  = '`STREDITBASELINKURL`';
         }
+        if ($this->isColumnModified(SysWebpagePeer::STREDITACTIONNAME)) {
+            $modifiedColumns[':p' . $index++]  = '`STREDITACTIONNAME`';
+        }
         if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCNAME)) {
             $modifiedColumns[':p' . $index++]  = '`STREDITCUSTOMFUNCNAME`';
         }
@@ -1600,6 +1641,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                         break;
                     case '`STREDITBASELINKURL`':
                         $stmt->bindValue($identifier, $this->streditbaselinkurl, PDO::PARAM_STR);
+                        break;
+                    case '`STREDITACTIONNAME`':
+                        $stmt->bindValue($identifier, $this->streditactionname, PDO::PARAM_STR);
                         break;
                     case '`STREDITCUSTOMFUNCNAME`':
                         $stmt->bindValue($identifier, $this->streditcustomfuncname, PDO::PARAM_STR);
@@ -1840,30 +1884,33 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 return $this->getEditbaselinkurl();
                 break;
             case 17:
-                return $this->getEditcustomfuncname();
+                return $this->getEditactionname();
                 break;
             case 18:
-                return $this->getEditcustomfunction();
+                return $this->getEditcustomfuncname();
                 break;
             case 19:
-                return $this->getMultiselectcustomfunction();
+                return $this->getEditcustomfunction();
                 break;
             case 20:
-                return $this->getActive();
+                return $this->getMultiselectcustomfunction();
                 break;
             case 21:
-                return $this->getDbversionid();
+                return $this->getActive();
                 break;
             case 22:
-                return $this->getCreatedby();
+                return $this->getDbversionid();
                 break;
             case 23:
-                return $this->getModifiedby();
+                return $this->getCreatedby();
                 break;
             case 24:
-                return $this->getCreateddate();
+                return $this->getModifiedby();
                 break;
             case 25:
+                return $this->getCreateddate();
+                break;
+            case 26:
                 return $this->getModifieddate();
                 break;
             default:
@@ -1912,15 +1959,16 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $keys[14] => $this->getSqlqueryId(),
             $keys[15] => $this->getGridoptions(),
             $keys[16] => $this->getEditbaselinkurl(),
-            $keys[17] => $this->getEditcustomfuncname(),
-            $keys[18] => $this->getEditcustomfunction(),
-            $keys[19] => $this->getMultiselectcustomfunction(),
-            $keys[20] => $this->getActive(),
-            $keys[21] => $this->getDbversionid(),
-            $keys[22] => $this->getCreatedby(),
-            $keys[23] => $this->getModifiedby(),
-            $keys[24] => $this->getCreateddate(),
-            $keys[25] => $this->getModifieddate(),
+            $keys[17] => $this->getEditactionname(),
+            $keys[18] => $this->getEditcustomfuncname(),
+            $keys[19] => $this->getEditcustomfunction(),
+            $keys[20] => $this->getMultiselectcustomfunction(),
+            $keys[21] => $this->getActive(),
+            $keys[22] => $this->getDbversionid(),
+            $keys[23] => $this->getCreatedby(),
+            $keys[24] => $this->getModifiedby(),
+            $keys[25] => $this->getCreateddate(),
+            $keys[26] => $this->getModifieddate(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aSysWebtemplate) {
@@ -2018,30 +2066,33 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 $this->setEditbaselinkurl($value);
                 break;
             case 17:
-                $this->setEditcustomfuncname($value);
+                $this->setEditactionname($value);
                 break;
             case 18:
-                $this->setEditcustomfunction($value);
+                $this->setEditcustomfuncname($value);
                 break;
             case 19:
-                $this->setMultiselectcustomfunction($value);
+                $this->setEditcustomfunction($value);
                 break;
             case 20:
-                $this->setActive($value);
+                $this->setMultiselectcustomfunction($value);
                 break;
             case 21:
-                $this->setDbversionid($value);
+                $this->setActive($value);
                 break;
             case 22:
-                $this->setCreatedby($value);
+                $this->setDbversionid($value);
                 break;
             case 23:
-                $this->setModifiedby($value);
+                $this->setCreatedby($value);
                 break;
             case 24:
-                $this->setCreateddate($value);
+                $this->setModifiedby($value);
                 break;
             case 25:
+                $this->setCreateddate($value);
+                break;
+            case 26:
                 $this->setModifieddate($value);
                 break;
         } // switch()
@@ -2085,15 +2136,16 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if (array_key_exists($keys[14], $arr)) $this->setSqlqueryId($arr[$keys[14]]);
         if (array_key_exists($keys[15], $arr)) $this->setGridoptions($arr[$keys[15]]);
         if (array_key_exists($keys[16], $arr)) $this->setEditbaselinkurl($arr[$keys[16]]);
-        if (array_key_exists($keys[17], $arr)) $this->setEditcustomfuncname($arr[$keys[17]]);
-        if (array_key_exists($keys[18], $arr)) $this->setEditcustomfunction($arr[$keys[18]]);
-        if (array_key_exists($keys[19], $arr)) $this->setMultiselectcustomfunction($arr[$keys[19]]);
-        if (array_key_exists($keys[20], $arr)) $this->setActive($arr[$keys[20]]);
-        if (array_key_exists($keys[21], $arr)) $this->setDbversionid($arr[$keys[21]]);
-        if (array_key_exists($keys[22], $arr)) $this->setCreatedby($arr[$keys[22]]);
-        if (array_key_exists($keys[23], $arr)) $this->setModifiedby($arr[$keys[23]]);
-        if (array_key_exists($keys[24], $arr)) $this->setCreateddate($arr[$keys[24]]);
-        if (array_key_exists($keys[25], $arr)) $this->setModifieddate($arr[$keys[25]]);
+        if (array_key_exists($keys[17], $arr)) $this->setEditactionname($arr[$keys[17]]);
+        if (array_key_exists($keys[18], $arr)) $this->setEditcustomfuncname($arr[$keys[18]]);
+        if (array_key_exists($keys[19], $arr)) $this->setEditcustomfunction($arr[$keys[19]]);
+        if (array_key_exists($keys[20], $arr)) $this->setMultiselectcustomfunction($arr[$keys[20]]);
+        if (array_key_exists($keys[21], $arr)) $this->setActive($arr[$keys[21]]);
+        if (array_key_exists($keys[22], $arr)) $this->setDbversionid($arr[$keys[22]]);
+        if (array_key_exists($keys[23], $arr)) $this->setCreatedby($arr[$keys[23]]);
+        if (array_key_exists($keys[24], $arr)) $this->setModifiedby($arr[$keys[24]]);
+        if (array_key_exists($keys[25], $arr)) $this->setCreateddate($arr[$keys[25]]);
+        if (array_key_exists($keys[26], $arr)) $this->setModifieddate($arr[$keys[26]]);
     }
 
     /**
@@ -2122,6 +2174,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagePeer::SQLQUERY_ID)) $criteria->add(SysWebpagePeer::SQLQUERY_ID, $this->sqlquery_id);
         if ($this->isColumnModified(SysWebpagePeer::STRGRIDOPTIONS)) $criteria->add(SysWebpagePeer::STRGRIDOPTIONS, $this->strgridoptions);
         if ($this->isColumnModified(SysWebpagePeer::STREDITBASELINKURL)) $criteria->add(SysWebpagePeer::STREDITBASELINKURL, $this->streditbaselinkurl);
+        if ($this->isColumnModified(SysWebpagePeer::STREDITACTIONNAME)) $criteria->add(SysWebpagePeer::STREDITACTIONNAME, $this->streditactionname);
         if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCNAME)) $criteria->add(SysWebpagePeer::STREDITCUSTOMFUNCNAME, $this->streditcustomfuncname);
         if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCTION)) $criteria->add(SysWebpagePeer::STREDITCUSTOMFUNCTION, $this->streditcustomfunction);
         if ($this->isColumnModified(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION)) $criteria->add(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION, $this->strmultiselectcustomfunction);
@@ -2210,6 +2263,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         $copyObj->setSqlqueryId($this->getSqlqueryId());
         $copyObj->setGridoptions($this->getGridoptions());
         $copyObj->setEditbaselinkurl($this->getEditbaselinkurl());
+        $copyObj->setEditactionname($this->getEditactionname());
         $copyObj->setEditcustomfuncname($this->getEditcustomfuncname());
         $copyObj->setEditcustomfunction($this->getEditcustomfunction());
         $copyObj->setMultiselectcustomfunction($this->getMultiselectcustomfunction());
@@ -2630,6 +2684,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         $this->sqlquery_id = null;
         $this->strgridoptions = null;
         $this->streditbaselinkurl = null;
+        $this->streditactionname = null;
         $this->streditcustomfuncname = null;
         $this->streditcustomfunction = null;
         $this->strmultiselectcustomfunction = null;

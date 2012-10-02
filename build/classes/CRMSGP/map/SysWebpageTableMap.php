@@ -55,6 +55,7 @@ class SysWebpageTableMap extends TableMap
         $this->addForeignKey('SQLQUERY_ID', 'SqlqueryId', 'BIGINT', 'SYS_SQLQuery', 'SQLQUERY_ID', false, null, null);
         $this->addColumn('STRGRIDOPTIONS', 'Gridoptions', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STREDITBASELINKURL', 'Editbaselinkurl', 'VARCHAR', false, 255, null);
+        $this->addColumn('STREDITACTIONNAME', 'Editactionname', 'VARCHAR', false, 255, null);
         $this->addColumn('STREDITCUSTOMFUNCNAME', 'Editcustomfuncname', 'VARCHAR', false, 255, null);
         $this->addColumn('STREDITCUSTOMFUNCTION', 'Editcustomfunction', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STRMULTISELECTCUSTOMFUNCTION', 'Multiselectcustomfunction', 'LONGVARCHAR', false, null, null);

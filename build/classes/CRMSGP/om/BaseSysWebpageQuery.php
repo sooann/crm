@@ -23,6 +23,7 @@
  * @method SysWebpageQuery orderBySqlqueryId($order = Criteria::ASC) Order by the sqlquery_id column
  * @method SysWebpageQuery orderByGridoptions($order = Criteria::ASC) Order by the strGridOptions column
  * @method SysWebpageQuery orderByEditbaselinkurl($order = Criteria::ASC) Order by the strEditBaseLinkUrl column
+ * @method SysWebpageQuery orderByEditactionname($order = Criteria::ASC) Order by the strEditActionName column
  * @method SysWebpageQuery orderByEditcustomfuncname($order = Criteria::ASC) Order by the strEditCustomFuncName column
  * @method SysWebpageQuery orderByEditcustomfunction($order = Criteria::ASC) Order by the strEditCustomFunction column
  * @method SysWebpageQuery orderByMultiselectcustomfunction($order = Criteria::ASC) Order by the strMultiSelectCustomFunction column
@@ -50,6 +51,7 @@
  * @method SysWebpageQuery groupBySqlqueryId() Group by the sqlquery_id column
  * @method SysWebpageQuery groupByGridoptions() Group by the strGridOptions column
  * @method SysWebpageQuery groupByEditbaselinkurl() Group by the strEditBaseLinkUrl column
+ * @method SysWebpageQuery groupByEditactionname() Group by the strEditActionName column
  * @method SysWebpageQuery groupByEditcustomfuncname() Group by the strEditCustomFuncName column
  * @method SysWebpageQuery groupByEditcustomfunction() Group by the strEditCustomFunction column
  * @method SysWebpageQuery groupByMultiselectcustomfunction() Group by the strMultiSelectCustomFunction column
@@ -96,6 +98,7 @@
  * @method SysWebpage findOneBySqlqueryId(string $sqlquery_id) Return the first SysWebpage filtered by the sqlquery_id column
  * @method SysWebpage findOneByGridoptions(string $strGridOptions) Return the first SysWebpage filtered by the strGridOptions column
  * @method SysWebpage findOneByEditbaselinkurl(string $strEditBaseLinkUrl) Return the first SysWebpage filtered by the strEditBaseLinkUrl column
+ * @method SysWebpage findOneByEditactionname(string $strEditActionName) Return the first SysWebpage filtered by the strEditActionName column
  * @method SysWebpage findOneByEditcustomfuncname(string $strEditCustomFuncName) Return the first SysWebpage filtered by the strEditCustomFuncName column
  * @method SysWebpage findOneByEditcustomfunction(string $strEditCustomFunction) Return the first SysWebpage filtered by the strEditCustomFunction column
  * @method SysWebpage findOneByMultiselectcustomfunction(string $strMultiSelectCustomFunction) Return the first SysWebpage filtered by the strMultiSelectCustomFunction column
@@ -123,6 +126,7 @@
  * @method array findBySqlqueryId(string $sqlquery_id) Return SysWebpage objects filtered by the sqlquery_id column
  * @method array findByGridoptions(string $strGridOptions) Return SysWebpage objects filtered by the strGridOptions column
  * @method array findByEditbaselinkurl(string $strEditBaseLinkUrl) Return SysWebpage objects filtered by the strEditBaseLinkUrl column
+ * @method array findByEditactionname(string $strEditActionName) Return SysWebpage objects filtered by the strEditActionName column
  * @method array findByEditcustomfuncname(string $strEditCustomFuncName) Return SysWebpage objects filtered by the strEditCustomFuncName column
  * @method array findByEditcustomfunction(string $strEditCustomFunction) Return SysWebpage objects filtered by the strEditCustomFunction column
  * @method array findByMultiselectcustomfunction(string $strMultiSelectCustomFunction) Return SysWebpage objects filtered by the strMultiSelectCustomFunction column
@@ -221,7 +225,7 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `WEBPAGE_ID`, `WEBTEMPLATE_ID`, `STRLOCATION`, `STRNAME`, `STRDESCRIPTION`, `STRACTION`, `STRREQUIREDPARAMETERS`, `STRWEBPAGEFACTORY`, `STRHTML`, `STRCOMMONJS`, `CLONEFISHPARENTID`, `STRCLONEFISHCONFIG`, `STRORMCLASS`, `STRSUCCREDIRECT`, `SQLQUERY_ID`, `STRGRIDOPTIONS`, `STREDITBASELINKURL`, `STREDITCUSTOMFUNCNAME`, `STREDITCUSTOMFUNCTION`, `STRMULTISELECTCUSTOMFUNCTION`, `BLNACTIVE`, `DBVERSIONID`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_Webpage` WHERE `WEBPAGE_ID` = :p0';
+        $sql = 'SELECT `WEBPAGE_ID`, `WEBTEMPLATE_ID`, `STRLOCATION`, `STRNAME`, `STRDESCRIPTION`, `STRACTION`, `STRREQUIREDPARAMETERS`, `STRWEBPAGEFACTORY`, `STRHTML`, `STRCOMMONJS`, `CLONEFISHPARENTID`, `STRCLONEFISHCONFIG`, `STRORMCLASS`, `STRSUCCREDIRECT`, `SQLQUERY_ID`, `STRGRIDOPTIONS`, `STREDITBASELINKURL`, `STREDITACTIONNAME`, `STREDITCUSTOMFUNCNAME`, `STREDITCUSTOMFUNCTION`, `STRMULTISELECTCUSTOMFUNCTION`, `BLNACTIVE`, `DBVERSIONID`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_Webpage` WHERE `WEBPAGE_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -839,6 +843,35 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysWebpagePeer::STREDITBASELINKURL, $editbaselinkurl, $comparison);
+    }
+
+    /**
+     * Filter the query on the strEditActionName column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEditactionname('fooValue');   // WHERE strEditActionName = 'fooValue'
+     * $query->filterByEditactionname('%fooValue%'); // WHERE strEditActionName LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $editactionname The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByEditactionname($editactionname = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($editactionname)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $editactionname)) {
+                $editactionname = str_replace('*', '%', $editactionname);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STREDITACTIONNAME, $editactionname, $comparison);
     }
 
     /**
