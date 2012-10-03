@@ -34,12 +34,11 @@ p {
   text-align: center;
 }
 
-.container_12,
-.container_16,
-.container_24 {
+.container {
   background-color: #fff;
   background-repeat: repeat-y;
   margin-bottom: 20px;
+  text-align: center;
 }
 
 textarea {
