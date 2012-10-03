@@ -327,7 +327,7 @@ class clonefish {
 
       'tabular' => 
         Array(
-          'container'  => "<table cellpadding=\"5\" cellspacing=\"0\" border=\"0\" width=\"100%\" >\n%s\n</table>\n",
+          'container'  => "<table cellpadding=\"5\" cellspacing=\"0\" border=\"0\" width=\"100%%\" >\n%s\n</table>\n",
           'element'    => "<tr %errorstyle%><td width=\"120\" align=\"right\"><label for=\"%id%\">%displayname%</label></td><td width=\"15\">%erroricon%</td><td>%prefix%%element%%postfix%%errordiv%</td></tr>\n",
           'errordiv'   => '<div id="%divid%" style="display: none; visibility: hidden; padding: 2px 5px 2px 5px; background-color: #d03030; color: white;"></div>',
           'buttonrow'  => '<tr><td colspan="2"></td><td>%s</td></tr>',
