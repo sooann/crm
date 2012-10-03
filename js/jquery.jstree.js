@@ -1715,18 +1715,87 @@
 					h5.css("left",(parseInt(h4.css("left").substring(0,(h4.css("left").length)-2))+h4.width()+8)+"px");
 					h6.css("left",(parseInt(h5.css("left").substring(0,(h5.css("left").length)-2))+h5.width()+10)+"px");
 				},
+				_show_input : function (obj, callback) {
+					obj = this._get_node(obj);
+					var rtl = this._get_settings().core.rtl,
+						w = this._get_settings().onelevelcrrm.input_width_limit,
+						w1 = obj.children("ins").width(),
+						w2 = obj.find("> a:visible > ins").width() * obj.find("> a:visible > ins").length,
+						t = this.get_text(obj),
+						h1 = $("<div />", { css : { "position" : "absolute", "top" : "-200px", "left" : (rtl ? "0px" : "-1000px"), "visibility" : "hidden" } }).appendTo("body"),
+						h2 = obj.css("position","relative").append(
+						$("<input />", { 
+							"value" : t,
+							"class" : "jstree-rename-input",
+							// "size" : t.length,
+							"css" : {
+								"padding" : "0",
+								"border" : "1px solid silver",
+								"position" : "absolute",
+								"left"  : (rtl ? "auto" : (w1 + w2 + 4) + "px"),
+								"right" : (rtl ? (w1 + w2 + 4) + "px" : "auto"),
+								"top" : "0px",
+								"height" : (this.data.core.li_height - 2) + "px",
+								"lineHeight" : (this.data.core.li_height - 2) + "px",
+								"width" : "150px" // will be set a bit further down
+							},
+							"blur" : $.proxy(function () {
+								var i = obj.children(".jstree-rename-input"),
+									v = i.val();
+								if(v === "") { v = t; }
+								h1.remove();
+								i.remove(); // rollback purposes
+								this.set_text(obj,t); // rollback purposes
+								this.rename_node(obj, v);
+								callback.call(this, obj, v, t);
+								obj.css("position","");
+							}, this),
+							"keyup" : function (event) {
+								var key = event.keyCode || event.which;
+								if(key == 27) { this.value = t; this.blur(); return; }
+								else if(key == 13) { this.blur(); return; }
+								else {
+									h2.width(Math.min(h1.text("pW" + this.value).width(),w));
+								}
+							},
+							"keypress" : function(event) {
+								var key = event.keyCode || event.which;
+								if(key == 13) { return false; }
+							}
+						})
+					).children(".jstree-rename-input"); 
+					this.set_text(obj, "");
+					h1.css({
+							fontFamily		: h2.css('fontFamily')		|| '',
+							fontSize		: h2.css('fontSize')		|| '',
+							fontWeight		: h2.css('fontWeight')		|| '',
+							fontStyle		: h2.css('fontStyle')		|| '',
+							fontStretch		: h2.css('fontStretch')		|| '',
+							fontVariant		: h2.css('fontVariant')		|| '',
+							letterSpacing	: h2.css('letterSpacing')	|| '',
+							wordSpacing		: h2.css('wordSpacing')		|| ''
+					});
+					h2.width(Math.min(h1.text("pW" + h2[0].value).width(),w))[0].select();
+				},
 				rename : function (obj) {
 					obj = this._get_node(obj);
 					this.__rollback();
 					var f = this.__callback;
+						
 					if (this.get_text(obj).indexOf("{array}")!==-1 || this.get_text(this._get_parent(obj)).indexOf("{array}")!==-1) {
 						this._show_parameter_array(obj, function (obj, new_name, old_name) { 
 							f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
 						});
 					} else {
-						this._show_option(obj, function (obj, new_name, old_name) { 
-							f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
-						});
+						if (this.get_text(obj).indexOf("=>")===-1 && this._get_settings().usenode) {
+							this._show_input(obj, function (obj, new_name, old_name) { 
+								f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
+							});
+						} else {
+							this._show_option(obj, function (obj, new_name, old_name) { 
+								f.call(this, { "obj" : obj, "new_name" : new_name, "old_name" : old_name });
+							});
+						}
 					}
 				},
 				create : function (obj, position, js, callback, skip_rename) {
@@ -1746,9 +1815,15 @@
 									_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
 								});
 							} else {
-								this._show_option(t, function (obj, new_name, old_name) { 
-									_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
-								});	
+								if (this._get_parent(obj)==-1 && this._get_settings().usenode) {
+									this._show_input(t, function (obj, new_name, old_name) { 
+										_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
+									});
+								} else {
+									this._show_option(t, function (obj, new_name, old_name) { 
+										_this.__callback({ "obj" : obj, "name" : new_name, "parent" : p, "position" : pos });
+									});	
+								}
 							}
 						}
 						else { _this.__callback({ "obj" : t, "name" : this.get_text(t), "parent" : p, "position" : pos }); }
@@ -4911,6 +4986,8 @@
 					} else {
 						if (this.get_text(this._get_parent(obj)).indexOf("{array}")!==-1) {
 							checktype=false;
+						} else if (this._get_settings().usenode && this.get_text(obj).indexOf("=>")===-1) {
+							checktype=true;
 						} else {
 							if (this._get_children(obj)!=false) {
 								if (this.get_text(obj).indexOf("{array}")!==-1) {

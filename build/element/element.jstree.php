@@ -14,6 +14,7 @@ class jstree extends element {
 var $roottext = "";
 	var $json="";
 	var $pattern = "";
+	var $usenode = "false";
 	var $height = "200px";
 	var $width = "500px";
 	var $plugins = array("themes","json_data","ui","crrm","cookies","dnd","search","types","hotkeys","contextmenu");
@@ -56,7 +57,8 @@ var $roottext = "";
 									"icons" : false
 								},
 								"plugins" : ['.$this->getPlugins().'],
-								"pattern" : ['.$this->getPattern().']
+								"pattern" : ['.$this->getPattern().'],
+								"usenode" : '.$this->usenode.'
 		
 								// it makes sense to configure a plugin only if overriding the defaults
 							})
