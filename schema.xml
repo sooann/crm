@@ -172,6 +172,7 @@
     <column name="strEditCustomFuncName" phpName="Editcustomfuncname" type="VARCHAR" size="255" required="false"/>
     <column name="strEditCustomFunction" phpName="Editcustomfunction" type="LONGVARCHAR" required="false"/>
     <column name="blnMassUpdateEnable" phpName="Massupdateenable" type="INTEGER" required="false"/>
+    <column name="strMassUpdateOptions" phpName="Massupdateoptions" type="LONGVARCHAR" required="false"/>
     <column name="strMultiSelectCustomFunction" phpName="Multiselectcustomfunction" type="LONGVARCHAR" required="false"/>
     <column name="blnActive" phpName="Active" type="INTEGER" required="false"/>
     <column name="DBVersionID" phpName="Dbversionid" type="INTEGER" required="false"/>

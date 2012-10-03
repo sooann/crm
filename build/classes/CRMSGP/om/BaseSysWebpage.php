@@ -156,6 +156,12 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     protected $blnmassupdateenable;
 
     /**
+     * The value for the strmassupdateoptions field.
+     * @var        string
+     */
+    protected $strmassupdateoptions;
+
+    /**
      * The value for the strmultiselectcustomfunction field.
      * @var        string
      */
@@ -441,6 +447,16 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     public function getMassupdateenable()
     {
         return $this->blnmassupdateenable;
+    }
+
+    /**
+     * Get the [strmassupdateoptions] column value.
+     *
+     * @return string
+     */
+    public function getMassupdateoptions()
+    {
+        return $this->strmassupdateoptions;
     }
 
     /**
@@ -1017,6 +1033,27 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
     } // setMassupdateenable()
 
     /**
+     * Set the value of [strmassupdateoptions] column.
+     *
+     * @param string $v new value
+     * @return SysWebpage The current object (for fluent API support)
+     */
+    public function setMassupdateoptions($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strmassupdateoptions !== $v) {
+            $this->strmassupdateoptions = $v;
+            $this->modifiedColumns[] = SysWebpagePeer::STRMASSUPDATEOPTIONS;
+        }
+
+
+        return $this;
+    } // setMassupdateoptions()
+
+    /**
      * Set the value of [strmultiselectcustomfunction] column.
      *
      * @param string $v new value
@@ -1220,13 +1257,14 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $this->streditcustomfuncname = ($row[$startcol + 18] !== null) ? (string) $row[$startcol + 18] : null;
             $this->streditcustomfunction = ($row[$startcol + 19] !== null) ? (string) $row[$startcol + 19] : null;
             $this->blnmassupdateenable = ($row[$startcol + 20] !== null) ? (int) $row[$startcol + 20] : null;
-            $this->strmultiselectcustomfunction = ($row[$startcol + 21] !== null) ? (string) $row[$startcol + 21] : null;
-            $this->blnactive = ($row[$startcol + 22] !== null) ? (int) $row[$startcol + 22] : null;
-            $this->dbversionid = ($row[$startcol + 23] !== null) ? (int) $row[$startcol + 23] : null;
-            $this->intcreatedby = ($row[$startcol + 24] !== null) ? (string) $row[$startcol + 24] : null;
-            $this->intmodifiedby = ($row[$startcol + 25] !== null) ? (string) $row[$startcol + 25] : null;
-            $this->dtcreateddate = ($row[$startcol + 26] !== null) ? (string) $row[$startcol + 26] : null;
-            $this->dtmodifieddate = ($row[$startcol + 27] !== null) ? (string) $row[$startcol + 27] : null;
+            $this->strmassupdateoptions = ($row[$startcol + 21] !== null) ? (string) $row[$startcol + 21] : null;
+            $this->strmultiselectcustomfunction = ($row[$startcol + 22] !== null) ? (string) $row[$startcol + 22] : null;
+            $this->blnactive = ($row[$startcol + 23] !== null) ? (int) $row[$startcol + 23] : null;
+            $this->dbversionid = ($row[$startcol + 24] !== null) ? (int) $row[$startcol + 24] : null;
+            $this->intcreatedby = ($row[$startcol + 25] !== null) ? (string) $row[$startcol + 25] : null;
+            $this->intmodifiedby = ($row[$startcol + 26] !== null) ? (string) $row[$startcol + 26] : null;
+            $this->dtcreateddate = ($row[$startcol + 27] !== null) ? (string) $row[$startcol + 27] : null;
+            $this->dtmodifieddate = ($row[$startcol + 28] !== null) ? (string) $row[$startcol + 28] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -1235,7 +1273,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 28; // 28 = SysWebpagePeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 29; // 29 = SysWebpagePeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating SysWebpage object", $e);
@@ -1600,6 +1638,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagePeer::BLNMASSUPDATEENABLE)) {
             $modifiedColumns[':p' . $index++]  = '`BLNMASSUPDATEENABLE`';
         }
+        if ($this->isColumnModified(SysWebpagePeer::STRMASSUPDATEOPTIONS)) {
+            $modifiedColumns[':p' . $index++]  = '`STRMASSUPDATEOPTIONS`';
+        }
         if ($this->isColumnModified(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION)) {
             $modifiedColumns[':p' . $index++]  = '`STRMULTISELECTCUSTOMFUNCTION`';
         }
@@ -1694,6 +1735,9 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                         break;
                     case '`BLNMASSUPDATEENABLE`':
                         $stmt->bindValue($identifier, $this->blnmassupdateenable, PDO::PARAM_INT);
+                        break;
+                    case '`STRMASSUPDATEOPTIONS`':
+                        $stmt->bindValue($identifier, $this->strmassupdateoptions, PDO::PARAM_STR);
                         break;
                     case '`STRMULTISELECTCUSTOMFUNCTION`':
                         $stmt->bindValue($identifier, $this->strmultiselectcustomfunction, PDO::PARAM_STR);
@@ -1940,24 +1984,27 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 return $this->getMassupdateenable();
                 break;
             case 21:
-                return $this->getMultiselectcustomfunction();
+                return $this->getMassupdateoptions();
                 break;
             case 22:
-                return $this->getActive();
+                return $this->getMultiselectcustomfunction();
                 break;
             case 23:
-                return $this->getDbversionid();
+                return $this->getActive();
                 break;
             case 24:
-                return $this->getCreatedby();
+                return $this->getDbversionid();
                 break;
             case 25:
-                return $this->getModifiedby();
+                return $this->getCreatedby();
                 break;
             case 26:
-                return $this->getCreateddate();
+                return $this->getModifiedby();
                 break;
             case 27:
+                return $this->getCreateddate();
+                break;
+            case 28:
                 return $this->getModifieddate();
                 break;
             default:
@@ -2010,13 +2057,14 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
             $keys[18] => $this->getEditcustomfuncname(),
             $keys[19] => $this->getEditcustomfunction(),
             $keys[20] => $this->getMassupdateenable(),
-            $keys[21] => $this->getMultiselectcustomfunction(),
-            $keys[22] => $this->getActive(),
-            $keys[23] => $this->getDbversionid(),
-            $keys[24] => $this->getCreatedby(),
-            $keys[25] => $this->getModifiedby(),
-            $keys[26] => $this->getCreateddate(),
-            $keys[27] => $this->getModifieddate(),
+            $keys[21] => $this->getMassupdateoptions(),
+            $keys[22] => $this->getMultiselectcustomfunction(),
+            $keys[23] => $this->getActive(),
+            $keys[24] => $this->getDbversionid(),
+            $keys[25] => $this->getCreatedby(),
+            $keys[26] => $this->getModifiedby(),
+            $keys[27] => $this->getCreateddate(),
+            $keys[28] => $this->getModifieddate(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aSysWebtemplate) {
@@ -2126,24 +2174,27 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
                 $this->setMassupdateenable($value);
                 break;
             case 21:
-                $this->setMultiselectcustomfunction($value);
+                $this->setMassupdateoptions($value);
                 break;
             case 22:
-                $this->setActive($value);
+                $this->setMultiselectcustomfunction($value);
                 break;
             case 23:
-                $this->setDbversionid($value);
+                $this->setActive($value);
                 break;
             case 24:
-                $this->setCreatedby($value);
+                $this->setDbversionid($value);
                 break;
             case 25:
-                $this->setModifiedby($value);
+                $this->setCreatedby($value);
                 break;
             case 26:
-                $this->setCreateddate($value);
+                $this->setModifiedby($value);
                 break;
             case 27:
+                $this->setCreateddate($value);
+                break;
+            case 28:
                 $this->setModifieddate($value);
                 break;
         } // switch()
@@ -2191,13 +2242,14 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if (array_key_exists($keys[18], $arr)) $this->setEditcustomfuncname($arr[$keys[18]]);
         if (array_key_exists($keys[19], $arr)) $this->setEditcustomfunction($arr[$keys[19]]);
         if (array_key_exists($keys[20], $arr)) $this->setMassupdateenable($arr[$keys[20]]);
-        if (array_key_exists($keys[21], $arr)) $this->setMultiselectcustomfunction($arr[$keys[21]]);
-        if (array_key_exists($keys[22], $arr)) $this->setActive($arr[$keys[22]]);
-        if (array_key_exists($keys[23], $arr)) $this->setDbversionid($arr[$keys[23]]);
-        if (array_key_exists($keys[24], $arr)) $this->setCreatedby($arr[$keys[24]]);
-        if (array_key_exists($keys[25], $arr)) $this->setModifiedby($arr[$keys[25]]);
-        if (array_key_exists($keys[26], $arr)) $this->setCreateddate($arr[$keys[26]]);
-        if (array_key_exists($keys[27], $arr)) $this->setModifieddate($arr[$keys[27]]);
+        if (array_key_exists($keys[21], $arr)) $this->setMassupdateoptions($arr[$keys[21]]);
+        if (array_key_exists($keys[22], $arr)) $this->setMultiselectcustomfunction($arr[$keys[22]]);
+        if (array_key_exists($keys[23], $arr)) $this->setActive($arr[$keys[23]]);
+        if (array_key_exists($keys[24], $arr)) $this->setDbversionid($arr[$keys[24]]);
+        if (array_key_exists($keys[25], $arr)) $this->setCreatedby($arr[$keys[25]]);
+        if (array_key_exists($keys[26], $arr)) $this->setModifiedby($arr[$keys[26]]);
+        if (array_key_exists($keys[27], $arr)) $this->setCreateddate($arr[$keys[27]]);
+        if (array_key_exists($keys[28], $arr)) $this->setModifieddate($arr[$keys[28]]);
     }
 
     /**
@@ -2230,6 +2282,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCNAME)) $criteria->add(SysWebpagePeer::STREDITCUSTOMFUNCNAME, $this->streditcustomfuncname);
         if ($this->isColumnModified(SysWebpagePeer::STREDITCUSTOMFUNCTION)) $criteria->add(SysWebpagePeer::STREDITCUSTOMFUNCTION, $this->streditcustomfunction);
         if ($this->isColumnModified(SysWebpagePeer::BLNMASSUPDATEENABLE)) $criteria->add(SysWebpagePeer::BLNMASSUPDATEENABLE, $this->blnmassupdateenable);
+        if ($this->isColumnModified(SysWebpagePeer::STRMASSUPDATEOPTIONS)) $criteria->add(SysWebpagePeer::STRMASSUPDATEOPTIONS, $this->strmassupdateoptions);
         if ($this->isColumnModified(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION)) $criteria->add(SysWebpagePeer::STRMULTISELECTCUSTOMFUNCTION, $this->strmultiselectcustomfunction);
         if ($this->isColumnModified(SysWebpagePeer::BLNACTIVE)) $criteria->add(SysWebpagePeer::BLNACTIVE, $this->blnactive);
         if ($this->isColumnModified(SysWebpagePeer::DBVERSIONID)) $criteria->add(SysWebpagePeer::DBVERSIONID, $this->dbversionid);
@@ -2320,6 +2373,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         $copyObj->setEditcustomfuncname($this->getEditcustomfuncname());
         $copyObj->setEditcustomfunction($this->getEditcustomfunction());
         $copyObj->setMassupdateenable($this->getMassupdateenable());
+        $copyObj->setMassupdateoptions($this->getMassupdateoptions());
         $copyObj->setMultiselectcustomfunction($this->getMultiselectcustomfunction());
         $copyObj->setActive($this->getActive());
         $copyObj->setDbversionid($this->getDbversionid());
@@ -2742,6 +2796,7 @@ abstract class BaseSysWebpage extends BaseObject implements Persistent
         $this->streditcustomfuncname = null;
         $this->streditcustomfunction = null;
         $this->blnmassupdateenable = null;
+        $this->strmassupdateoptions = null;
         $this->strmultiselectcustomfunction = null;
         $this->blnactive = null;
         $this->dbversionid = null;

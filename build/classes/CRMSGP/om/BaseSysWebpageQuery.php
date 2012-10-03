@@ -27,6 +27,7 @@
  * @method SysWebpageQuery orderByEditcustomfuncname($order = Criteria::ASC) Order by the strEditCustomFuncName column
  * @method SysWebpageQuery orderByEditcustomfunction($order = Criteria::ASC) Order by the strEditCustomFunction column
  * @method SysWebpageQuery orderByMassupdateenable($order = Criteria::ASC) Order by the blnMassUpdateEnable column
+ * @method SysWebpageQuery orderByMassupdateoptions($order = Criteria::ASC) Order by the strMassUpdateOptions column
  * @method SysWebpageQuery orderByMultiselectcustomfunction($order = Criteria::ASC) Order by the strMultiSelectCustomFunction column
  * @method SysWebpageQuery orderByActive($order = Criteria::ASC) Order by the blnActive column
  * @method SysWebpageQuery orderByDbversionid($order = Criteria::ASC) Order by the DBVersionID column
@@ -56,6 +57,7 @@
  * @method SysWebpageQuery groupByEditcustomfuncname() Group by the strEditCustomFuncName column
  * @method SysWebpageQuery groupByEditcustomfunction() Group by the strEditCustomFunction column
  * @method SysWebpageQuery groupByMassupdateenable() Group by the blnMassUpdateEnable column
+ * @method SysWebpageQuery groupByMassupdateoptions() Group by the strMassUpdateOptions column
  * @method SysWebpageQuery groupByMultiselectcustomfunction() Group by the strMultiSelectCustomFunction column
  * @method SysWebpageQuery groupByActive() Group by the blnActive column
  * @method SysWebpageQuery groupByDbversionid() Group by the DBVersionID column
@@ -104,6 +106,7 @@
  * @method SysWebpage findOneByEditcustomfuncname(string $strEditCustomFuncName) Return the first SysWebpage filtered by the strEditCustomFuncName column
  * @method SysWebpage findOneByEditcustomfunction(string $strEditCustomFunction) Return the first SysWebpage filtered by the strEditCustomFunction column
  * @method SysWebpage findOneByMassupdateenable(int $blnMassUpdateEnable) Return the first SysWebpage filtered by the blnMassUpdateEnable column
+ * @method SysWebpage findOneByMassupdateoptions(string $strMassUpdateOptions) Return the first SysWebpage filtered by the strMassUpdateOptions column
  * @method SysWebpage findOneByMultiselectcustomfunction(string $strMultiSelectCustomFunction) Return the first SysWebpage filtered by the strMultiSelectCustomFunction column
  * @method SysWebpage findOneByActive(int $blnActive) Return the first SysWebpage filtered by the blnActive column
  * @method SysWebpage findOneByDbversionid(int $DBVersionID) Return the first SysWebpage filtered by the DBVersionID column
@@ -133,6 +136,7 @@
  * @method array findByEditcustomfuncname(string $strEditCustomFuncName) Return SysWebpage objects filtered by the strEditCustomFuncName column
  * @method array findByEditcustomfunction(string $strEditCustomFunction) Return SysWebpage objects filtered by the strEditCustomFunction column
  * @method array findByMassupdateenable(int $blnMassUpdateEnable) Return SysWebpage objects filtered by the blnMassUpdateEnable column
+ * @method array findByMassupdateoptions(string $strMassUpdateOptions) Return SysWebpage objects filtered by the strMassUpdateOptions column
  * @method array findByMultiselectcustomfunction(string $strMultiSelectCustomFunction) Return SysWebpage objects filtered by the strMultiSelectCustomFunction column
  * @method array findByActive(int $blnActive) Return SysWebpage objects filtered by the blnActive column
  * @method array findByDbversionid(int $DBVersionID) Return SysWebpage objects filtered by the DBVersionID column
@@ -229,7 +233,7 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `WEBPAGE_ID`, `WEBTEMPLATE_ID`, `STRLOCATION`, `STRNAME`, `STRDESCRIPTION`, `STRACTION`, `STRREQUIREDPARAMETERS`, `STRWEBPAGEFACTORY`, `STRHTML`, `STRCOMMONJS`, `CLONEFISHPARENTID`, `STRCLONEFISHCONFIG`, `STRORMCLASS`, `STRSUCCREDIRECT`, `SQLQUERY_ID`, `STRGRIDOPTIONS`, `STREDITBASELINKURL`, `STREDITACTIONNAME`, `STREDITCUSTOMFUNCNAME`, `STREDITCUSTOMFUNCTION`, `BLNMASSUPDATEENABLE`, `STRMULTISELECTCUSTOMFUNCTION`, `BLNACTIVE`, `DBVERSIONID`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_Webpage` WHERE `WEBPAGE_ID` = :p0';
+        $sql = 'SELECT `WEBPAGE_ID`, `WEBTEMPLATE_ID`, `STRLOCATION`, `STRNAME`, `STRDESCRIPTION`, `STRACTION`, `STRREQUIREDPARAMETERS`, `STRWEBPAGEFACTORY`, `STRHTML`, `STRCOMMONJS`, `CLONEFISHPARENTID`, `STRCLONEFISHCONFIG`, `STRORMCLASS`, `STRSUCCREDIRECT`, `SQLQUERY_ID`, `STRGRIDOPTIONS`, `STREDITBASELINKURL`, `STREDITACTIONNAME`, `STREDITCUSTOMFUNCNAME`, `STREDITCUSTOMFUNCTION`, `BLNMASSUPDATEENABLE`, `STRMASSUPDATEOPTIONS`, `STRMULTISELECTCUSTOMFUNCTION`, `BLNACTIVE`, `DBVERSIONID`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_Webpage` WHERE `WEBPAGE_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -975,6 +979,35 @@ abstract class BaseSysWebpageQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysWebpagePeer::BLNMASSUPDATEENABLE, $massupdateenable, $comparison);
+    }
+
+    /**
+     * Filter the query on the strMassUpdateOptions column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByMassupdateoptions('fooValue');   // WHERE strMassUpdateOptions = 'fooValue'
+     * $query->filterByMassupdateoptions('%fooValue%'); // WHERE strMassUpdateOptions LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $massupdateoptions The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpageQuery The current query, for fluid interface
+     */
+    public function filterByMassupdateoptions($massupdateoptions = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($massupdateoptions)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $massupdateoptions)) {
+                $massupdateoptions = str_replace('*', '%', $massupdateoptions);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagePeer::STRMASSUPDATEOPTIONS, $massupdateoptions, $comparison);
     }
 
     /**

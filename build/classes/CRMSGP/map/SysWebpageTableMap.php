@@ -59,6 +59,7 @@ class SysWebpageTableMap extends TableMap
         $this->addColumn('STREDITCUSTOMFUNCNAME', 'Editcustomfuncname', 'VARCHAR', false, 255, null);
         $this->addColumn('STREDITCUSTOMFUNCTION', 'Editcustomfunction', 'LONGVARCHAR', false, null, null);
         $this->addColumn('BLNMASSUPDATEENABLE', 'Massupdateenable', 'INTEGER', false, null, null);
+        $this->addColumn('STRMASSUPDATEOPTIONS', 'Massupdateoptions', 'LONGVARCHAR', false, null, null);
         $this->addColumn('STRMULTISELECTCUSTOMFUNCTION', 'Multiselectcustomfunction', 'LONGVARCHAR', false, null, null);
         $this->addColumn('BLNACTIVE', 'Active', 'INTEGER', false, null, null);
         $this->addColumn('DBVERSIONID', 'Dbversionid', 'INTEGER', false, null, null);

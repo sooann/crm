@@ -199,6 +199,7 @@ CREATE TABLE `SYS_Webpage`
     `strEditCustomFuncName` VARCHAR(255),
     `strEditCustomFunction` TEXT,
     `blnMassUpdateEnable` INTEGER,
+    `strMassUpdateOptions` TEXT,
     `strMultiSelectCustomFunction` TEXT,
     `blnActive` INTEGER,
     `DBVersionID` INTEGER,
