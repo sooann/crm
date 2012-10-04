@@ -54,7 +54,7 @@ class ClonefishWebpageFactory extends BasicWebpageFactory {
 						return false;
 					}
 				} else {
-					echo "new record";
+					// new record
 				}
 			} else if ($clonefish->validate()) {
 				
