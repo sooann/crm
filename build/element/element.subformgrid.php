@@ -26,88 +26,89 @@ class subformgrid extends element {
 	var $arrdata;
 
 	public function getHTML() {
-				
-				$gridorderjs = "";
-				
-				// Connection to the server
-				$conn = new PDO(DB_DSN,DB_USER,DB_PASSWORD);
-				// Tell the db that we use utf-8
-				$conn->query("SET NAMES utf8");
-				// Create the jqGrid instance
-				$grid = new JQGridFactory($conn);
+		$gridorderjs = "";
 		
-				$grid->setHtmlId($this->_getHTMLId());
+		// Connection to the server
+		$conn = new PDO(DB_DSN,DB_USER,DB_PASSWORD);
+		// Tell the db that we use utf-8
+		$conn->query("SET NAMES utf8");
+		// Create the jqGrid instance
+		$grid = new JQGridFactory($conn);
 		
-				// Set output format to json
-				$grid->dataType = $this->dataType;
+		$grid->setHtmlId($this->_getHTMLId());
 		
-				//predefault setting array 
-				$gridoptionsarr = array(
-					"width" => $this->width,
-					"height" => $this->height,
-					"editurl" => "clientArray",
-					"hoverrows" => true);
-				$grid->setGridOptions($gridoptionsarr);
+		// Set output format to json
+		$grid->dataType = $this->dataType;
 		
-				//get model from database
-				$this->getModel();
-				$grid->setColModel($this->model);
+		//predefault setting array 
+		$gridoptionsarr = array(
+			"width" => $this->width,
+			"height" => $this->height,
+			"editurl" => "clientArray",
+			"hoverrows" => true);
+		$grid->setGridOptions($gridoptionsarr);
 		
-				$grid->setUrl('clientArray');
+		//get model from database
+		$this->getModel();
+		$grid->setColModel($this->model);
 		
-				// Let put it using the callGridMethod
-				$grid->callGridMethod("#".$grid->getGridId(), 'addRowData', array("Querycolumn",$this->value));
+		$grid->setUrl('clientArray');
 		
-				$grid->setGridEvent('onSelectRow',$grid->getOnSelectRow());
+		// Let put it using the callGridMethod
+		$grid->callGridMethod("#".$grid->getGridId(), 'addRowData', array("Querycolumn",$this->value));
 		
-				// grid order by
-				if ($this->gridorder) {
-					$gridorderjs = '
-						function gridorderformatter(cellValue, options, rowObject) {
-							var css = "width:11px;float:left;cursor:pointer;padding-left:3px;"
-							testing="testing";
-							str = "<div title=\'Move Up\' style=\'"+css+"\' class=\'ui-pg-div ui-inline-moveup ui-icon ui-icon-arrowthick-1-n\' onclick=\'jqgrid_moveup(this)\'>&nbsp;</div>";
-							str += "<div title=\'Move Down\' style=\'"+css+"\' class=\'ui-pg-div ui-inline-movedown ui-icon ui-icon-arrowthick-1-s\' onclick=\'jqgrid_movedown(this)\'>&nbsp;</div>";
-							return str;
-						}
-						
-						function jqgrid_moveup(e) {
-							var srcrow = e.parentNode.parentNode.id;
-							var ts = e.parentNode.parentNode.parentNode.parentNode;
-							if (e.parentNode.parentNode.previousSibling.className.indexOf("jqgfirstrow")===-1) {
-								$(ts).jqGrid(\'restoreRow\', lastSelection);
-								var destrow = e.parentNode.parentNode.previousSibling.id;
-								var temp = $(ts).jqGrid(\'getRowData\',srcrow);
-								$(ts).jqGrid(\'delRowData\',srcrow);
-								$(ts).jqGrid(\'addRowData\',srcrow,temp,"before",destrow);
-							}
-						}
-						
-						function jqgrid_movedown(e) {
-							var srcrow = e.parentNode.parentNode.id;
-							var ts = e.parentNode.parentNode.parentNode.parentNode;
-							if (e.parentNode.parentNode.nextSibling!==null) {
-								$(ts).jqGrid(\'restoreRow\', lastSelection);
-								var destrow = e.parentNode.parentNode.nextSibling.id;
-								var temp = $(ts).jqGrid(\'getRowData\',srcrow);
-								$(ts).jqGrid(\'delRowData\',srcrow);
-								$(ts).jqGrid(\'addRowData\',srcrow,temp,"after",destrow);
-							}
-							
-						}
-					';
-					$grid->addCol(array( "name"=>"jqgridorder", "label"=>"Order", "formatter"=>"js:gridorderformatter", "search"=>false, "hidedlg"=>true, "width"=>40, "editable"=>false), "first");
+		$grid->setGridEvent('onSelectRow',$grid->getOnSelectRow());
+		
+		// grid order by
+		if ($this->gridorder) {
+			$gridorderjs = '
+				function gridorderformatter(cellValue, options, rowObject) {
+					var css = "width:11px;float:left;cursor:pointer;padding-left:3px;"
+					testing="testing";
+					str = "<div title=\'Move Up\' style=\'"+css+"\' class=\'ui-pg-div ui-inline-moveup ui-icon ui-icon-arrowthick-1-n\' onclick=\'jqgrid_moveup(this)\'>&nbsp;</div>";
+					str += "<div title=\'Move Down\' style=\'"+css+"\' class=\'ui-pg-div ui-inline-movedown ui-icon ui-icon-arrowthick-1-s\' onclick=\'jqgrid_movedown(this)\'>&nbsp;</div>";
+					return str;
 				}
 		
-				$posthtml='
-					<input type="hidden" name="'.$this->_getHTMLId().'" id="'.$this->_getHTMLId().'" value="'.htmlspecialchars($this->arrdata).'" />
-					<script type="text/javascript" >var lastSelection;'.$gridorderjs.'</script>
-				';
-				// Enjoy
-				$this->html = $grid->buildHtml("#".$grid->getGridId(),null,true, null, null, true,true).$posthtml;
-				$conn = null;
+				function jqgrid_moveup(e) {
+					var srcrow = e.parentNode.parentNode.id;
+					var ts = e.parentNode.parentNode.parentNode.parentNode;
+					if (e.parentNode.parentNode.previousSibling.className.indexOf("jqgfirstrow")===-1) {
+						$(ts).jqGrid(\'restoreRow\', lastSelection);
+						var destrow = e.parentNode.parentNode.previousSibling.id;
+						var temp = $(ts).jqGrid(\'getRowData\',srcrow);
+						$(ts).jqGrid(\'delRowData\',srcrow);
+						$(ts).jqGrid(\'addRowData\',srcrow,temp,"before",destrow);
+						$("#'.$this->_getHTMLId().'").val(JSON.stringify($(ts).jqGrid(\'getRowData\')));
+					}
+				}
 		
-				return ($this->html);
+				function jqgrid_movedown(e) {
+					var srcrow = e.parentNode.parentNode.id;
+					var ts = e.parentNode.parentNode.parentNode.parentNode;
+					if (e.parentNode.parentNode.nextSibling!==null) {
+						$(ts).jqGrid(\'restoreRow\', lastSelection);
+						var destrow = e.parentNode.parentNode.nextSibling.id;
+						var temp = $(ts).jqGrid(\'getRowData\',srcrow);
+						$(ts).jqGrid(\'delRowData\',srcrow);
+						$(ts).jqGrid(\'addRowData\',srcrow,temp,"after",destrow);
+						$("#'.$this->_getHTMLId().'").val(JSON.stringify($(ts).jqGrid(\'getRowData\')));
+					}
+		
+				}
+			';
+			$grid->addCol(array( "name"=>"jqgridorder", "label"=>"Order", "formatter"=>"js:gridorderformatter", "search"=>false, "hidedlg"=>true, "width"=>40, "editable"=>false), "first");
+		}
+		
+		$posthtml='
+			<input type="hidden" name="'.$this->_getHTMLId().'" id="'.$this->_getHTMLId().'" value="'.htmlspecialchars($this->arrdata).'" />
+			<script type="text/javascript" >var lastSelection;'.$gridorderjs.'</script>
+		';
+		// Enjoy
+		$this->html = $grid->buildHtml("#".$grid->getGridId(),null,true, null, null, true,true).$posthtml;
+		$conn = null;
+		
+		return ($this->html);
 	}
 
 public function getModel() {
