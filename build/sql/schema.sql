@@ -238,6 +238,7 @@ CREATE TABLE `SYS_WebpageColumn`
     `blnHide` enum('Yes','No'),
     `blnSearch` enum('Yes','No'),
     `blnPriKey` enum('Yes','No'),
+    `strFormatter` VARCHAR(255),
     `intCreatedBy` BIGINT,
     `intModifiedBy` BIGINT,
     `dtCreatedDate` DATETIME,

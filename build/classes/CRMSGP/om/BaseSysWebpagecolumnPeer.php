@@ -24,13 +24,13 @@ abstract class BaseSysWebpagecolumnPeer
     const TM_CLASS = 'SysWebpagecolumnTableMap';
 
     /** The total number of columns. */
-    const NUM_COLUMNS = 16;
+    const NUM_COLUMNS = 17;
 
     /** The number of lazy-loaded columns. */
     const NUM_LAZY_LOAD_COLUMNS = 0;
 
     /** The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS) */
-    const NUM_HYDRATE_COLUMNS = 16;
+    const NUM_HYDRATE_COLUMNS = 17;
 
     /** the column name for the WEBPAGECOLUMN_ID field */
     const WEBPAGECOLUMN_ID = 'SYS_WebpageColumn.WEBPAGECOLUMN_ID';
@@ -68,6 +68,9 @@ abstract class BaseSysWebpagecolumnPeer
     /** the column name for the BLNPRIKEY field */
     const BLNPRIKEY = 'SYS_WebpageColumn.BLNPRIKEY';
 
+    /** the column name for the STRFORMATTER field */
+    const STRFORMATTER = 'SYS_WebpageColumn.STRFORMATTER';
+
     /** the column name for the INTCREATEDBY field */
     const INTCREATEDBY = 'SYS_WebpageColumn.INTCREATEDBY';
 
@@ -99,12 +102,12 @@ abstract class BaseSysWebpagecolumnPeer
      * e.g. SysWebpagecolumnPeer::$fieldNames[SysWebpagecolumnPeer::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        BasePeer::TYPE_PHPNAME => array ('WebpagecolumnId', 'WebpageId', 'Queryorder', 'Querycolumn', 'Name', 'Datatype', 'Order', 'Display', 'Hidden', 'Hide', 'Search', 'Prikey', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('webpagecolumnId', 'webpageId', 'queryorder', 'querycolumn', 'name', 'datatype', 'order', 'display', 'hidden', 'hide', 'search', 'prikey', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
-        BasePeer::TYPE_COLNAME => array (SysWebpagecolumnPeer::WEBPAGECOLUMN_ID, SysWebpagecolumnPeer::WEBPAGE_ID, SysWebpagecolumnPeer::INTQUERYORDER, SysWebpagecolumnPeer::STRQUERYCOLUMN, SysWebpagecolumnPeer::STRNAME, SysWebpagecolumnPeer::STRDATATYPE, SysWebpagecolumnPeer::INTORDER, SysWebpagecolumnPeer::BLNDISPLAY, SysWebpagecolumnPeer::BLNHIDDEN, SysWebpagecolumnPeer::BLNHIDE, SysWebpagecolumnPeer::BLNSEARCH, SysWebpagecolumnPeer::BLNPRIKEY, SysWebpagecolumnPeer::INTCREATEDBY, SysWebpagecolumnPeer::INTMODIFIEDBY, SysWebpagecolumnPeer::DTCREATEDDATE, SysWebpagecolumnPeer::DTMODIFIEDDATE, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGECOLUMN_ID', 'WEBPAGE_ID', 'INTQUERYORDER', 'STRQUERYCOLUMN', 'STRNAME', 'STRDATATYPE', 'INTORDER', 'BLNDISPLAY', 'BLNHIDDEN', 'BLNHIDE', 'BLNSEARCH', 'BLNPRIKEY', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
-        BasePeer::TYPE_FIELDNAME => array ('webpagecolumn_id', 'webpage_id', 'intQueryOrder', 'strQueryColumn', 'strName', 'strDataType', 'intOrder', 'blnDisplay', 'blnHidden', 'blnHide', 'blnSearch', 'blnPriKey', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+        BasePeer::TYPE_PHPNAME => array ('WebpagecolumnId', 'WebpageId', 'Queryorder', 'Querycolumn', 'Name', 'Datatype', 'Order', 'Display', 'Hidden', 'Hide', 'Search', 'Prikey', 'Formatter', 'Createdby', 'Modifiedby', 'Createddate', 'Modifieddate', ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('webpagecolumnId', 'webpageId', 'queryorder', 'querycolumn', 'name', 'datatype', 'order', 'display', 'hidden', 'hide', 'search', 'prikey', 'formatter', 'createdby', 'modifiedby', 'createddate', 'modifieddate', ),
+        BasePeer::TYPE_COLNAME => array (SysWebpagecolumnPeer::WEBPAGECOLUMN_ID, SysWebpagecolumnPeer::WEBPAGE_ID, SysWebpagecolumnPeer::INTQUERYORDER, SysWebpagecolumnPeer::STRQUERYCOLUMN, SysWebpagecolumnPeer::STRNAME, SysWebpagecolumnPeer::STRDATATYPE, SysWebpagecolumnPeer::INTORDER, SysWebpagecolumnPeer::BLNDISPLAY, SysWebpagecolumnPeer::BLNHIDDEN, SysWebpagecolumnPeer::BLNHIDE, SysWebpagecolumnPeer::BLNSEARCH, SysWebpagecolumnPeer::BLNPRIKEY, SysWebpagecolumnPeer::STRFORMATTER, SysWebpagecolumnPeer::INTCREATEDBY, SysWebpagecolumnPeer::INTMODIFIEDBY, SysWebpagecolumnPeer::DTCREATEDDATE, SysWebpagecolumnPeer::DTMODIFIEDDATE, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGECOLUMN_ID', 'WEBPAGE_ID', 'INTQUERYORDER', 'STRQUERYCOLUMN', 'STRNAME', 'STRDATATYPE', 'INTORDER', 'BLNDISPLAY', 'BLNHIDDEN', 'BLNHIDE', 'BLNSEARCH', 'BLNPRIKEY', 'STRFORMATTER', 'INTCREATEDBY', 'INTMODIFIEDBY', 'DTCREATEDDATE', 'DTMODIFIEDDATE', ),
+        BasePeer::TYPE_FIELDNAME => array ('webpagecolumn_id', 'webpage_id', 'intQueryOrder', 'strQueryColumn', 'strName', 'strDataType', 'intOrder', 'blnDisplay', 'blnHidden', 'blnHide', 'blnSearch', 'blnPriKey', 'strFormatter', 'intCreatedBy', 'intModifiedBy', 'dtCreatedDate', 'dtModifiedDate', ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /**
@@ -114,12 +117,12 @@ abstract class BaseSysWebpagecolumnPeer
      * e.g. SysWebpagecolumnPeer::$fieldNames[BasePeer::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        BasePeer::TYPE_PHPNAME => array ('WebpagecolumnId' => 0, 'WebpageId' => 1, 'Queryorder' => 2, 'Querycolumn' => 3, 'Name' => 4, 'Datatype' => 5, 'Order' => 6, 'Display' => 7, 'Hidden' => 8, 'Hide' => 9, 'Search' => 10, 'Prikey' => 11, 'Createdby' => 12, 'Modifiedby' => 13, 'Createddate' => 14, 'Modifieddate' => 15, ),
-        BasePeer::TYPE_STUDLYPHPNAME => array ('webpagecolumnId' => 0, 'webpageId' => 1, 'queryorder' => 2, 'querycolumn' => 3, 'name' => 4, 'datatype' => 5, 'order' => 6, 'display' => 7, 'hidden' => 8, 'hide' => 9, 'search' => 10, 'prikey' => 11, 'createdby' => 12, 'modifiedby' => 13, 'createddate' => 14, 'modifieddate' => 15, ),
-        BasePeer::TYPE_COLNAME => array (SysWebpagecolumnPeer::WEBPAGECOLUMN_ID => 0, SysWebpagecolumnPeer::WEBPAGE_ID => 1, SysWebpagecolumnPeer::INTQUERYORDER => 2, SysWebpagecolumnPeer::STRQUERYCOLUMN => 3, SysWebpagecolumnPeer::STRNAME => 4, SysWebpagecolumnPeer::STRDATATYPE => 5, SysWebpagecolumnPeer::INTORDER => 6, SysWebpagecolumnPeer::BLNDISPLAY => 7, SysWebpagecolumnPeer::BLNHIDDEN => 8, SysWebpagecolumnPeer::BLNHIDE => 9, SysWebpagecolumnPeer::BLNSEARCH => 10, SysWebpagecolumnPeer::BLNPRIKEY => 11, SysWebpagecolumnPeer::INTCREATEDBY => 12, SysWebpagecolumnPeer::INTMODIFIEDBY => 13, SysWebpagecolumnPeer::DTCREATEDDATE => 14, SysWebpagecolumnPeer::DTMODIFIEDDATE => 15, ),
-        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGECOLUMN_ID' => 0, 'WEBPAGE_ID' => 1, 'INTQUERYORDER' => 2, 'STRQUERYCOLUMN' => 3, 'STRNAME' => 4, 'STRDATATYPE' => 5, 'INTORDER' => 6, 'BLNDISPLAY' => 7, 'BLNHIDDEN' => 8, 'BLNHIDE' => 9, 'BLNSEARCH' => 10, 'BLNPRIKEY' => 11, 'INTCREATEDBY' => 12, 'INTMODIFIEDBY' => 13, 'DTCREATEDDATE' => 14, 'DTMODIFIEDDATE' => 15, ),
-        BasePeer::TYPE_FIELDNAME => array ('webpagecolumn_id' => 0, 'webpage_id' => 1, 'intQueryOrder' => 2, 'strQueryColumn' => 3, 'strName' => 4, 'strDataType' => 5, 'intOrder' => 6, 'blnDisplay' => 7, 'blnHidden' => 8, 'blnHide' => 9, 'blnSearch' => 10, 'blnPriKey' => 11, 'intCreatedBy' => 12, 'intModifiedBy' => 13, 'dtCreatedDate' => 14, 'dtModifiedDate' => 15, ),
-        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
+        BasePeer::TYPE_PHPNAME => array ('WebpagecolumnId' => 0, 'WebpageId' => 1, 'Queryorder' => 2, 'Querycolumn' => 3, 'Name' => 4, 'Datatype' => 5, 'Order' => 6, 'Display' => 7, 'Hidden' => 8, 'Hide' => 9, 'Search' => 10, 'Prikey' => 11, 'Formatter' => 12, 'Createdby' => 13, 'Modifiedby' => 14, 'Createddate' => 15, 'Modifieddate' => 16, ),
+        BasePeer::TYPE_STUDLYPHPNAME => array ('webpagecolumnId' => 0, 'webpageId' => 1, 'queryorder' => 2, 'querycolumn' => 3, 'name' => 4, 'datatype' => 5, 'order' => 6, 'display' => 7, 'hidden' => 8, 'hide' => 9, 'search' => 10, 'prikey' => 11, 'formatter' => 12, 'createdby' => 13, 'modifiedby' => 14, 'createddate' => 15, 'modifieddate' => 16, ),
+        BasePeer::TYPE_COLNAME => array (SysWebpagecolumnPeer::WEBPAGECOLUMN_ID => 0, SysWebpagecolumnPeer::WEBPAGE_ID => 1, SysWebpagecolumnPeer::INTQUERYORDER => 2, SysWebpagecolumnPeer::STRQUERYCOLUMN => 3, SysWebpagecolumnPeer::STRNAME => 4, SysWebpagecolumnPeer::STRDATATYPE => 5, SysWebpagecolumnPeer::INTORDER => 6, SysWebpagecolumnPeer::BLNDISPLAY => 7, SysWebpagecolumnPeer::BLNHIDDEN => 8, SysWebpagecolumnPeer::BLNHIDE => 9, SysWebpagecolumnPeer::BLNSEARCH => 10, SysWebpagecolumnPeer::BLNPRIKEY => 11, SysWebpagecolumnPeer::STRFORMATTER => 12, SysWebpagecolumnPeer::INTCREATEDBY => 13, SysWebpagecolumnPeer::INTMODIFIEDBY => 14, SysWebpagecolumnPeer::DTCREATEDDATE => 15, SysWebpagecolumnPeer::DTMODIFIEDDATE => 16, ),
+        BasePeer::TYPE_RAW_COLNAME => array ('WEBPAGECOLUMN_ID' => 0, 'WEBPAGE_ID' => 1, 'INTQUERYORDER' => 2, 'STRQUERYCOLUMN' => 3, 'STRNAME' => 4, 'STRDATATYPE' => 5, 'INTORDER' => 6, 'BLNDISPLAY' => 7, 'BLNHIDDEN' => 8, 'BLNHIDE' => 9, 'BLNSEARCH' => 10, 'BLNPRIKEY' => 11, 'STRFORMATTER' => 12, 'INTCREATEDBY' => 13, 'INTMODIFIEDBY' => 14, 'DTCREATEDDATE' => 15, 'DTMODIFIEDDATE' => 16, ),
+        BasePeer::TYPE_FIELDNAME => array ('webpagecolumn_id' => 0, 'webpage_id' => 1, 'intQueryOrder' => 2, 'strQueryColumn' => 3, 'strName' => 4, 'strDataType' => 5, 'intOrder' => 6, 'blnDisplay' => 7, 'blnHidden' => 8, 'blnHide' => 9, 'blnSearch' => 10, 'blnPriKey' => 11, 'strFormatter' => 12, 'intCreatedBy' => 13, 'intModifiedBy' => 14, 'dtCreatedDate' => 15, 'dtModifiedDate' => 16, ),
+        BasePeer::TYPE_NUM => array (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /**
@@ -205,6 +208,7 @@ abstract class BaseSysWebpagecolumnPeer
             $criteria->addSelectColumn(SysWebpagecolumnPeer::BLNHIDE);
             $criteria->addSelectColumn(SysWebpagecolumnPeer::BLNSEARCH);
             $criteria->addSelectColumn(SysWebpagecolumnPeer::BLNPRIKEY);
+            $criteria->addSelectColumn(SysWebpagecolumnPeer::STRFORMATTER);
             $criteria->addSelectColumn(SysWebpagecolumnPeer::INTCREATEDBY);
             $criteria->addSelectColumn(SysWebpagecolumnPeer::INTMODIFIEDBY);
             $criteria->addSelectColumn(SysWebpagecolumnPeer::DTCREATEDDATE);
@@ -222,6 +226,7 @@ abstract class BaseSysWebpagecolumnPeer
             $criteria->addSelectColumn($alias . '.BLNHIDE');
             $criteria->addSelectColumn($alias . '.BLNSEARCH');
             $criteria->addSelectColumn($alias . '.BLNPRIKEY');
+            $criteria->addSelectColumn($alias . '.STRFORMATTER');
             $criteria->addSelectColumn($alias . '.INTCREATEDBY');
             $criteria->addSelectColumn($alias . '.INTMODIFIEDBY');
             $criteria->addSelectColumn($alias . '.DTCREATEDDATE');

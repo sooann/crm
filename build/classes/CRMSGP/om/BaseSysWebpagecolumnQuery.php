@@ -18,6 +18,7 @@
  * @method SysWebpagecolumnQuery orderByHide($order = Criteria::ASC) Order by the blnHide column
  * @method SysWebpagecolumnQuery orderBySearch($order = Criteria::ASC) Order by the blnSearch column
  * @method SysWebpagecolumnQuery orderByPrikey($order = Criteria::ASC) Order by the blnPriKey column
+ * @method SysWebpagecolumnQuery orderByFormatter($order = Criteria::ASC) Order by the strFormatter column
  * @method SysWebpagecolumnQuery orderByCreatedby($order = Criteria::ASC) Order by the intCreatedBy column
  * @method SysWebpagecolumnQuery orderByModifiedby($order = Criteria::ASC) Order by the intModifiedBy column
  * @method SysWebpagecolumnQuery orderByCreateddate($order = Criteria::ASC) Order by the dtCreatedDate column
@@ -35,6 +36,7 @@
  * @method SysWebpagecolumnQuery groupByHide() Group by the blnHide column
  * @method SysWebpagecolumnQuery groupBySearch() Group by the blnSearch column
  * @method SysWebpagecolumnQuery groupByPrikey() Group by the blnPriKey column
+ * @method SysWebpagecolumnQuery groupByFormatter() Group by the strFormatter column
  * @method SysWebpagecolumnQuery groupByCreatedby() Group by the intCreatedBy column
  * @method SysWebpagecolumnQuery groupByModifiedby() Group by the intModifiedBy column
  * @method SysWebpagecolumnQuery groupByCreateddate() Group by the dtCreatedDate column
@@ -63,6 +65,7 @@
  * @method SysWebpagecolumn findOneByHide(string $blnHide) Return the first SysWebpagecolumn filtered by the blnHide column
  * @method SysWebpagecolumn findOneBySearch(string $blnSearch) Return the first SysWebpagecolumn filtered by the blnSearch column
  * @method SysWebpagecolumn findOneByPrikey(string $blnPriKey) Return the first SysWebpagecolumn filtered by the blnPriKey column
+ * @method SysWebpagecolumn findOneByFormatter(string $strFormatter) Return the first SysWebpagecolumn filtered by the strFormatter column
  * @method SysWebpagecolumn findOneByCreatedby(string $intCreatedBy) Return the first SysWebpagecolumn filtered by the intCreatedBy column
  * @method SysWebpagecolumn findOneByModifiedby(string $intModifiedBy) Return the first SysWebpagecolumn filtered by the intModifiedBy column
  * @method SysWebpagecolumn findOneByCreateddate(string $dtCreatedDate) Return the first SysWebpagecolumn filtered by the dtCreatedDate column
@@ -80,6 +83,7 @@
  * @method array findByHide(string $blnHide) Return SysWebpagecolumn objects filtered by the blnHide column
  * @method array findBySearch(string $blnSearch) Return SysWebpagecolumn objects filtered by the blnSearch column
  * @method array findByPrikey(string $blnPriKey) Return SysWebpagecolumn objects filtered by the blnPriKey column
+ * @method array findByFormatter(string $strFormatter) Return SysWebpagecolumn objects filtered by the strFormatter column
  * @method array findByCreatedby(string $intCreatedBy) Return SysWebpagecolumn objects filtered by the intCreatedBy column
  * @method array findByModifiedby(string $intModifiedBy) Return SysWebpagecolumn objects filtered by the intModifiedBy column
  * @method array findByCreateddate(string $dtCreatedDate) Return SysWebpagecolumn objects filtered by the dtCreatedDate column
@@ -173,7 +177,7 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `WEBPAGECOLUMN_ID`, `WEBPAGE_ID`, `INTQUERYORDER`, `STRQUERYCOLUMN`, `STRNAME`, `STRDATATYPE`, `INTORDER`, `BLNDISPLAY`, `BLNHIDDEN`, `BLNHIDE`, `BLNSEARCH`, `BLNPRIKEY`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_WebpageColumn` WHERE `WEBPAGECOLUMN_ID` = :p0';
+        $sql = 'SELECT `WEBPAGECOLUMN_ID`, `WEBPAGE_ID`, `INTQUERYORDER`, `STRQUERYCOLUMN`, `STRNAME`, `STRDATATYPE`, `INTORDER`, `BLNDISPLAY`, `BLNHIDDEN`, `BLNHIDE`, `BLNSEARCH`, `BLNPRIKEY`, `STRFORMATTER`, `INTCREATEDBY`, `INTMODIFIEDBY`, `DTCREATEDDATE`, `DTMODIFIEDDATE` FROM `SYS_WebpageColumn` WHERE `WEBPAGECOLUMN_ID` = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -644,6 +648,35 @@ abstract class BaseSysWebpagecolumnQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(SysWebpagecolumnPeer::BLNPRIKEY, $prikey, $comparison);
+    }
+
+    /**
+     * Filter the query on the strFormatter column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByFormatter('fooValue');   // WHERE strFormatter = 'fooValue'
+     * $query->filterByFormatter('%fooValue%'); // WHERE strFormatter LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $formatter The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return SysWebpagecolumnQuery The current query, for fluid interface
+     */
+    public function filterByFormatter($formatter = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($formatter)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $formatter)) {
+                $formatter = str_replace('*', '%', $formatter);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(SysWebpagecolumnPeer::STRFORMATTER, $formatter, $comparison);
     }
 
     /**

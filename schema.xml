@@ -213,6 +213,7 @@
     <column name="blnHide" phpName="Hide" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
     <column name="blnSearch" phpName="Search" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
     <column name="blnPriKey" phpName="Prikey" type="CHAR" sqlType="enum('Yes','No')" required="false"/>
+    <column name="strFormatter" phpName="Formatter" type="VARCHAR" size="255" required="false"/>
     <column name="intCreatedBy" phpName="Createdby" type="BIGINT" required="false"/>
     <column name="intModifiedBy" phpName="Modifiedby" type="BIGINT" required="false"/>
     <column name="dtCreatedDate" phpName="Createddate" type="TIMESTAMP" required="false"/>

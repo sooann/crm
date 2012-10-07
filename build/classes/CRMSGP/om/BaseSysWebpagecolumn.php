@@ -102,6 +102,12 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     protected $blnprikey;
 
     /**
+     * The value for the strformatter field.
+     * @var        string
+     */
+    protected $strformatter;
+
+    /**
      * The value for the intcreatedby field.
      * @var        string
      */
@@ -262,6 +268,16 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     public function getPrikey()
     {
         return $this->blnprikey;
+    }
+
+    /**
+     * Get the [strformatter] column value.
+     *
+     * @return string
+     */
+    public function getFormatter()
+    {
+        return $this->strformatter;
     }
 
     /**
@@ -615,6 +631,27 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
     } // setPrikey()
 
     /**
+     * Set the value of [strformatter] column.
+     *
+     * @param string $v new value
+     * @return SysWebpagecolumn The current object (for fluent API support)
+     */
+    public function setFormatter($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->strformatter !== $v) {
+            $this->strformatter = $v;
+            $this->modifiedColumns[] = SysWebpagecolumnPeer::STRFORMATTER;
+        }
+
+
+        return $this;
+    } // setFormatter()
+
+    /**
      * Set the value of [intcreatedby] column.
      *
      * @param string $v new value
@@ -746,10 +783,11 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
             $this->blnhide = ($row[$startcol + 9] !== null) ? (string) $row[$startcol + 9] : null;
             $this->blnsearch = ($row[$startcol + 10] !== null) ? (string) $row[$startcol + 10] : null;
             $this->blnprikey = ($row[$startcol + 11] !== null) ? (string) $row[$startcol + 11] : null;
-            $this->intcreatedby = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
-            $this->intmodifiedby = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
-            $this->dtcreateddate = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
-            $this->dtmodifieddate = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
+            $this->strformatter = ($row[$startcol + 12] !== null) ? (string) $row[$startcol + 12] : null;
+            $this->intcreatedby = ($row[$startcol + 13] !== null) ? (string) $row[$startcol + 13] : null;
+            $this->intmodifiedby = ($row[$startcol + 14] !== null) ? (string) $row[$startcol + 14] : null;
+            $this->dtcreateddate = ($row[$startcol + 15] !== null) ? (string) $row[$startcol + 15] : null;
+            $this->dtmodifieddate = ($row[$startcol + 16] !== null) ? (string) $row[$startcol + 16] : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -758,7 +796,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 $this->ensureConsistency();
             }
 
-            return $startcol + 16; // 16 = SysWebpagecolumnPeer::NUM_HYDRATE_COLUMNS.
+            return $startcol + 17; // 17 = SysWebpagecolumnPeer::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating SysWebpagecolumn object", $e);
@@ -1057,6 +1095,9 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNPRIKEY)) {
             $modifiedColumns[':p' . $index++]  = '`BLNPRIKEY`';
         }
+        if ($this->isColumnModified(SysWebpagecolumnPeer::STRFORMATTER)) {
+            $modifiedColumns[':p' . $index++]  = '`STRFORMATTER`';
+        }
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTCREATEDBY)) {
             $modifiedColumns[':p' . $index++]  = '`INTCREATEDBY`';
         }
@@ -1115,6 +1156,9 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                         break;
                     case '`BLNPRIKEY`':
                         $stmt->bindValue($identifier, $this->blnprikey, PDO::PARAM_STR);
+                        break;
+                    case '`STRFORMATTER`':
+                        $stmt->bindValue($identifier, $this->strformatter, PDO::PARAM_STR);
                         break;
                     case '`INTCREATEDBY`':
                         $stmt->bindValue($identifier, $this->intcreatedby, PDO::PARAM_INT);
@@ -1311,15 +1355,18 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 return $this->getPrikey();
                 break;
             case 12:
-                return $this->getCreatedby();
+                return $this->getFormatter();
                 break;
             case 13:
-                return $this->getModifiedby();
+                return $this->getCreatedby();
                 break;
             case 14:
-                return $this->getCreateddate();
+                return $this->getModifiedby();
                 break;
             case 15:
+                return $this->getCreateddate();
+                break;
+            case 16:
                 return $this->getModifieddate();
                 break;
             default:
@@ -1363,10 +1410,11 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
             $keys[9] => $this->getHide(),
             $keys[10] => $this->getSearch(),
             $keys[11] => $this->getPrikey(),
-            $keys[12] => $this->getCreatedby(),
-            $keys[13] => $this->getModifiedby(),
-            $keys[14] => $this->getCreateddate(),
-            $keys[15] => $this->getModifieddate(),
+            $keys[12] => $this->getFormatter(),
+            $keys[13] => $this->getCreatedby(),
+            $keys[14] => $this->getModifiedby(),
+            $keys[15] => $this->getCreateddate(),
+            $keys[16] => $this->getModifieddate(),
         );
         if ($includeForeignObjects) {
             if (null !== $this->aSysWebpage) {
@@ -1443,15 +1491,18 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
                 $this->setPrikey($value);
                 break;
             case 12:
-                $this->setCreatedby($value);
+                $this->setFormatter($value);
                 break;
             case 13:
-                $this->setModifiedby($value);
+                $this->setCreatedby($value);
                 break;
             case 14:
-                $this->setCreateddate($value);
+                $this->setModifiedby($value);
                 break;
             case 15:
+                $this->setCreateddate($value);
+                break;
+            case 16:
                 $this->setModifieddate($value);
                 break;
         } // switch()
@@ -1490,10 +1541,11 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if (array_key_exists($keys[9], $arr)) $this->setHide($arr[$keys[9]]);
         if (array_key_exists($keys[10], $arr)) $this->setSearch($arr[$keys[10]]);
         if (array_key_exists($keys[11], $arr)) $this->setPrikey($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setCreatedby($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setModifiedby($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setCreateddate($arr[$keys[14]]);
-        if (array_key_exists($keys[15], $arr)) $this->setModifieddate($arr[$keys[15]]);
+        if (array_key_exists($keys[12], $arr)) $this->setFormatter($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setCreatedby($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setModifiedby($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setCreateddate($arr[$keys[15]]);
+        if (array_key_exists($keys[16], $arr)) $this->setModifieddate($arr[$keys[16]]);
     }
 
     /**
@@ -1517,6 +1569,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNHIDE)) $criteria->add(SysWebpagecolumnPeer::BLNHIDE, $this->blnhide);
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNSEARCH)) $criteria->add(SysWebpagecolumnPeer::BLNSEARCH, $this->blnsearch);
         if ($this->isColumnModified(SysWebpagecolumnPeer::BLNPRIKEY)) $criteria->add(SysWebpagecolumnPeer::BLNPRIKEY, $this->blnprikey);
+        if ($this->isColumnModified(SysWebpagecolumnPeer::STRFORMATTER)) $criteria->add(SysWebpagecolumnPeer::STRFORMATTER, $this->strformatter);
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTCREATEDBY)) $criteria->add(SysWebpagecolumnPeer::INTCREATEDBY, $this->intcreatedby);
         if ($this->isColumnModified(SysWebpagecolumnPeer::INTMODIFIEDBY)) $criteria->add(SysWebpagecolumnPeer::INTMODIFIEDBY, $this->intmodifiedby);
         if ($this->isColumnModified(SysWebpagecolumnPeer::DTCREATEDDATE)) $criteria->add(SysWebpagecolumnPeer::DTCREATEDDATE, $this->dtcreateddate);
@@ -1595,6 +1648,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         $copyObj->setHide($this->getHide());
         $copyObj->setSearch($this->getSearch());
         $copyObj->setPrikey($this->getPrikey());
+        $copyObj->setFormatter($this->getFormatter());
         $copyObj->setCreatedby($this->getCreatedby());
         $copyObj->setModifiedby($this->getModifiedby());
         $copyObj->setCreateddate($this->getCreateddate());
@@ -1725,6 +1779,7 @@ abstract class BaseSysWebpagecolumn extends BaseObject implements Persistent
         $this->blnhide = null;
         $this->blnsearch = null;
         $this->blnprikey = null;
+        $this->strformatter = null;
         $this->intcreatedby = null;
         $this->intmodifiedby = null;
         $this->dtcreateddate = null;
