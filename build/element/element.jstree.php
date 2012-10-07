@@ -58,7 +58,7 @@ var $roottext = "";
 								},
 								"plugins" : ['.$this->getPlugins().'],
 								"pattern" : ['.$this->getPattern().'],
-								"usenode" : '.$this->usenode.'
+										"usenode" : '.$this->usenode.'
 		
 								// it makes sense to configure a plugin only if overriding the defaults
 							})
