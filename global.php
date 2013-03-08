@@ -8,14 +8,6 @@ include_once "functions.php";
 
 date_default_timezone_set('Asia/Singapore'); 
 
-//Propel DAO init
-require_once 'vendor/propel/runtime/lib/Propel.php';
-Propel::init("build/conf/CRM".$strDBRegion."-conf.php");
-set_include_path("build/classes" . PATH_SEPARATOR . get_include_path());
-
-//CMS final autoloaders
-require 'build/autoloader/autoloader.php';
-spl_autoload_register('__autoload');	
 
 //webtracking functionalities
 $arrWebpageTracking = array();
