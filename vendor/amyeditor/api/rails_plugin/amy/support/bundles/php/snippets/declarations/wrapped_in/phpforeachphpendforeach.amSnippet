@@ -1,3 +1,0 @@
-  name: "<?php foreach (…) … <?php endforeach ?>"
-  key_activation: ''
-  tab_activation: 'foreach'

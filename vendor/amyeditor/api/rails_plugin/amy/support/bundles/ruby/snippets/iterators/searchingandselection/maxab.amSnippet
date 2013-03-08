@@ -1,3 +1,0 @@
-  name: "max { |a, b| .. }"
-  key_activation: ''
-  tab_activation: 'max'

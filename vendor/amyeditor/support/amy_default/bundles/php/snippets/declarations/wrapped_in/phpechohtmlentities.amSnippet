@@ -1,3 +1,0 @@
-  name: "<?php echo htmlentities(…) ?>"
-  key_activation: ''
-  tab_activation: 'echoh'

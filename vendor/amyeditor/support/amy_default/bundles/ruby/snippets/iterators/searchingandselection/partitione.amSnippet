@@ -1,3 +1,0 @@
-  name: "partition { |e| .. }"
-  key_activation: ''
-  tab_activation: 'par'

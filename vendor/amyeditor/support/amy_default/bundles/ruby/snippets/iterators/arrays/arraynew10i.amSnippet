@@ -1,3 +1,0 @@
-  name: "Array.new(10) { |i| .. }"
-  key_activation: ''
-  tab_activation: 'Array'

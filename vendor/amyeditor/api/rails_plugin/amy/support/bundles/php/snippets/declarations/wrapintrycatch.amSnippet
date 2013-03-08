@@ -1,3 +1,0 @@
-  name: "Wrap in try { … } catch (…) { … }"
-  key_activation: ''
-  tab_activation: 'try'

@@ -1,2 +1,0 @@
-drop_table :${1:table}
-$0

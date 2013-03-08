@@ -1,5 +1,0 @@
-include Enumerable
-
-def each(&block)
-	$0
-end

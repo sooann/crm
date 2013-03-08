@@ -1,3 +1,0 @@
-  name: "$1.begin(), $1.end()"
-  key_activation: ''
-  tab_activation: 'beginend'

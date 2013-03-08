@@ -1,3 +1,0 @@
-  name: "Hash.new { |hash, key| hash[key] = .. }"
-  key_activation: ''
-  tab_activation: 'Hash'

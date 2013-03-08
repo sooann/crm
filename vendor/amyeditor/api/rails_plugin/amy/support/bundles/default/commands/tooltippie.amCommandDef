@@ -1,8 +1,0 @@
-<?php
-
-function run_command($controller, $text, $params)
-{
-    $controller->ok($text);
-}
-
-?>

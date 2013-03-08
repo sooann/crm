@@ -1,3 +1,0 @@
-  name: "lambda { |args| .. }"
-  key_activation: ''
-  tab_activation: 'lam'

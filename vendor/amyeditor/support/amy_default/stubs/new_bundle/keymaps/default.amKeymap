@@ -1,7 +1,0 @@
-signature:
-	name: 'Default keymap'
-	author: 'Petr Krontorád, April-Child.com'
-	inherits: 
-    - 'default'
-
-definition: |

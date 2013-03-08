@@ -1,3 +1,0 @@
-  name: "inject(init) { |mem, var| .. }"
-  key_activation: ''
-  tab_activation: 'inj'

@@ -1,3 +1,0 @@
-  name: "each_pair { |name, val| .. }"
-  key_activation: ''
-  tab_activation: 'eap'

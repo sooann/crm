@@ -1,1 +1,0 @@
-<?php echo htmlentities(${1:\$var}, ENT_QUOTES, 'utf-8') ?>$0

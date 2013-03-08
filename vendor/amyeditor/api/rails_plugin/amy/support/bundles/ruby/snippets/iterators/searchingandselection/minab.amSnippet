@@ -1,3 +1,0 @@
-  name: "min { |a, b| .. }"
-  key_activation: ''
-  tab_activation: 'min'

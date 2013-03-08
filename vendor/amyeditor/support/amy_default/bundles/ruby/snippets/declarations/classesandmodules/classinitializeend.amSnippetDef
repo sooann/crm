@@ -1,7 +1,0 @@
-class ${1:ClassName}
-	def initialize${2/(^.*?\S.*)|.*/(?1:\()/}${2:args}${2/(^.*?\S.*)|.*/(?1:\))/}
-		$0
-	end
-	
-	
-end

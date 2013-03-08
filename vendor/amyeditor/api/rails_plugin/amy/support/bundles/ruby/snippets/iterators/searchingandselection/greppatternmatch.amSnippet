@@ -1,3 +1,0 @@
-  name: "grep(/pattern/) { |match| .. }"
-  key_activation: ''
-  tab_activation: 'gre'
