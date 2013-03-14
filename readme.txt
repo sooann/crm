@@ -1,1 +1,3 @@
 starting new development from scratch
+
+finally configured ftp... 
