@@ -5,15 +5,14 @@
 	$_SESSION["intUserURN"]=NULL;
 
 	//init Doctrine2 DBAL
-	use Doctrine\Common\ClassLoader;
 	require 'Doctrine/Common/ClassLoader.php';
-	$classLoader = new ClassLoader('Doctrine', '/');
-	$classLoader.register();
+	$classLoader = new \Doctrine\Common\ClassLoader('Doctrine', '.');
+	$classLoader->register();
 	
 	$dbConfig = new \Doctrine\DBAL\Configuration();
 	$connectionParams = array(
-    		'dbname' => 'crmsgp',
-    		'user' => 'root',
+		'dbname' => 'crmsgp',
+		'user' => 'root',
 		'password' => 'sooann',
 		'host' => 'localhost',
 		'driver' => 'pdo_mysql',
@@ -22,10 +21,14 @@
 	$conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $dbConfig);
 
 	//init slim framework
-	require 'Slim/Slim.php';
 	
 	//Do not require autoloader due to Doctrine Autoloader 
+	//require 'Slim/Slim.php';
 	//\Slim\Slim::registerAutoloader();
+	
+	//Configure doctrine autoloader to load slim library
+	$slimClassLoader = new \Doctrine\Common\ClassLoader('Slim', '.');
+	$slimClassLoader->register();
 
 	//setting global variable for slim framework
 	
