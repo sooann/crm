@@ -1,8 +1,10 @@
 <?php
 
 	//include_once "global.php";
-
 	$_SESSION["intUserURN"]=NULL;
+	
+	//setting global variable
+	global $conn,$app; 
 
 	//init Doctrine2 DBAL
 	require 'Doctrine/Common/ClassLoader.php';
@@ -11,7 +13,7 @@
 	
 	$dbConfig = new \Doctrine\DBAL\Configuration();
 	$connectionParams = array(
-		'dbname' => 'crmsgp',
+		'dbname' => 'CRMSGP',
 		'user' => 'root',
 		'password' => 'sooann',
 		'host' => 'localhost',
@@ -36,6 +38,12 @@
 	
 	$app->get('/hello/:name', function ($name) {
 		echo "Hello, $name";
+	});
+	
+	$app->get('/dbtest/:funcname', function ($funcname) use ($app,$conn) {
+		$sm = $conn->getSchemaManager();
+		eval("\$result=\$sm->$funcname();");
+		print_r($result);
 	});
 
 	$app->run();
