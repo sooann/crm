@@ -45,6 +45,13 @@
 		eval("\$result=\$sm->$funcname();");
 		print_r($result);
 	});
+	
+	$app->get('/dbmap', function () use ($app,$conn) {
+		$dmClassLoader = new \Doctrine\Common\ClassLoader('DBmapper','.');
+		$dmClassLoader->register();
+		$dm = new \DBmapper\DBmapper ($conn);
+		$dm->test(); 
+	});
 
 	$app->run();
 
