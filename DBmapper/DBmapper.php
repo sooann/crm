@@ -78,7 +78,7 @@ final class DBmapper {
     }
     
     public function removeParameter ($field) {
-        //find existing field
+        //find existing fieldbindTypedValues
         //remove from array
     }
     
