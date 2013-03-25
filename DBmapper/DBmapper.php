@@ -4,7 +4,6 @@ namespace DBmapper;
 
 use DBmapper\Platform;
 
-
 final class DBmapper {
 	
     //current table string
@@ -13,8 +12,11 @@ final class DBmapper {
     //current update filter
     private $_filter;
     
+    //current object mapping
+    private $_map;
+    
     //wrapper platform
-    private $_platform; //object 
+    private $_platform; 
     
     //DB connection
     private $_conn;
@@ -24,42 +26,38 @@ final class DBmapper {
 	
 	public function __construct($table=null,$platform=null) {
         
-        $this->_table = $table;
-        
         //DBAL Platform
-        $this->loadPlatform($platform);
+        $this->setPlatform($platform);
         
         //load field metadata from database
-        if ($this->_table!="") {
-            
+        if ($table!="" && $table->null) {
+            $this->setTable($table);
         }
+        
 	}
-	
-	public function test() {
-		echo "DBmapper test";
-	}
+    
+    public function getMap() {
+        return $this->_map;
+    }
+    
+    public function loadMap () {
+        $this->_map = $this->_platform->getMetadata($this->_table);
+    }
     
     public function setPlatform ($platform) {
-        
-        return $this->loadPlatform($platform);
-        
-    }
-    
-    public function getPlatform () {
-        
-        return $this->_platform;
-        
-    }
-    
-    private function loadPlatform ($platform) {
         
         $this->_platform = Platform\PlatformFactory::getPlatform($platform);
         $this->_conn = $this->_platform->getConnection();
         
     }
     
+    public function getPlatform () {
+        return $this->_platform;
+    }
+    
     public function setTable ($table) {
         $this->_table = $table;
+        $this->loadMap();
     }
     
     public function getTable () {
@@ -85,10 +83,12 @@ final class DBmapper {
     }
     
     public function insert () {
+        
         if ($this->_table==null || $this->_table=="") {
-            throw \DBmapper\DBmapperException::tableNotFound();
+            throw DBmapperException::tableNotFound();
         }
         $this->_platform->insert($this->_param, $this->_table);
+        
     }
     
     public function update ($filter=null) {
@@ -98,7 +98,7 @@ final class DBmapper {
         }
         
         if ($this->_table==null || $this->_table=="") {
-            throw \DBmapper\DBmapperException::tableNotFound();
+            throw DBmapperException::tableNotFound();
         }
         
         $this->_platform->update($this->_param, $this->_table, $this->_filter);
