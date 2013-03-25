@@ -4,14 +4,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 namespace DBmapper\Platform;
 
-abstract class Platform {
-
+abstract class AbstractPlatform {
+    
     /**
      * Constructor.
      */
-    public function __construct() {}
+    abstract public function __construct();
     
     /**
      * Gets the name of the platform.
@@ -31,10 +32,9 @@ abstract class Platform {
     // get database connection from platform
     abstract public function getConnection();
     
-    public static function getPlatform ($platform) {
-        //find platform in array of available platform
-        return true;
-    }
+    // get object meta data
+    abstract public function getMetadata ($table);
     
 }
+
 ?>

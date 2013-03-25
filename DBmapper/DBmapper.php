@@ -2,7 +2,10 @@
 
 namespace DBmapper;
 
-class DBmapper {
+use DBmapper\Platform;
+
+
+final class DBmapper {
 	
     //current table string
     private $_table;
@@ -11,7 +14,6 @@ class DBmapper {
     private $_filter;
     
     //wrapper platform
-    private $platform; //string description
     private $_platform; //object 
     
     //DB connection
@@ -20,13 +22,17 @@ class DBmapper {
     //array holder for db params
     private $_param;
 	
-	public function __construct($table,$platform) {
+	public function __construct($table=null,$platform=null) {
         
         $this->_table = $table;
         
         //DBAL Platform
         $this->loadPlatform($platform);
         
+        //load field metadata from database
+        if ($this->_table!="") {
+            
+        }
 	}
 	
 	public function test() {
@@ -41,27 +47,15 @@ class DBmapper {
     
     public function getPlatform () {
         
-        return $this->$platform;
-    }
-    
-    private function findPlatform ($platform) {
-        
-        //find platform
-        return \DBmapper\Platform\Platform::getPlatform($platform);
+        return $this->_platform;
         
     }
     
     private function loadPlatform ($platform) {
         
-        if ($this->findPlatform($platform)) {
-            $wrapperclass = '\\DBmapper\\Platform\\'.$platform;
-            $this->_platform = new $wrapperclass();
-            $this->platform = $platform;
-            $this->_conn = $this->_platform->getConnection();
-            return true;
-        } else {
-            return false;
-        }
+        $this->_platform = Platform\PlatformFactory::getPlatform($platform);
+        $this->_conn = $this->_platform->getConnection();
+        
     }
     
     public function setTable ($table) {
