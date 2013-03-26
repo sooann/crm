@@ -19,7 +19,7 @@ final class PlatformFactory extends DBInterfacePlatform {
     public static function getPlatform ($platform) {
         
         if ($platform==null || $platform=="") {
-            if (count(self::$_typesMap))>0) {
+            if (count(self::$_typesMap)>0) {
                 $platform = array_keys(self::$_typesMap)[0];    
             } else {
                 throw DBmapperException::PlatformTypeNotFound();

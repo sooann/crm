@@ -27,6 +27,18 @@ class DBmapperException extends \Exception {
         return new self ("Invalid platform class $platform ($platformclass). Please check with admninistrator.");
     }
     
+    //DBmapper Type Exception
+    public static function unknownColumnType($name)
+    {
+        return new self('Unknown column type "'.$name.'" requested. Unable to find DBmapper type class file');
+    }
+    
+    public static function invalidColumnTypeClass($wrapperClass)
+    {
+        return new self("The given 'wrapperClass' ".$wrapperClass." has to be a ".
+            "subtype of Types\AbstractType");
+    }
+    
 }
 
 ?>
