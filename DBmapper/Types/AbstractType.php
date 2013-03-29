@@ -10,4 +10,5 @@ namespace DBmapper\Types;
 abstract class AbstractType {
     
 }
+
 ?>

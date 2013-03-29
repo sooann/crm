@@ -35,6 +35,9 @@ abstract class AbstractPlatform {
     // get object meta data
     abstract public function getMetadata ($table);
     
+    // get connection config
+    abstract public function getConfig ();
+    
 }
 
 ?>

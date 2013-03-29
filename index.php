@@ -6,21 +6,27 @@
 	//setting global variable
 	global $conn,$app; 
 
-	//init Doctrine2 DBAL
+	//init Doctrine2 Class loader
 	require 'Doctrine/Common/ClassLoader.php';
+    
+    //autoload Doctrine DBAL Class
 	$classLoader = new \Doctrine\Common\ClassLoader('Doctrine', '.');
 	$classLoader->register();
-	
-	$dbConfig = new \Doctrine\DBAL\Configuration();
-	$connectionParams = array(
+    
+    //autoload DBmapper class
+    $dmClassLoader = new \Doctrine\Common\ClassLoader('DBmapper','.');
+    $dmClassLoader->register();
+    
+    //set DBConfig Parameters
+    $connectionParams = array(
 		'dbname' => 'CRMSGP',
 		'user' => 'root',
 		'password' => 'sooann',
 		'host' => 'localhost',
 		'driver' => 'pdo_mysql',
 	);
-	
-	$conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $dbConfig);
+    
+    \DBmapper\Configuration::setConfig($connectionParams);
 
 	//init slim framework
 	
@@ -47,8 +53,6 @@
 	});
 	
 	$app->get('/dbmap', function () use ($app,$conn) {
-		$dmClassLoader = new \Doctrine\Common\ClassLoader('DBmapper','.');
-		$dmClassLoader->register();
 		$dm = new \DBmapper\DBmapper ($conn);
 		$dm->test(); 
 	});
