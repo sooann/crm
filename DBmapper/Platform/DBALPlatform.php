@@ -36,6 +36,20 @@ class DBALPlatform extends AbstractPlatform {
         //use query builder
         //get fields from DBmapper table
         
+        //check if DBmapper system table exist
+        $qb = $this->_conn->createQueryBuilder();
+        $qb->select()
+            ->from('DBM_fields','DBF')
+            ->innerJoin('DBF', 'DBM_Table', 'DBT', $qb->expr()->eq('DBF.table_id', 'DBT.table_id'))
+            ->where($qb->expr()->like('DBT.name', ':param1'));
+        $qb->setParameters(array(param1=>$table));
+        $stmt = $this->_conn->query($qb->getSQL());
+        
+        while ($row = $stmt->fetch()) {
+            //get associate type objects with metadata
+            
+        }
+        
     }
     
     public function insert($param, $table) {

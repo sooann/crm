@@ -54,7 +54,7 @@
 	
 	$app->get('/dbmap', function () use ($app,$conn) {
 		$dm = new \DBmapper\DBmapper ($conn);
-		$dm->test(); 
+		$dm->setTable("contract") ;
 	});
 
 	$app->run();

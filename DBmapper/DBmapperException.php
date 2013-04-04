@@ -14,6 +14,10 @@ class DBmapperException extends \Exception {
         return new self ("Table not Specified.");
     }
     
+    public static function DBmapperTableNotFound () {
+        return new self ("DBmapper tables not found. Please check with administrator.");
+    }
+    
     //platform exceptions
     public static function unknownPlatformType ($platform) {
         return new self ("Unknown Data Layer Platform: $platform");
