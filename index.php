@@ -53,8 +53,7 @@
 	});
 	
 	$app->get('/dbmap', function () use ($app,$conn) {
-		$dm = new \DBmapper\DBmapper ($conn);
-		$dm->setTable("contract") ;
+		$dm = new \DBmapper\DBmapper("contract");
 	});
 
 	$app->run();
