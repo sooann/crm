@@ -2,6 +2,8 @@
 
 namespace DBmapper\Platform;
 
+use DBmapper\Platform\DBALPlatform;
+
 abstract class DBInterfacePlatform {
 
     //declaring platform type constants
