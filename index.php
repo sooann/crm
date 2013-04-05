@@ -52,8 +52,8 @@
 		print_r($result);
 	});
 	
-	$app->get('/dbmap', function () use ($app,$conn) {
-		$dm = new \DBmapper\DBmapper("contract");
+	$app->get('/dbmap/:objname', function ($objname) use ($app,$conn) {
+		$dm = new \DBmapper\DBmapper($objname);
 	});
 
 	$app->run();
