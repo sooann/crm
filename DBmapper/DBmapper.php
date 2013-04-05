@@ -2,7 +2,7 @@
 
 namespace DBmapper;
 
-use DBmapper\Platform;
+use DBmapper\Platform\PlatformFactory;
 
 final class DBmapper {
 	
@@ -46,7 +46,7 @@ final class DBmapper {
     
     public function setPlatform ($platform) {
         
-        $this->_platform = Platform\PlatformFactory::getPlatform($platform);
+        $this->_platform = PlatformFactory::getPlatform($platform);
         $this->_conn = $this->_platform->getConnection();
         
     }
