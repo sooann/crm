@@ -33,7 +33,7 @@ final class PlatformFactory extends DBInterfacePlatform {
             }
             
             //check if class is not loaded
-            if (class_exists(self::$_typesMap[$platform],false)) {
+            if (!class_exists(self::$_typesMap[$platform],false)) {
                 //load class
                 exec("use ".self::$_typesMap[$platform].";");
             }
