@@ -30,7 +30,7 @@ final class DBmapper {
         $this->setPlatform($platform);
         
         //load field metadata from database
-        if ($table!="" && $table->null) {
+        if ($table!="" && $table!=null) {
             $this->setTable($table);
         }
         

@@ -43,6 +43,7 @@ class DBALPlatform extends AbstractPlatform {
             ->innerJoin('DBF', 'DBM_Table', 'DBT', $qb->expr()->eq('DBF.table_id', 'DBT.table_id'))
             ->where($qb->expr()->like('DBT.name', ':param1'));
         $qb->setParameters(array(param1=>$table));
+				echo $qb->getSQL();
         $stmt = $this->_conn->query($qb->getSQL());
         
         while ($row = $stmt->fetch()) {

@@ -32,14 +32,8 @@ final class PlatformFactory extends DBInterfacePlatform {
                 throw DBmapperException::unknownPlatformType($platform);
             }
             
-            //check if class is not loaded
-            if (!class_exists(self::$_typesMap[$platform],false)) {
-                //load class
-                exec("use ".self::$_typesMap[$platform].";");
-            }
-            
             //check platform whether extends Abstractplatform or implements InterfacePlatform
-            if (is_subclass_of(self::$_typesMap[$platform], 'AbstractPlatform')) {
+            if (is_subclass_of(self::$_typesMap[$platform], '\DBmapper\Platform\AbstractPlatform',true)) {
                 self::$_typeObjects[$platform] = new self::$_typesMap[$platform]();
             } else {
                 throw DBmapperException::invalidPlatformClass($platform, self::$_typesMap[$platform]);

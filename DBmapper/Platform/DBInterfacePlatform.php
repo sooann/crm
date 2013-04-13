@@ -9,7 +9,7 @@ abstract class DBInterfacePlatform {
 
     /** The map of supported doctrine mapping types. */
     protected static $_typesMap = array(
-        self::DBAL => 'DBmapper\Platform\DBALPlatform',
+        self::DBAL => '\DBmapper\Platform\DBALPlatform',
     );
     
 }
