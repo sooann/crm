@@ -156,9 +156,11 @@ class ClassLoader
     public function loadClass($className)
     {
         if ($this->namespace !== null && strpos($className, $this->namespace.$this->namespaceSeparator) !== 0) {
-            return false;
+            //echo "class not found ($className)<br />";
+						return false;
         }
 
+				//echo "loading class ($className)<br />";
         require ($this->includePath !== null ? $this->includePath . DIRECTORY_SEPARATOR : '')
                . str_replace($this->namespaceSeparator, DIRECTORY_SEPARATOR, $className)
                . $this->fileExtension;
