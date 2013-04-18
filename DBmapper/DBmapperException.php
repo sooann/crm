@@ -18,6 +18,11 @@ class DBmapperException extends \Exception {
         return new self ("DBmapper tables not found. Please check with administrator.");
     }
     
+    //Metadata exception
+    public static function unknownMetaData ($table) {
+        return new self ("Unable to find metadata for $table object. Please ensure that record is created.");
+    }
+    
     //platform exceptions
     public static function unknownPlatformType ($platform) {
         return new self ("Unknown Data Layer Platform: $platform");

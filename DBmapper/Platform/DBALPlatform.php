@@ -7,6 +7,8 @@
 
 namespace DBmapper\Platform;
 
+use DBmapper\DBmapperException;
+
 class DBALPlatform extends AbstractPlatform {
     
     // DB Connection object
@@ -43,11 +45,14 @@ class DBALPlatform extends AbstractPlatform {
             ->innerJoin('DBF', 'DBM_Table', 'DBT', $qb->expr()->eq('DBF.table_id', 'DBT.table_id'))
             ->where($qb->expr()->like('DBT.name',':param1'));
         $stmt = $this->_conn->executeQuery($qb->getSQL(), array(':param1'=>$table));
-	while ($row = $stmt->fetch()) {
-            //get associate type objects with metadata
-            
-        }
         
+        if ($row = $stmt->fetch()) {
+            do {
+                
+            } while ($row = $stmt->fetch());
+        } else {
+            throw DBmapperException::unknownMetaData($table);
+        }
     }
     
     public function insert($param, $table) {
