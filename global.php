@@ -7,6 +7,7 @@
 
 require 'functions.php';
 require 'includes/SQLWrapper.php';
+require 'includes/Command.php';
 
 global $DBRegion,$conn;
 
