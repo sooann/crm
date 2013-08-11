@@ -14,7 +14,6 @@ class SQLWrapper {
     private $StringDatatypes = array("CHAR","NCHAR","VARCHAR","NVARCHAR","BINARY","VARBINARY","TINYBLOB","TINYTEXT","BLOB","TEXT","MEDIUMBLOB","MEDIUMTEXT","LONGBLOB","LONGTEXT","ENUM","SET");
     
     private $param = array();
-    private $paramcount = 0;
     private $table;
     private $columns;
     private $sql;
@@ -55,11 +54,7 @@ class SQLWrapper {
     }
     
     public function getParamCount() {
-        return $this->paramcount;
-    }
-    
-    private function setParamCount($paramcount) {
-        $this->paramcount = $paramcount;
+        return count($this->param);
     }
     
     private function getExecutionTime() {
@@ -98,8 +93,7 @@ class SQLWrapper {
         }
         
         if ($found) {
-            $this->setParamCount($this->getParamCount()+1);
-            $this->param[$this->getParamCount()] = new Datafield ($column,$value,$datatype);
+            $this->param[] = new Datafield ($column,$value,$datatype);
             return $this->getParamCount();
         } else {
             die ("Field $this->table.$column is not found.");
@@ -109,12 +103,10 @@ class SQLWrapper {
     
     public function removeparam() {
         array_pop($this->param);
-        $this->setParamCount($this->getParamCount()-1);
     }
     
     public function removeallparam() {
         $this->param = array();
-        $this->setParamCount(0);
     }
     
     private function autoinsertparam($column,$defaultvalue) {
