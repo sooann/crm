@@ -113,8 +113,36 @@ class SQLWrapper {
         $this->setParamCount(0);
     }
     
+    private function autoinsertparam($column,$defaultvalue) {
+        //check if createdby
+        $found = false;
+        for ($i=1; $i<=$this->getParamCount();$i++) {
+            if (strcasecmp($this->param[$i]->getColumn(),$column)==0) {
+                $found=true;
+            }
+        }
+        
+        //if false check table
+        if (!$found) {
+            for ($i=0;$i<count($this->columns);$i++) {
+                if (strcasecmp($this->columns[$i]["Field"],$column)==0) {
+                    $found=true;
+                }
+            }
+            if ($found) {
+                //add parameter
+                $this->addparam($column, $defaultvalue);
+            }
+        }
+    } 
+    
     public function insert() {
         //auto add createdby and createddate
+        $this->autoinsertparam("active", 1);
+        if (isset($_SESSION["user_id"])) {
+            $this->autoinsertparam("createdby", $_SESSION["user_id"]);
+        } 
+        $this->autoinsertparam("createddate", now());
         
         $this->sql = "insert into ".$this->table." (";
         for ($i=1; $i<=$this->getParamCount();$i++) {
@@ -134,12 +162,19 @@ class SQLWrapper {
             }
         }
         $this->sql .= ")";
-        return $this->executeSQL();
+        
+        $result = $this->executeSQL();
+        $this->logInsertUpdateDelete("INSERT",$result);
+        return $result;
     }
     
     public function update($condition) {
         //auto add modifiedby and modifieddate
-        
+        if (isset($_SESSION["user_id"])) {
+            $this->autoinsertparam("modifiedby", $_SESSION["user_id"]);
+        }
+        $this->autoinsertparam("modifieddate", now());
+                
         $this->sql = "update ".$this->table." set ";
         for ($i=1; $i<=$this->getParamCount();$i++) {
             //generate Columns
@@ -152,14 +187,32 @@ class SQLWrapper {
         }
         $this->sql .= " where ".$condition;
         
-        return $this->executeSQL();
+        $result = $this->executeSQL();
+        $this->logInsertUpdateDelete("UPDATE",NULL,$condition);
+        return $result;
+    }
+    
+    private function logInsertUpdateDelete ($type,$newid=NULL,$condition=null) {
+        //prevent endless loop
+        if (strcasecmp($this->table,"SYS_LogInsertUpdateDelete")!=0) {
+            $log = new SQLWrapper("SYS_LogInsertUpdateDelete");
+            $log->addparam("tablename", $this->table);
+            $log->addparam("updatetype", $type);
+            $log->addparam("newid", $newid);
+            $log->addparam("wherecondition", $condition);
+            $log->insert();
+        }
     }
     
     private function getSQLValueStatement ($value, $datatype) {
-        if ($datatype=="text" || $datatype=="date") {
-            return "'".escapesql($value)."'";
-        } elseif ($datatype=="int" || $datatype=="float") {
-            return escapesql($value);
+        if (!is_null($value)) {
+            if ($datatype=="text" || $datatype=="date") {
+                return "'".escapesql($value)."'";
+            } elseif ($datatype=="int" || $datatype=="float") {
+                return escapesql($value);
+            }
+        } else {
+            return "NULL";
         }
     }
     
