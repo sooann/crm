@@ -163,35 +163,52 @@ class SQLWrapper {
         }
         $this->sql .= ")";
         
-        $result = $this->executeSQL();
+        $this->executeSQL();
+        $result = mysql_insert_id();
         $this->logInsertUpdateDelete("INSERT",$result);
         return $result;
     }
     
     public function update($condition) {
         //auto add modifiedby and modifieddate
-        if (isset($_SESSION["user_id"])) {
-            $this->autoinsertparam("modifiedby", $_SESSION["user_id"]);
-        }
-        $this->autoinsertparam("modifieddate", now());
-                
-        $this->sql = "update ".$this->table." set ";
-        for ($i=1; $i<=$this->getParamCount();$i++) {
-            //generate Columns
-            $this->sql .= $this->param[$i]->getColumn(). " = ";
-            $this->sql .= $this->getSQLValueStatement($this->param[$i]->getValue(), $this->param[$i]->getDatatype());
-            
-            if ($i!=$this->getParamCount()) {
-                $this->sql .=",";
+        if ($condition!="") {
+            if (isset($_SESSION["user_id"])) {
+                $this->autoinsertparam("modifiedby", $_SESSION["user_id"]);
             }
+            $this->autoinsertparam("modifieddate", now());
+
+            $this->sql = "update ".$this->table." set ";
+            for ($i=1; $i<=$this->getParamCount();$i++) {
+                //generate Columns
+                $this->sql .= $this->param[$i]->getColumn(). " = ";
+                $this->sql .= $this->getSQLValueStatement($this->param[$i]->getValue(), $this->param[$i]->getDatatype());
+
+                if ($i!=$this->getParamCount()) {
+                    $this->sql .=",";
+                }
+            }
+            $this->sql .= " where ".$condition;
+
+            $this->executeSQL();
+            $result = mysql_affected_rows();
+            $this->logInsertUpdateDelete("UPDATE",$result,$condition);
+            return $result;
+        } else {
+            die("Cannot update table without condition");
         }
-        $this->sql .= " where ".$condition;
-        
-        $result = $this->executeSQL();
-        $this->logInsertUpdateDelete("UPDATE",NULL,$condition);
-        return $result;
     }
     
+    public function delete($condition) {
+        if ($condition!="") {
+            $this->sql = "delete from $this->table where $condition";
+            $this->executeSQL();
+            $result = mysql_affected_rows();
+            $this->logInsertUpdateDelete("UPDATE",$result,$condition);
+            return $result; 
+        } else {
+            die("Cannot update table without condition");
+        }
+    }
     private function logInsertUpdateDelete ($type,$newid=NULL,$condition=null) {
         //prevent endless loop
         if (strcasecmp($this->table,"SYS_LogInsertUpdateDelete")!=0) {
@@ -222,9 +239,9 @@ class SQLWrapper {
         $result = mysql_query($this->sql, SQLWrapperConfiguration::getConnection());
         $this->executiontime = microtime(true) - $currenttime;
         if ($result) {
-            $this->newid = mysql_insert_id();
+            //$this->newid = mysql_insert_id();
             $this->logSQL();
-            return $this->newid;
+            return $result;
         } else {
             $this->sqlerror = mysql_error();
             $this->logSQL();
