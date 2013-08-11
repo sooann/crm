@@ -22,7 +22,7 @@ class SQLWrapper {
     private $executiontime;
     private $sqlerror;
     private $sqlauditid;
-    
+    private $primarykey;
     
     public function __construct($table) {
         $this->table = $table;
@@ -68,6 +68,10 @@ class SQLWrapper {
     
     private function getSQLError() {
         return $this->sqlerror;
+    }
+    
+    private function getPrimaryKey() {
+        return $this->primarykey;
     }
             
     public function addparam($column,$value,$datatype=NULL) {
@@ -344,6 +348,10 @@ class SQLWrapper {
                 if (mysql_num_rows($result)>0) {
                     while ($row = mysql_fetch_array($result)){
                         array_push($output, $row);
+                        //find primary key
+                        if ($row["Key"]=="PRI") {
+                            $this->primarykey=$row["Field"];
+                        }
                     }
                     return $output;
                 } else {
