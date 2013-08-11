@@ -140,6 +140,14 @@ class SQLWrapper {
         }
     } 
     
+    private function autocondition ($condition) {
+        if (is_numeric($condition)) {
+            //check if number
+            return "$this->primarykey = $condition";
+        } 
+    }
+
+
     public function insert() {
         //auto add createdby and createddate
         $this->autoinsertparam("active", 1);
@@ -174,8 +182,11 @@ class SQLWrapper {
     }
     
     public function update($condition) {
-        //auto add modifiedby and modifieddate
         if ($condition!="") {
+            //auto construct condition
+            $condition = autocondition($condition);
+            
+            //auto add modifiedby and modifieddate
             if (isset($_SESSION["user_id"])) {
                 $this->autoinsertparam("modifiedby", $_SESSION["user_id"]);
             }
@@ -204,6 +215,9 @@ class SQLWrapper {
     
     public function delete($condition) {
         if ($condition!="") {
+            //auto construct condition
+            $condition = autocondition($condition);
+            
             $this->sql = "delete from $this->table where $condition";
             $this->executeSQL();
             $result = mysql_affected_rows();
