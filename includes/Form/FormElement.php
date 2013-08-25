@@ -186,7 +186,7 @@ abstract class FormElement {
             foreach ($this->validation as $validation) {
                 if (!$validation->validate($this->value)) {
                     $validate=false;
-                    $this->validatemessage .= $validation->errormessage();
+                    $this->validatemessage .= "<br />$validation->errormessage()";
                 }
             }
         }
