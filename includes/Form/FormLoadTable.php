@@ -71,9 +71,16 @@ class FormLoadTable {
                 }
             }
             return $out;
-        } elseif (mysql_num_rows($result)>0) {
+        } elseif (mysql_num_rows($result)>0 || $this->refcolumn!=NULL) {
             //single row output
-            $row = mysql_fetch_array($result,MYSQL_ASSOC);
+            if (mysql_num_rows($result)==0) {
+                $columndata = $this->table->getColumns();
+                foreach ($columndata as $column) {
+                    $row[$column[0]]=NULL;
+                }
+            } else {
+                $row = mysql_fetch_array($result,MYSQL_ASSOC);
+            }
             
             //load system fields - created combined
             if (array_search("createdby", array_keys(array_change_key_case($row)))!==false) {

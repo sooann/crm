@@ -114,14 +114,17 @@ abstract class Form {
         //preload form element classes
         FormFields::loadFormElements();
         
+        //get display names from database        
+        $this->getFormParameters();
+        
+        //add detail header row
+        $this->addFields(new separator("pageseparator","$this->DisplayTerm Details"));
+        
         //call local class init
         $this->initForm();
         
         //find for table 
         $this->loadTable();
-        
-        //get display names from database        
-        $this->getFormParameters();
         
         //init statemachine
         if (is_string($this->statemachine)) {

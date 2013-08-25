@@ -14,6 +14,7 @@ Interface IFormValidation {
     //put your code here
     
     public function validate($value);
+    public function errormessage();
 }
 
 ?>

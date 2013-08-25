@@ -11,21 +11,46 @@
  * @author user
  */
 
+/** @abstract */
 abstract class FormElement {
     
+    /** @var string */
     private $action;
+    
+    /** @var string */
     private $dbfield;
+    
+    /** @var string */
     private $dbtable;
+    
+    /** @var mixed */
     private $defaultvalue;
+    
+    /** @var boolean */
     private $viewonly=false;
+    
+    /** @var string[] */
     private $displayonly=array();
+    
+    /** @var IFormValidataion[] */
     private $validation = array();
+    
+    /** @var boolean */
     private $validateerror;
+    
+    /** @var string */
     private $validatemessage = "";
     
+    /** @var string */
     protected $name;
+    
+    /** @var string */
     protected $title;
+    
+    /** @var mixed */
     protected $value;
+    
+    /** @var string[] */
     protected $attribute=array();
     
     abstract public function getFormField();
@@ -60,7 +85,7 @@ abstract class FormElement {
             $html = $this->getFormField();
             if (isset($this->validateerror)) {
                 if (!$this->validateerror) {
-                    $html .= "&nbsp;!error";
+                    $html .= "&nbsp;!error<br />$this->validatemessage";
                 }
             }
         }
@@ -129,10 +154,16 @@ abstract class FormElement {
     public function displayOnly($value) {
         if (is_array($value)) {
             if (count($value)>0) {
-                $this->displayonly = array_merge($value,$this->displayonly);
+                foreach ($value as $action) {
+                    if (array_search($action, $this->displayonly)===false) {
+                        $this->displayonly[] = $action;
+                    }
+                }
             }
         } else {
-            $this->displayonly[] = $value; 
+            if (array_search($action, $this->displayonly)===false) {
+                $this->displayonly[] = $action;
+            }
         }
     }
     
@@ -150,16 +181,17 @@ abstract class FormElement {
     }
     
     public function validate() {
-        $haserror=true;
+        $validate=true;
         if (count($this->validation)>0) {
             foreach ($this->validation as $validation) {
                 if (!$validation->validate($this->value)) {
-                    $haserror=false;
+                    $validate=false;
+                    $this->validatemessage .= $validation->errormessage();
                 }
             }
         }
-        $this->validateerror=$haserror;
-        return $haserror;
+        $this->validateerror=$validate;
+        return $validate;
     }
 }
 

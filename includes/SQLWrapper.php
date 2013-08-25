@@ -192,8 +192,7 @@ class SQLWrapper {
         }
         $this->sql .= ")";
         
-        $this->executeSQL();
-        $result = mysql_insert_id();
+        $result = $this->executeSQL();
         $this->logInsertUpdateDelete("INSERT",$result);
         $this->removeallparam();
         return $result;
@@ -285,7 +284,11 @@ class SQLWrapper {
         $result = mysql_query($this->sql, SQLWrapperConfiguration::getConnection());
         $this->executiontime = microtime(true) - $currenttime;
         if ($result) {
-            //$this->newid = mysql_insert_id();
+            if (substr_compare($this->sql, "insert into", 0,11)==0) {
+                $result= mysql_insert_id();
+            } else {
+                $result = mysql_affected_rows();
+            }
             $this->logSQL();
             return $result;
         } else {
