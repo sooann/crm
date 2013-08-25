@@ -16,5 +16,13 @@ function whitelist($text,$symbols) {
 function escapesql($text) {
     return str_replace("'", "''", $text);
 }
+
+function debug ($text) {
+    echo "[$text]<br />";
+}
+
+function getBasePath() {
+    return str_replace($_SERVER["PATH_INFO"], "", $_SERVER["REQUEST_URI"]);
+}
 ?>
 

@@ -22,10 +22,25 @@ class SQLWrapper {
     private $sqlerror;
     private $sqlauditid;
     private $primarykey;
+    private $hasreference=false;
+    private $refcolumn;
     
     public function __construct($table) {
         $this->table = $table;
         $this->loadTable();
+    }
+    
+    public function setRefColumn($refcolumn) {
+        $this->refcolumn=$refcolumn;
+        $this->hasreference=true;
+    }
+    
+    public function isReferenced() {
+        return $this->hasreference;
+    }
+    
+    public function getRefColumn() {
+        return $this->refcolumn;
     }
     
     public function getTable() {
@@ -44,8 +59,18 @@ class SQLWrapper {
                 $this->table = $result;
             }
             $this->columns = self::showColumns($this->table);
+            $this->findPrimaryKey();
         } else {
             die ("table ".$this->table." is not found.");
+        }
+    }
+    
+    private function findPrimaryKey() {
+        //find primary key
+        for ($i=0;$i<count(array_keys($this->columns));$i++) {
+            if ($this->columns[$i]["Key"]=="PRI") {
+                $this->primarykey=$this->columns[$i]["Field"];
+            }
         }
     }
     
@@ -65,7 +90,7 @@ class SQLWrapper {
         return $this->sqlerror;
     }
     
-    private function getPrimaryKey() {
+    public function getPrimaryKey() {
         return $this->primarykey;
     }
             
@@ -112,7 +137,7 @@ class SQLWrapper {
     private function autoinsertparam($column,$defaultvalue) {
         //check if createdby
         $found = false;
-        for ($i=1; $i<=$this->getParamCount();$i++) {
+        for ($i=0; $i<$this->getParamCount();$i++) {
             if (strcasecmp($this->param[$i]->getColumn(),$column)==0) {
                 $found=true;
             }
@@ -149,19 +174,19 @@ class SQLWrapper {
         $this->autoinsertparam("createddate", now());
         
         $this->sql = "insert into ".$this->table." (";
-        for ($i=1; $i<=$this->getParamCount();$i++) {
+        for ($i=0; $i<$this->getParamCount();$i++) {
             //generate Columns
             $this->sql .= $this->param[$i]->getColumn();
-            if ($i!=$this->getParamCount()) {
+            if ($i<($this->getParamCount()-1)) {
                 $this->sql .=",";
             }
         }
         $this->sql .= ") values (";
-        for ($i=1; $i<=$this->getParamCount();$i++) {
+        for ($i=0; $i<$this->getParamCount();$i++) {
             //Generate values
             $this->sql .= $this->getSQLValueStatement($this->param[$i]->getValue(), $this->param[$i]->getDatatype());
             
-            if ($i!=$this->getParamCount()) {
+            if ($i<($this->getParamCount()-1)) {
                 $this->sql .=",";
             }
         }
@@ -170,13 +195,18 @@ class SQLWrapper {
         $this->executeSQL();
         $result = mysql_insert_id();
         $this->logInsertUpdateDelete("INSERT",$result);
+        $this->removeallparam();
         return $result;
     }
     
     public function update($condition) {
         if ($condition!="") {
-            //auto construct condition
-            $condition = autocondition($condition);
+            
+            //check if $condition is a number
+            if (is_numeric($condition)) {
+                //auto construct condition
+                $condition = $this->autocondition($condition);
+            }
             
             //auto add modifiedby and modifieddate
             if (isset($_SESSION["user_id"])) {
@@ -185,12 +215,12 @@ class SQLWrapper {
             $this->autoinsertparam("modifieddate", now());
 
             $this->sql = "update ".$this->table." set ";
-            for ($i=1; $i<=$this->getParamCount();$i++) {
+            for ($i=0; $i<$this->getParamCount();$i++) {
                 //generate Columns
                 $this->sql .= $this->param[$i]->getColumn(). " = ";
                 $this->sql .= $this->getSQLValueStatement($this->param[$i]->getValue(), $this->param[$i]->getDatatype());
 
-                if ($i!=$this->getParamCount()) {
+                if ($i<($this->getParamCount()-1)) {
                     $this->sql .=",";
                 }
             }
@@ -199,6 +229,7 @@ class SQLWrapper {
             $this->executeSQL();
             $result = mysql_affected_rows();
             $this->logInsertUpdateDelete("UPDATE",$result,$condition);
+            $this->removeallparam();
             return $result;
         } else {
             die("Cannot update table without condition");
@@ -207,13 +238,18 @@ class SQLWrapper {
     
     public function delete($condition) {
         if ($condition!="") {
-            //auto construct condition
-            $condition = autocondition($condition);
+            
+            //check if $condition is a number
+            if (is_numeric($condition)) {
+                //auto construct condition
+                $condition = $this->autocondition($condition);
+            }
             
             $this->sql = "delete from $this->table where $condition";
             $this->executeSQL();
             $result = mysql_affected_rows();
-            $this->logInsertUpdateDelete("UPDATE",$result,$condition);
+            $this->logInsertUpdateDelete("DELETE",$result,$condition);
+            $this->removeallparam();
             return $result; 
         } else {
             die("Cannot update table without condition");
@@ -354,10 +390,6 @@ class SQLWrapper {
                 if (mysql_num_rows($result)>0) {
                     while ($row = mysql_fetch_array($result)){
                         array_push($output, $row);
-                        //find primary key
-                        if ($row["Key"]=="PRI") {
-                            $this->primarykey=$row["Field"];
-                        }
                     }
                     return $output;
                 } else {
@@ -424,6 +456,8 @@ class SQLWrapperConfiguration {
         if(!$db_select) {
                 die("Database connection failed: " . mysql_error());
         }
+        
+        return self::$conn;
     }
     
     public static function getConnection () {
