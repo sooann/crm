@@ -31,7 +31,7 @@ class MandatoryValidation implements IFormValidation {
         return true;
     }
     
-    public function errormessage() {
+    public function getErrorMessage() {
         return $this->errormessage;
     }
 }
