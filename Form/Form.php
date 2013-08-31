@@ -74,6 +74,9 @@ abstract class Form {
     /** @var FormFields  */
     private $formfields;
     
+    /** @var string[action][]  */
+    private $javascript;
+    
     /** @var FormStateMachine  */
     protected $statemachine;
     
@@ -301,6 +304,22 @@ abstract class Form {
         //close HTML Form tag
         $html .= "</form>";
         
+        $js="";
+        //insert javascript
+        if (isset($this->javascript["all"])) {
+            foreach ($this->javascript["all"] as $jscode) {
+                $js.=$jscode;
+            }
+        }
+        if (isset($this->javascript[strtolower($this->currentaction)])) {
+            foreach ($this->javascript[strtolower($this->currentaction)] as $jscode) {
+                $js.=$jscode;
+            }
+        }
+        if ($js!="") {
+            $html.='<script type="text/javascript">'.$js.'</script>';
+        }
+        
         echo '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head>'.$headerlibs.'</head><body>'.$html.'</body></html>';
     }
     
@@ -396,8 +415,22 @@ abstract class Form {
     
     public function addFormButton (FormElement $element) {
         //check if class is inputsubmit or button class
-        if (get_class($element)=="inputSubmit" || get_class($element)=="inputButton" || is_subclass_of($element,"inputSubmit") ||  is_subclass_of($element,"inputButton")) {
+        if (get_class($element)=="Form\inputSubmit" || get_class($element)=="Form\inputButton" || is_subclass_of($element,"Form\inputSubmit") ||  is_subclass_of($element,"Form\inputButton")) {
             $this->formbutton[] = $element;
+        }
+    }
+    
+    public function addJavaScript ($value,$action=NUll) {
+        if ($action==NULL) {
+            $this->javascript["all"][] = $value;
+        } else {
+            if (is_array($action)) {
+                foreach ($action as $act) {
+                    $this->javascript[$act][] = $value;
+                }
+            } else {
+                $this->javascript[$action][] = $value;
+            }
         }
     }
 }
