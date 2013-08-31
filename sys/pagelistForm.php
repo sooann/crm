@@ -63,12 +63,18 @@ class pagelistForm extends Form {
         $sql = "select * from sys_pageaction where active=1";
         $result = mysql_query($sql,$conn);
         while ($row=mysql_fetch_array($result)) {
-            $option[$row["pageaction_id"]] = $row["name"]." (".ucfirst(strtolower($row["formmode"])).")";
+            if ($row["formmode"]!="") {
+                $option[$row["pageaction_id"]] = $row["name"]." (".ucfirst(strtolower($row["formmode"])).")";
+            } else {
+                $option[$row["pageaction_id"]] = $row["name"];
+            }
         }
         $field = new addToList("pageaction_id","Select Page Actions",$option, addToList::VERTICALLAYOUT);
         $field->setDBField("pageaction_id", "sys_pagelistaction");
         $field->addValidation(new MandatoryValidation());
         $this->addFields($field);
+        
+        
     }
 
 }
