@@ -65,7 +65,7 @@ abstract class FormElement {
         if ($showmandatory) {
             if (count($this->validation)>0) {
                 foreach ($this->validation as $validation) {
-                    if (get_class($validation)=="MandatoryValidation") {
+                    if (get_class($validation)=="Form\MandatoryValidation") {
                         $html='<span class="mandatory">*</span>&nbsp;';
                     }
                 }
