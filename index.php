@@ -11,7 +11,7 @@
     //load slim
     $app = new \Slim\Slim(array('debug' => true));
 
-    $app->get('/phpinfo', function ($name) {
+    $app->get('/phpinfo', function () {
         echo phpinfo();
     });
     
