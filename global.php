@@ -6,16 +6,21 @@
  */
 
 require 'functions.php';
+require 'js/jsLibs.php';
 require 'includes/SQLWrapper.php';
 require 'includes/Command.php';
 
-global $DBRegion,$conn;
+//global $DBRegion,$conn;
 
 $DBRegion = "CRMSGP2";
 
 date_default_timezone_set('Asia/Singapore'); 
 
 session_start();
+
+//autoloading classes
+
+spl_autoload_register('autoload');
 
 //testing MYSQL Connection
 $conn = SQLWrapperConfiguration::setConnection("localhost:3306", "root", "sooann", "CRMSGP2");
