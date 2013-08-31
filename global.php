@@ -19,7 +19,6 @@ date_default_timezone_set('Asia/Singapore');
 session_start();
 
 //autoloading classes
-
 spl_autoload_register('autoload');
 
 //testing MYSQL Connection
