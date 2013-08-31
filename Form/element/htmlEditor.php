@@ -5,15 +5,15 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of inputtext
  *
  * @author user
  */
 
-require_once __dir__.'/../FormElement.php';
-
-class htmlEditor extends FormElement {
+class htmlEditor extends \Form\FormElement {
     
     private $height;
     private $width;
@@ -30,7 +30,7 @@ class htmlEditor extends FormElement {
         $this->setDBField($name);
         $this->width=$width;
         $this->height=$height;
-        JSLIBS::setJSLib("JS-TINYMCE");
+        \JSLIBS::setJSLib("JS-TINYMCE");
     }
     
     protected function setFieldValue($value,$action) {

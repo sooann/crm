@@ -5,7 +5,10 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
+ * 
  * Description of FormFields
  *
  * @author user
@@ -38,20 +41,6 @@ class FormFields {
         
     }
     
-    public static function loadFormElements() {
-        //Load Form Elements
-        $array = glob(__dir__."/element/*.php");
-        foreach ($array as $value) {
-            require_once $value;
-        }
-        
-        //Load Form Validation
-        $array = glob(__dir__."/validation/*.php");
-        foreach ($array as $value) {
-            require_once $value;
-        }
-    }
-    
     public function buildForm(){
         $html = "";
         if ($this->type==self::TABLECONTENT) {
@@ -63,7 +52,7 @@ class FormFields {
         foreach ($this->formfield as $field) {
             if ($field->checkDisplay($this->action)) {
                 $name = $field->getName();
-                if (get_class($field)!="separator") {
+                if (get_class($field)!="Form\separator") {
                     if (isset($this->variables[$name])) {
                         $field->setValue($this->variables[$name]);
                     } else {
@@ -77,7 +66,7 @@ class FormFields {
                     $formhtml = $field->getFormDisplay();
                 }
                 $title = $field->getTitle();
-                if (get_class($field)!="separator") {
+                if (get_class($field)!="Form\separator") {
                     if ($this->type==self::TABLECONTENT) {
                         $html .= '<tr id="row_'.$name.'" >
                             <td id="label_'.$name.'" >'.$title.':</td>
@@ -117,7 +106,7 @@ class FormFields {
         foreach ($this->formfield as $field) {
             if ($field->checkDisplay($this->action)) {
                 $name = $field->getName();
-                if (get_class($field)!="separator") {
+                if (get_class($field)!="Form\separator") {
                     if (isset($this->variables[$name])) {
                         $field->setValue($this->variables[$name]);
                     } else {
@@ -127,7 +116,7 @@ class FormFields {
                 $field->setAction($this->action);
                 $formhtml = $field->getFormDisplay();
                 $title = $field->getTitle();
-                if (get_class($field)!="separator") {
+                if (get_class($field)!="Form\separator") {
                     if ($this->type==self::TABLECONTENT) {
                         $html .= '<tr id="row_'.$name.'" >
                             <td id="label_'.$name.'" >'.$title.':</td>
@@ -218,7 +207,7 @@ class FormFields {
         
         $haveerror=false;
         foreach ($this->formfield as $field) {
-            if (get_class($field)!="separator") {
+            if (get_class($field)!="Form\separator") {
                 $name = $field->getName();
                 if (!isset($this->variables[$name])){
                     $field->setValue(NULL);

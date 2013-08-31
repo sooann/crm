@@ -5,15 +5,15 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of MandatoryValidation
  *
  * @author user
  */
 
-require_once __dir__.'/../FormValidation.php';
-
-class MandatoryValidation implements IFormValidation {
+class MandatoryValidation implements \Form\IFormValidation {
     //put your code here
     private $errormessage = "Please enter a value.";
     

@@ -5,6 +5,8 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of FormLoadTable
  *
@@ -20,7 +22,7 @@ class FormLoadTable {
     private $formvariables;
     
     public function __construct($table,$refcolumn=NULL,$srctable=NULL,$srccolumn=NULL) {
-        $this->table = new SQLWrapper($table);
+        $this->table = new \SQLWrapper($table);
         $this->refcolumn = $refcolumn;
         if ($refcolumn!=NULL) {
             $this->table->setRefColumn($refcolumn);

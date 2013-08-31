@@ -5,15 +5,15 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of inputtext
  *
  * @author user
  */
 
-require_once __dir__.'/../FormElement.php';
-
-class select extends FormElement {
+class select extends \Form\FormElement {
     
     private $option;
     private $emptyoptiontext;

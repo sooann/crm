@@ -5,15 +5,15 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of inputtext
  *
  * @author user
  */
 
-require_once __dir__.'/../FormElement.php';
-
-class input extends FormElement {
+class input extends \Form\FormElement {
     
     protected $type;
 

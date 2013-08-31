@@ -5,15 +5,15 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of inputText
  *
  * @author user
  */
 
-require_once 'input.php';
-
-class inputButton extends input {
+class inputButton extends \Form\input {
     //put your code here
     
     public function __construct($name,$value) {

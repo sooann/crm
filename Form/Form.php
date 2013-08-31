@@ -5,15 +5,13 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of Form
  *
  * @author user
  */
-
-require 'FormStateMachine.php';
-require 'FormLoadTable.php';
-require 'FormFields.php';
 
 /** @abstract  */
 abstract class Form {
@@ -111,14 +109,11 @@ abstract class Form {
     
     private function init() {
         
-        //preload form element classes
-        FormFields::loadFormElements();
-        
         //get display names from database        
         $this->getFormParameters();
         
         //add detail header row
-        $this->addFields(new separator("pageseparator","$this->DisplayTerm Details"));
+        $this->addFields(new separator("pageseparator",$this->DisplayTerm." Details"));
         
         //call local class init
         $this->initForm();
@@ -281,7 +276,7 @@ abstract class Form {
         $nextstate = $this->statemachine->nextstate($this->currentaction,$this->currentmethod,$this->formsubmit);
         
         //load JS libraries
-        $headerlibs=JSLIBS::getJSHeader();
+        $headerlibs=\JSLIBS::getJSHeader();
         
         $url = getBasePath()."/".$this->url.'/'.$nextstate["action"];
         if ($this->id!=NULL) {

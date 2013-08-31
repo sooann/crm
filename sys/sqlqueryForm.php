@@ -4,6 +4,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+namespace sys;
+
+use Form\Form;
+use Form\FormLoadTable;
+use Form\inputText;
+use Form\MandatoryValidation;
 
 /**
  * Description of sqlqueryForm
@@ -18,11 +24,11 @@ class sqlqueryForm extends Form {
         $this->addTable(new FormLoadTable("sys_sqlquery"));
 
         $field = new inputText("name","Name");
-        $field->addValidation(new MandatoryValidation());
+        $field->addValidation(new \Form\MandatoryValidation());
         $this->addFields($field);
 
         $field = new sqlEditor("sqlstatement","SQL");
-        $field->addValidation(new MandatoryValidation());
+        $field->addValidation(new \Form\MandatoryValidation());
         $this->addFields($field);
 
     }

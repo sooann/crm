@@ -5,12 +5,15 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of FSMViewEdit
  *
  * @author user
  */
-class ViewEdit implements IFormStateMachine {
+
+class ViewEdit implements \Form\IFormStateMachine {
     //put your code here
     protected $action = array("VIEW","EDIT");
     

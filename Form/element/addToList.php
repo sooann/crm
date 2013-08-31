@@ -5,15 +5,15 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of inputtext
  *
  * @author user
  */
 
-require_once __dir__.'/../FormElement.php';
-
-class addToList extends FormElement {
+class addToList extends \Form\FormElement {
     
     const HORIZONTALLAYOUT = "HORIZONTAL";
     const VERTICALLAYOUT = "VERTICAL";
@@ -28,8 +28,8 @@ class addToList extends FormElement {
         $this->setDBField($name);
         $this->option = $option;
         $this->layout = $layout;
-        JSLIBS::setJSLib("JS-SELECTBOX");
-        JSLIBS::setJSLib("JS-JQUERY");
+        \JSLIBS::setJSLib("JS-SELECTBOX");
+        \JSLIBS::setJSLib("JS-JQUERY");
     }
     
     protected function setFieldValue($value,$action) {

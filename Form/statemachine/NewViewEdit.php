@@ -5,16 +5,18 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
- * Description of FormValidataion
+ * Description of FSMNewViewEdit
  *
  * @author user
  */
-Interface IFormValidation {
+        
+class NewViewEdit extends \Form\ViewEdit {
     //put your code here
+    protected $action = array("VIEW","EDIT","NEW");
     
-    public function validate($value);
-    public function getErrorMessage();
 }
 
 ?>

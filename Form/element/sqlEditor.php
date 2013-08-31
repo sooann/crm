@@ -4,14 +4,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
+namespace Form;
 /**
  * Description of inputtext
  *
  * @author user
  */
-
-require_once 'htmlEditor.php';
 
 class sqlEditor extends htmlEditor {
     

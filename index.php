@@ -7,7 +7,6 @@
 
     require "global.php";
     require "Slim/Slim.php";
-    \Slim\Slim::registerAutoloader();
    
     //load slim
     $app = new \Slim\Slim(array('debug' => true));
@@ -50,18 +49,18 @@
 
                 //load page
                 $moduleclass = $params["module"].ucfirst(strtolower($row["type"]));
-                require $params["dept"]."/$moduleclass.php";
                 
-                //$webpage = call_user_func_array(new $moduleclass, array("app"=>$app));
-                $ref = new ReflectionClass ($moduleclass);
+                $ref = new ReflectionClass ('\\'.$params["dept"]."\\".$moduleclass);
                 $webpage = $ref->newInstanceArgs(array("app"=>$app,"pagelist"=>$row["pagelist_id"]));
+                $webpage->run();
                 
+                /*
                 if (!is_subclass_of($webpage, ucfirst($row["type"]))) {
                     $app->notFound();
                 } else {
-                    $webpage->run();
+                    
                 }
-                
+                */
             } else {
                 $app->notFound();
             }

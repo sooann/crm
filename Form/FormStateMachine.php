@@ -5,6 +5,8 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of FormStateMachine
  *
@@ -19,8 +21,8 @@ class FormStateMachine {
     public function __construct($type) {
         //check if type valid
         if ($type!="") {
-            require dirname(__FILE__).'/statemachine/'.$type.'.php';
             $this->type=$type;
+            $type="Form\\".$type;
             $this->statemachine = new $type();
             if (!($this->statemachine instanceof IFormStateMachine)) {
                 die ("Invalid Form State Machine");
@@ -35,11 +37,6 @@ class FormStateMachine {
     public function getAction() {
         return $this->statemachine->getAction();
     }
-}
-
-interface IFormStateMachine {
-    public function nextstate ($action,$method,$submit);
-    public function getAction();
 }
 
 ?>

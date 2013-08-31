@@ -5,18 +5,16 @@
  * and open the template in the editor.
  */
 
+namespace Form;
+
 /**
  * Description of inputtext
  *
  * @author user
  */
 
-require_once __dir__.'/../FormElement.php';
-
-class separator extends FormElement {
+class separator extends \Form\FormElement {
     
-    protected $type;
-
     public function __construct($name,$value) {
         $this->value = $value;
         $this->name = $name;
