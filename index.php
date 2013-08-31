@@ -10,7 +10,11 @@
    
     //load slim
     $app = new \Slim\Slim(array('debug' => true));
-	
+
+    $app->get('/phpinfo', function ($name) {
+        echo phpinfo();
+    });
+    
     $app->get('/hello/:name', function ($name) {
         echo "Hello, $name";
     });
