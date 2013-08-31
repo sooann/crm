@@ -38,21 +38,30 @@ class pagelistForm extends Form {
         $this->addFields($field);
 
         $option=array();
-        $temp = glob(__DIR__."/../includes/Form/statemachine/*.php");
-        foreach ($temp as $value) {
-            $option[basename($value,".php")] = basename($value,".php");
-        }
-        $field = new select("statemachine", "Form State Machine", $option);
-        $field->addValidation(new MandatoryValidation());
-        $this->addFields($field);
-
-        $option=array();
         $option["FORM"] = "FORM";
         $option["LIST"] = "LIST";
         $field = new select("type", "Page Type", $option);
         $field->addValidation(new MandatoryValidation());
         $this->addFields($field);
-
+        $this->addJavaScript("$(\"#type\").change(function () {optListForm();});", array("edit","new"));
+        
+        $option=array();
+        $temp = glob(__DIR__."/../Form/statemachine/*.php");
+        foreach ($temp as $value) {
+            $option[basename($value,".php")] = basename($value,".php");
+        }
+        $field = new select("statemachine", "Form State Machine", $option, "");
+        $this->addFields($field);
+        
+        $option=array();
+        $sql = "select * from sys_sqlquery where active=1";
+        $result = mysql_query($sql,$conn);
+        while ($row=mysql_fetch_array($result)) {
+            $option[$row["sqlquery_id"]] = $row["name"];
+        }
+        $field = new select("sqlquery_id", "SQL Query", $option, "");
+        $this->addFields($field);
+        
         $field = new htmlEditor("description", "Description");
         $this->addFields($field);
 
@@ -73,8 +82,23 @@ class pagelistForm extends Form {
         $field->setDBField("pageaction_id", "sys_pagelistaction");
         $field->addValidation(new MandatoryValidation());
         $this->addFields($field);
+                
+        $this->addJavaScript("
+            function optListForm() {
+                if ($(\"#type\")[0].value==\"LIST\") {
+                    $(\"#row_sqlquery_id\").show();
+                    $(\"#row_statemachine\").hide();
+                } else if ($(\"#type\")[0].value==\"FORM\") {
+                    $(\"#row_sqlquery_id\").hide();
+                    $(\"#row_statemachine\").show();
+                } else {
+                    $(\"#row_sqlquery_id\").hide();
+                    $(\"#row_statemachine\").hide();
+                }   
+            }            
+        ",array("edit","new"));
         
-        
+        $this->addJavaScript("optListForm();",array("edit","new"));
     }
 
 }
