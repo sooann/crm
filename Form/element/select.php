@@ -59,7 +59,11 @@ class select extends \Form\FormElement {
     }
     
     public function getFormDisplay() {
-        return $this->option[$this->value];
+        if ($this->value!="") {
+            return $this->option[$this->value];
+        } else {
+            return "-";
+        }
     }
 }
 
