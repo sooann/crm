@@ -56,7 +56,13 @@ function escapesql($text) {
 }
 
 function debug ($text) {
-    echo "[$text]<br />";
+    if (is_array($text)) {
+        echo "[";
+        print_r($text);
+        echo "]<br />";
+    } else {
+        echo "[$text]<br />";
+    }
 }
 
 function getBasePath() {
