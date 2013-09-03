@@ -42,27 +42,30 @@ class addToList extends \Form\FormElement {
             
     public function getFormField() {
         $srcoption="";
+        $destoption="";
+        
         foreach ($this->option as $key=>$value) {
             $varfound = false;
             if (!is_null($this->value)) {  
-                if (array_search($key,$this->value)!==false){ 
-                    $varfound=true;
+                if (is_array(($this->value))) {
+                    if (array_search($key,$this->value)!==false){ 
+                        $varfound=true;
+                    }
+                } else {
+                    if ($key==$this->value) {
+                        $varfound=true;
+                    }
                 }
             }
             if (!$varfound) {
                 $srcoption .= "<option value=\"$key\" >$value</option>";
+            } else {
+                $destoption .= "<option value=\"$key\" >$value</option>";
             }
         }
+       
         $source = "<select id=\"src-$this->name\" name=\"src-$this->name\" size=\"$this->size\" multiple>$srcoption</select>";
         
-        $destoption="";
-        if (is_array($this->value)) {
-            foreach ($this->option as $key=>$value) {
-                if (array_search($key,$this->value)!==false){
-                    $destoption .= "<option value=\"$key\" >$value</option>";
-                }   
-            }
-        }
         $dest = '<select id="'.$this->name.'" name="'.$this->name.'[]" size="'.$this->size.'" multiple>'.$destoption.'</select>';
         
         $doallcmd="moveAllOptions";
