@@ -89,7 +89,25 @@ class addToList extends \Form\FormElement {
     }
     
     public function getFormDisplay() {
-        return $this->option[$this->value];
+        $output = "";
+        foreach ($this->option as $key=>$value) {
+            $varfound = false;
+            if (!is_null($this->value)) {  
+                if (is_array(($this->value))) {
+                    if (array_search($key,$this->value)!==false){ 
+                        $varfound=true;
+                    }
+                } else {
+                    if ($key==$this->value) {
+                        $varfound=true;
+                    }
+                }
+            }
+            if ($varfound) {
+                $output .= ($output!=""?", ":"").$value;
+            }
+        }
+        return $output;
     }
     
     public function setSize($value) {
