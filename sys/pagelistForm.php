@@ -39,7 +39,7 @@ class pagelistForm extends Form {
 
         $option=array();
         $option["FORM"] = "FORM";
-        $option["LIST"] = "LIST";
+        $option["DATATABLE"] = "DATATABLE";
         $field = new select("type", "Page Type", $option);
         $field->addValidation(new MandatoryValidation());
         $this->addFields($field);
@@ -85,7 +85,7 @@ class pagelistForm extends Form {
                 
         $this->addJavaScript("
             function optListForm() {
-                if ($(\"#type\")[0].value==\"LIST\") {
+                if ($(\"#type\")[0].value==\"DATATABLE\") {
                     $(\"#row_sqlquery_id\").show();
                     $(\"#row_statemachine\").hide();
                 } else if ($(\"#type\")[0].value==\"FORM\") {
